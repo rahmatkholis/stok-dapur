@@ -14,7 +14,7 @@ Data akun/dapur memakai localStorage dengan kunci dapur_users dan dapur_session;
 
 ## Style dan integrasi
 
-src/styles/index.css adalah stylesheet baseline yang diformat agar dapat dibaca. Build menghasilkan assets/app.css. Font tetap berasal dari Google Fonts. public/webmcp.js adalah integrasi pembaca layar opsional; App mempertahankan integrasi read_kitchen_inventory bila document.modelContext tersedia.
+src/styles/index.css berisi stylesheet baseline yang diformat agar dapat dibaca, ditambah style kartu inventori yang dibatasi dengan selector inventory-. Build menghasilkan assets/app.css. Font tetap berasal dari Google Fonts. public/webmcp.js adalah integrasi pembaca layar opsional; App mempertahankan integrasi read_kitchen_inventory bila document.modelContext tersedia.
 
 ## Referensi
 

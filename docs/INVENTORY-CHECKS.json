@@ -1,0 +1,18 @@
+{
+  "method": "Production bundle in JSDOM: compact card overview, disclosure, batch edit, filter totals, metadata save and correction; no browser layout engine",
+  "passed": 12,
+  "checks": [
+    "single batch has one quantity, no recipe calculation, opens and closes",
+    "expired stock remains in physical total",
+    "two batches show combined amount and partial expiry; second edit targets second batch",
+    "location filter shows matching quantity, with full total in detail",
+    "search ignores case and supports empty results",
+    "unknown date and absent location have clear labels",
+    "zero stock does not receive expired-stock alert",
+    "convertible units are combined; incompatible units remain separate",
+    "metadata edit saves intended location and retains stock",
+    "stock correction remains accessible from expanded card",
+    "category inventory also uses compact cards",
+    "inventory navigation preserves recipe availability and stored data"
+  ]
+}

@@ -38,7 +38,7 @@ npm run verify:baseline
 
 168/168 skenario audit menghasilkan status yang sama antara baseline dan source. Kedua versi memiliki 136 skenario PASS dan 32 temuan FAIL yang sudah ada. Kesamaan hasil ini berarti pemulihan source mempertahankan perilaku, **bukan** bahwa semua bug sudah diperbaiki.
 
-25 pemeriksaan tambahan lulus: kesamaan DOM, field, dan data pada fixture uji; stylesheet; input build; serta bukti bahwa mengedit App.jsx benar-benar mengubah UI hasil build. Ini pengujian JSDOM, bukan verifikasi visual pada seluruh perangkat/browser.
+25 pemeriksaan produksi lulus: kesamaan DOM di luar inventori, field dan data pada fixture uji, stylesheet dasar, input build, serta bukti bahwa mengedit App.jsx mengubah UI hasil build. Tampilan inventori diperiksa terpisah dengan npm run test:inventory. Ini pengujian JSDOM, bukan verifikasi visual pada seluruh perangkat/browser.
 
 ## Asal source
 
@@ -64,3 +64,9 @@ Setelah dependensi terpasang, aplikasi dapat dijalankan di komputer tersebut tan
 AI lain perlu akses repository private melalui integrasi GitHub, atau salinan kode di editor/ZIP. Minta AI membaca README.md, AGENTS.md, serta docs/SOURCE-RECOVERY.md sebelum mengubah project. Jangan menjalankan ulang alat pemulihan untuk mengedit fitur.
 
 Salinan ini adalah source yang dapat dikembangkan untuk baseline versi 1, bukan klaim bahwa source asli terakhir sudah diperoleh. Source asli terakhir dari project akun lama dan backup data browser tetap merupakan dua pekerjaan terpisah.
+
+## Pembaruan kartu inventori — 7 Oktober 2026
+
+Kartu inventori sekarang menampilkan nama produk, jumlah stok sekali, lokasi, dan status tanggal yang perlu diperhatikan. Ketuk kartu untuk membuka tanggal lengkap, rincian batch, dan tombol edit. Ringkasan tidak menampilkan kategori berulang atau angka perhitungan resep. Filter tetap bekerja; ketika hanya sebagian batch cocok, kartu menampilkan jumlah sesuai filter dan detail menyebutkan total seluruh stok.
+
+Perubahan ini tidak mengubah transaksi stok, perhitungan resep, login, atau struktur data browser. Validasi khusus tampilan tersedia di docs/INVENTORY-CHECKS.json dan penjelasan di docs/INVENTORY-UPDATE.md. Temuan bug baseline tetap dicatat terpisah; project tidak diklaim bebas bug.
