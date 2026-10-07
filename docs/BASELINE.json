@@ -1,0 +1,36 @@
+{
+  "project": "Stok Dapur",
+  "baseline": "v1-audited",
+  "export_date": "2026-10-07",
+  "source_commit": "4b5be8263e27162341f7b5c48a6ab8c3e07dc02a",
+  "live_url": "https://stok-dapur-kholis.rahmatkholis.chatgpt.site",
+  "source_kind": "production_bundle_not_original_react_source",
+  "personal_browser_data_included": false,
+  "runtime_files": [
+    {
+      "path": "dist/assets/index-B7Irxm4D.js",
+      "size_bytes": 449562,
+      "sha256": "9ec9f620be25f7fcbaaf80bedf37589c8e7dff36ed45edd036f1cff62ef28d07"
+    },
+    {
+      "path": "dist/assets/index-f4AJOdmn.css",
+      "size_bytes": 23154,
+      "sha256": "d4672ecfc56d2ec05f62867945c30ee15fe764e8a0c48a3a1a94af11da02faa2"
+    },
+    {
+      "path": "dist/favicon.svg",
+      "size_bytes": 210,
+      "sha256": "acf01c2bd488f9dff85a46c2a6d093a7c837190994a489b97b77db6a9d9471f3"
+    },
+    {
+      "path": "dist/index.html",
+      "size_bytes": 609,
+      "sha256": "873a486f83c6595e0a134e130695c3aaeecde058540ebc320036227d6e98e5c7"
+    },
+    {
+      "path": "dist/webmcp.js",
+      "size_bytes": 1451,
+      "sha256": "1e93d2a4f8a0b94307168f7ac6f0c1033cbf1222ad70dc6e1da6f4b986269839"
+    }
+  ]
+}
