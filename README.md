@@ -67,6 +67,6 @@ Salinan ini adalah source yang dapat dikembangkan untuk baseline versi 1, bukan 
 
 ## Pembaruan kartu inventori — 7 Oktober 2026
 
-Kartu inventori sekarang menampilkan nama produk, jumlah stok sekali, lokasi, dan status tanggal yang perlu diperhatikan. Ketuk kartu untuk membuka tanggal lengkap, rincian batch, dan tombol edit. Ringkasan tidak menampilkan kategori berulang atau angka perhitungan resep. Filter tetap bekerja; ketika hanya sebagian batch cocok, kartu menampilkan jumlah sesuai filter dan detail menyebutkan total seluruh stok.
+Setiap batch kini tampil sebagai satu kartu mandiri: nama produk, jumlah batch tersebut, lokasi, tanggal, dan status yang perlu diperhatikan. Dua batch produk yang sama tampil atas–bawah dengan nama berulang, tanpa ringkasan total atau jumlah batch pada kartu. Ketuk kartu langsung membuka form stok batch tersebut. Kartu menggunakan shadow 0 2px 12px rgba(0,0,0,0.07), radius 1rem, dan tidak memakai border dekoratif. Filter tetap menyaring kartu yang cocok; unit setiap batch dipertahankan.
 
 Perubahan ini tidak mengubah transaksi stok, perhitungan resep, login, atau struktur data browser. Validasi khusus tampilan tersedia di docs/INVENTORY-CHECKS.json dan penjelasan di docs/INVENTORY-UPDATE.md. Temuan bug baseline tetap dicatat terpisah; project tidak diklaim bebas bug.
