@@ -1,0 +1,29 @@
+{
+  "name": "stok-dapur",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "npm run build && npm run test:parity && npm run test:production",
+    "verify:baseline": "python3 scripts/verify_baseline.py",
+    "test:parity": "node tests/parity.mjs",
+    "test:production": "node tests/production.mjs",
+    "recover:reference": "node scripts/recover-baseline.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "jsdom": "26.1.0",
+    "@babel/parser": "7.28.5",
+    "@babel/traverse": "7.28.5",
+    "@babel/generator": "7.28.5"
+  }
+}

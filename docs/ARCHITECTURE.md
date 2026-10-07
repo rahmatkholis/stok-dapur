@@ -1,36 +1,23 @@
-# Arsitektur baseline
+# Arsitektur source versi 1
 
-## Jenis aplikasi
+Aplikasi React lokal dengan source ES modules/JSX, build esbuild, dan stylesheet utility yang dipulihkan. Entry point src/main.jsx menggunakan App dari src/App.jsx dan memasang root dengan StrictMode, mengikuti pola entry point source TSX lama.
 
-Single-page application React dengan JavaScript/CSS produksi yang sudah dibundel. Dapat disajikan melalui hosting statis atau server HTTP lokal. Tidak memerlukan backend/D1 untuk versi ini.
+## Dependency dan modul
 
-## Layar utama
+React dan ReactDOM 19.2.4 dipasang melalui npm agar versi runtime sesuai baseline. esbuild menghasilkan JavaScript, CSS, dan source map dari src/. Tidak ada backend, D1, cloud login, atau kode versi 2 dalam entry point ini.
 
-- Beranda
-- Inventori, termasuk pengelompokan produk dan batch stok
-- Belanja dan aktivitas belanja
-- Resep
-- Aktivitas bahan
-- Akun dan master data
+App mengelola navigasi ke Beranda, Inventori, Belanja, Resep, Aktivitas, Akun, serta pembukaan master item. Halaman dan komponen berada dalam 22 modul hasil migrasi; main.jsx menjadi entry point tambahan. Store di src/lib/store.js mempertahankan transaksi dan validasi baseline.
 
-Autentikasi aplikasi pada baseline ini bersifat lokal di browser. Tab Daftar membuat akun lokal; bukan login platform ChatGPT.
+## Data
 
-## Berkas runtime
+Data akun/dapur memakai localStorage dengan kunci dapur_users dan dapur_session; draft dan log legacy memakai kunci tambahan baseline. Akun lokal baseline menyimpan field password lokal. Jangan membagikan dump penyimpanan ke GitHub atau AI. Data melekat pada origin dan browser, sehingga clone source tidak membawa data website.
 
-- dist/index.html: entry point.
-- dist/assets/index-B7Irxm4D.js: bundle aplikasi dan runtime React.
-- dist/assets/index-f4AJOdmn.css: stylesheet produksi; font eksternal Google Fonts.
-- dist/favicon.svg: ikon situs.
-- dist/webmcp.js: integrasi pembaca layar yang hanya berjalan jika document.modelContext tersedia; tanpa API tersebut aplikasi statis tetap dapat berjalan.
+## Style dan integrasi
 
-## Persistensi
+src/styles/index.css adalah stylesheet baseline yang diformat agar dapat dibaca. Build menghasilkan assets/app.css. Font tetap berasal dari Google Fonts. public/webmcp.js adalah integrasi pembaca layar opsional; App mempertahankan integrasi read_kitchen_inventory bila document.modelContext tersedia.
 
-localStorage menggunakan kunci `dapur_users` untuk akun/data dan `dapur_session` untuk sesi lokal. Akun lokal memuat field password, sehingga backup seluruh localStorage dapat mengandung kata sandi. Jangan memasukkannya ke GitHub atau konteks AI.
+## Referensi
 
-Data melekat pada browser dan origin. localhost, domain lama, dan domain hosting baru memiliki ruang penyimpanan terpisah. Export source ini tidak mengambil data pengguna dari browser mana pun.
+baseline/v1 mempertahankan artefak aplikasi yang diaudit. legacy menyimpan file teks source TSX lama dan konfigurasi referensinya. File screenshot/aset gambar tak terpakai serta file lingkungan Figma tidak dibawa; legacy bukan project aktif. Checksum dan daftar source asli tersimpan di LEGACY-PROVENANCE.json.
 
-## Apa yang tidak tersedia
-
-Source komponen asli, konfigurasi build asli, serta source map asli tidak ada pada baseline Git versi 1. Tidak ada klaim bahwa folder src asli dapat dipulihkan sempurna dari bundle. Source versi 2 yang ditolak tidak disertakan sebagai aplikasi aktif.
-
-Konfigurasi hosting akun ChatGPT tidak disertakan karena tujuan paket ini adalah portabilitas source/runtime. Memasang hosting baru tidak mengubah deployment yang lama.
+Rekonstruksi dapat direproduksi oleh scripts/recover-baseline.mjs pada checkout terpisah, tetapi script tersebut tidak dipanggil oleh dev/build normal. Source yang sudah dikembangkan harus dipertahankan, bukan ditimpa ulang oleh script pemulihan.
