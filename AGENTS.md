@@ -9,7 +9,7 @@ Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. 
 ## Mulai bekerja
 
 1. Baca README.md, docs/SOURCE-RECOVERY.md, docs/ARCHITECTURE.md, dan docs/PARITY-RESULTS.json.
-2. Gunakan branch restore-editable-source sebagai acuan source; branch main sebelumnya mengarsipkan runtime build.
+2. Gunakan branch main sebagai acuan source. Branch restore-editable-source menyimpan pekerjaan pemulihan; main dahulu hanya mengarsipkan runtime build.
 3. Jalankan npm ci, npm run dev, dan npm test. Gunakan akun uji terpisah.
 4. Kerjakan fitur yang diminta dalam branch baru dari source ini.
 

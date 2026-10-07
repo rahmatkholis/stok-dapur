@@ -46,4 +46,21 @@ Source ZIP lama benar-benar tersedia, tetapi tidak berisi seluruh fitur versi se
 
 ## Data dan penerbitan
 
-Data pengguna tetap memakai localStorage browser. Project tidak membawa data inventori pribadi, kata sandi pengguna, atau kredensial hosting. Mengembangkan atau mengunggah source tidak menerbitkan perubahan pada website yang online. Source berada di branch **restore-editable-source** pada https://github.com/rahmatkholis/stok-dapur.
+Data pengguna tetap memakai localStorage browser. Project tidak membawa data inventori pribadi, kata sandi pengguna, atau kredensial hosting. Mengembangkan atau mengunggah source tidak menerbitkan perubahan pada website yang online. Source utama berada di branch **main** pada https://github.com/rahmatkholis/stok-dapur. Branch restore-editable-source menyimpan riwayat pekerjaan pemulihan.
+
+## Menyimpan salinan dan memakai AI lain
+
+Unduh kode melalui Code → Download ZIP pada branch main, atau clone repository menggunakan GitHub dengan akun yang memiliki akses. ZIP kode tidak berisi data dapur pribadi, dependensi npm yang sudah terpasang, atau riwayat commit; gunakan git clone untuk menyimpan riwayat Git.
+
+```sh
+git clone https://github.com/rahmatkholis/stok-dapur.git
+cd stok-dapur
+npm ci
+npm run dev
+```
+
+Setelah dependensi terpasang, aplikasi dapat dijalankan di komputer tersebut tanpa membuka ChatGPT. Tampilan memakai font Google Fonts; bila internet tidak tersedia, browser menggunakan font pengganti. Membuka index.html dengan klik ganda bukan cara menjalankan source React; gunakan server dev atau host hasil dist/.
+
+AI lain perlu akses repository private melalui integrasi GitHub, atau salinan kode di editor/ZIP. Minta AI membaca README.md, AGENTS.md, serta docs/SOURCE-RECOVERY.md sebelum mengubah project. Jangan menjalankan ulang alat pemulihan untuk mengedit fitur.
+
+Salinan ini adalah source yang dapat dikembangkan untuk baseline versi 1, bukan klaim bahwa source asli terakhir sudah diperoleh. Source asli terakhir dari project akun lama dan backup data browser tetap merupakan dua pekerjaan terpisah.
