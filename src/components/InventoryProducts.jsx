@@ -149,54 +149,30 @@ function inventoryStatus(batches, today) {
   if (pending) return { label: pending === stocked.length ? 'Belum tersedia' : 'Sebagian belum tersedia', tone: 'muted' };
   return null;
 }
-function InventoryProducts({ products, allProducts, masters, onEdit, showCategory = false }) {
+function InventoryProducts({ products, allProducts, masters, onEdit }) {
   const now = new Date();
   const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
   const groups = dn(products, allProducts, masters, today);
   return <div className="inventory-product-list">
-    {groups.map(group => {
-      const filtered = group.batches.length !== group.allBatchCount;
-      const single = group.batches.length === 1 ? group.batches[0] : null;
-      const locations = [...new Set(group.batches.map(batch => batch.location || 'Tanpa lokasi'))];
-      const locationLabel = locations.length <= 2 ? locations.join(', ') : `${locations.length} lokasi`;
-      const status = inventoryStatus(group.batches, today);
-      const dateLabel = single && single.expiryDate && getExpiryStatus(single.expiryDate) !== 'unknown'
-        ? `${single.expiryKind === 'estimated' ? 'Perkiraan ' : ''}${formatDate(single.expiryDate)}` : null;
-      return <details className="inventory-product" key={group.key} aria-label={`Stok ${group.name}`}>
-        <summary className="inventory-product-summary">
-          <span className="inventory-expand-indicator" aria-hidden="true" />
-          <div className="inventory-product-heading">
-            <h3>{group.name}</h3>
-            <span className="inventory-product-quantity">{hn(filtered ? group.shown : group.total)}</span>
-          </div>
-          <p className="inventory-product-meta">
-            <span>{locationLabel}</span>
-            {dateLabel && <span>{dateLabel}</span>}
-            {filtered ? <span>{group.batches.length} dari {group.allBatchCount} batch</span>
-              : group.allBatchCount > 1 && <span>{group.allBatchCount} batch</span>}
-          </p>
-          {status && <p className={`inventory-product-status inventory-product-status-${status.tone}`}>{status.label}</p>}
-        </summary>
-        <div className="inventory-product-detail">
-          {showCategory && <p className="inventory-detail-category">{group.category}</p>}
-          {filtered && <p className="inventory-detail-note">Sesuai filter: {group.batches.length} dari {group.allBatchCount} batch. Total seluruh stok: {hn(group.total)}.</p>}
-          {group.incompatibleBatchCount > 0 && <p className="inventory-detail-note">Jumlah dengan satuan yang belum bisa dikonversi ditampilkan terpisah.</p>}
-          {!group.linked && <p className="inventory-detail-note">Stok ini belum terhubung ke Data Master.</p>}
-          {group.batches.map((batch, index) => <div className="inventory-batch-detail" key={batch.id}>
-            <div className="inventory-batch-information">
-              {group.batches.length > 1 && <p className="inventory-batch-amount">{batch.quantity.toLocaleString('id-ID', { maximumFractionDigits: 4 })} {batch.unit}</p>}
-              <p>{describeExpiry(batch)}</p>
-              <p>{batch.location || 'Tanpa lokasi'}</p>
-              {batch.receivedDate && batch.receivedDate > today && <p>Tersedia mulai {formatDate(batch.receivedDate)}</p>}
-            </div>
-            <button type="button" className="inventory-batch-edit" onClick={() => onEdit(batch)}
-              aria-label={`Edit ${group.name}, ${batch.quantity} ${batch.unit}, ${describeExpiry(batch)}${batch.location ? `, ${batch.location}` : ''}`}>
-              {group.batches.length > 1 ? `Edit batch ${index + 1}` : 'Edit stok'}
-            </button>
-          </div>)}
-        </div>
-      </details>;
-    })}
+    {groups.flatMap(group => group.batches.map(batch => {
+      const amount = `${batch.quantity.toLocaleString('id-ID', { maximumFractionDigits: 4 })} ${batch.unit}`;
+      const status = inventoryStatus([batch], today);
+      const dateLabel = batch.expiryDate && getExpiryStatus(batch.expiryDate) !== 'unknown'
+        ? `${batch.expiryKind === 'estimated' ? 'Perkiraan ' : ''}${formatDate(batch.expiryDate)}` : null;
+      return <button type="button" className="inventory-product inventory-product-summary" key={batch.id}
+        onClick={() => onEdit(batch)}
+        aria-label={`Edit ${group.name}, ${amount}, ${describeExpiry(batch)}${batch.location ? `, ${batch.location}` : ''}`}>
+        <span className="inventory-product-heading">
+          <span className="inventory-product-name">{group.name}</span>
+          <span className="inventory-product-quantity">{amount}</span>
+        </span>
+        <span className="inventory-product-meta">
+          <span>{batch.location || 'Tanpa lokasi'}</span>
+          {dateLabel && <span>{dateLabel}</span>}
+        </span>
+        {status && <span className={`inventory-product-status inventory-product-status-${status.tone}`}>{status.label}</span>}
+      </button>;
+    }))}
   </div>;
 }
 

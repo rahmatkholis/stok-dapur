@@ -4,7 +4,7 @@ const sample=()=>({...base(),products:[product()],recipes:[recipe()]});
 const contains=h=>s=>assert(text(h.d.getElementById('root')).includes(s),'Missing text '+s);
 const like=async(h,s)=>{const b=h.all('button').find(b=>text(b).includes(s));assert(b,'No button containing '+s);b.click();await wait()};
 const stockTotal=(h,value)=>{const amount=h.d.querySelector('.inventory-product-quantity');assert(amount?text(amount)===value:text(h.d.getElementById('root')).includes('Total tercatat: '+value),'Missing stock amount '+value)};
-const editInventory=async h=>{const summary=h.d.querySelector('.inventory-product summary');if(summary){summary.click();await wait();const button=h.all('button').find(b=>b.getAttribute('aria-label')?.startsWith('Edit Telur'));assert(button);button.click();await wait()}else await like(h,'✏️')};
+const editInventory=async h=>{const card=h.d.querySelector('button.inventory-product');if(card){card.click();await wait();return}const summary=h.d.querySelector('.inventory-product summary');if(summary){summary.click();await wait();const button=h.all('button').find(b=>b.getAttribute('aria-label')?.startsWith('Edit Telur'));assert(button);button.click();await wait()}else await like(h,'✏️')};
 const submit=async h=>{const f=h.d.querySelector('form');assert(f);f.dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));await wait(400)};
 const use=async(h,kind='Dipakai')=>{await h.click('✓ Aktivitas');await h.click('+ Catat Aktivitas');await like(h,kind==='Dipakai'?'✅Dipakai':'🗑️Dibuang')};
 const selectBatch=async(h,q='2')=>{await like(h,'Stok:');await h.set(h.d.querySelector('input[type="number"]'),q);await h.click('Tambah ke Daftar')};
