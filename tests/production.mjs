@@ -23,12 +23,18 @@ for(const f of fixtures){
   assert.deepEqual(snapshot(b),snapshot(a),f.name+' initial');checks.push(f.name+' initial');
   if(f.data)for(const page of ['Inventori','Belanja','Resep','Aktivitas','Akun','Beranda']){
    for(const dom of [a,b]){const buttons=[...dom.window.document.querySelectorAll('button')];const button=buttons.find(e=>e.getAttribute('aria-label')===page||e.closest('nav')&&e.textContent.trim().endsWith(page));assert(button,'No navigation '+page);button.click()}
-   await wait();assert.deepEqual(snapshot(b),snapshot(a),f.name+' '+page);checks.push(f.name+' '+page);
+   await wait();
+   if(page==='Inventori'){
+    assert.equal(snapshot(b).data,snapshot(a).data,f.name+' inventory data');
+    assert.deepEqual(snapshot(b).fields,snapshot(a).fields,f.name+' inventory fields');
+    assert(!b.window.document.getElementById('root').textContent.includes('Dihitung untuk resep hari ini'));
+    checks.push(f.name+' inventory keeps fields and data; uses compact cards');
+   }else{assert.deepEqual(snapshot(b),snapshot(a),f.name+' '+page);checks.push(f.name+' '+page);}
   }
  }finally{a.window.close();b.window.close()}
 }
 const minify=async s=>(await transform(s,{loader:'css',minify:true,target:'es2022'})).code;
-assert.equal(await minify(fs.readFileSync('src/styles/index.css','utf8')),await minify(fs.readFileSync('baseline/v1/assets/index-f4AJOdmn.css','utf8')),'Stylesheet semantic normalization changed');
+assert.equal(await minify(fs.readFileSync('src/styles/index.css','utf8').split('/* Inventory cards:')[0]),await minify(fs.readFileSync('baseline/v1/assets/index-f4AJOdmn.css','utf8')),'Stylesheet semantic normalization changed');
 checks.push('stylesheet normalized equivalence');
 const inputs=JSON.parse(fs.readFileSync('docs/BUILD-INPUTS.json'));assert.equal(inputs.uses_archived_runtime,false);checks.push('production build uses src, not baseline or legacy runtime');
 // A controlled in-memory edit proves the JSX source drives rendered output.
@@ -43,5 +49,5 @@ const proof=await build({
 });
 const edited=create(proof.outputFiles.find(x=>x.path.endsWith('.js')).text,base());await wait();
 try{[...edited.window.document.querySelectorAll('button')].find(e=>e.closest('nav')&&e.textContent.trim().endsWith('Inventori')).click();await wait();assert(edited.window.document.getElementById('root').textContent.includes('SOURCE_EDIT_PROOF'));checks.push('editing App.jsx changes rebuilt UI');}finally{edited.window.close()}
-fs.writeFileSync('docs/PRODUCTION-CHECKS.json',JSON.stringify({method:'Exact rendered DOM, fields and persisted data vs v1 in JSDOM; stylesheet normalization; build input provenance; controlled source edit',checks,passed:checks.length,layout_browser_checked:false},null,2)+'\n');
+fs.writeFileSync('docs/PRODUCTION-CHECKS.json',JSON.stringify({method:'Exact DOM/fields/data vs v1 outside Inventori; inventory field/data invariants with compact cards; original stylesheet normalization; build provenance; controlled source edit',checks,passed:checks.length,layout_browser_checked:false},null,2)+'\n');
 console.log(JSON.stringify({production_checks:checks.length,passed:checks.length}));

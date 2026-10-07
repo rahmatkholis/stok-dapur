@@ -4,7 +4,7 @@ import * as jsxRuntime from "react/jsx-runtime";
 import { EXPIRY_LABELS, addActivityEntry, addProduct, adjustPhysicalStock, deleteIncorrectBatch, getExpiryStatus, updateProduct } from "../lib/store.js";
 import { StockAdjustmentModal } from "../components/StockAdjustmentModal.jsx";
 import { ProductModal } from "../components/ProductModal.jsx";
-import { InventoryProducts, on, sn } from "../components/InventoryProducts.jsx";
+import { InventoryProducts, on, sn, ln } from "../components/InventoryProducts.jsx";
 import { BatchMetadataModal, CategoryDetailPage } from "./CategoryDetailPage.jsx";
 var xn = [{
     key: `recent`,
@@ -212,7 +212,7 @@ function InventoryPage({
         }} key={e}>{t}</button>)}</div>}</div>, ue, de, m === `product` && <jsxRuntime.Fragment>{[<div className={`px-4 pb-2 text-sm font-semibold`} style={{
         color: `var(--muted-foreground)`,
         ...Cn
-      }}>{[U.length, ` batch stok`]}</div>, <div className={`px-4 flex flex-col gap-2`}>{U.length ? <InventoryProducts products={U} allProducts={products} masters={itemMasters} showCategory={true} onEdit={k} /> : <div className={`rounded-2xl p-8 text-center`} style={{
+      }}>{[new Set(U.map(ln)).size, ` produk`]}</div>, <div className={`px-4 flex flex-col gap-2`}>{U.length ? <InventoryProducts products={U} allProducts={products} masters={itemMasters} showCategory={true} onEdit={k} /> : <div className={`rounded-2xl p-8 text-center`} style={{
           background: `var(--card)`,
           border: `1px solid var(--border)`
         }}>{[<p className={`text-3xl mb-2`}>{`📭`}</p>, <p className={`font-bold text-sm`} style={{

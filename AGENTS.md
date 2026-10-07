@@ -18,7 +18,7 @@ Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. 
 - Edit src/, bukan dist/, baseline/, atau legacy/.
 - Build biasa tidak mengambil kode aplikasi dari baseline/ atau legacy/. React dan ReactDOM dipasang sebagai dependensi npm.
 - scripts/recover-baseline.mjs adalah alat pemulihan referensi satu kali. Jangan menjalankannya pada source yang sudah diedit karena akan mengganti file source hasil pemulihan. Gunakan checkout kerja terpisah bila harus memeriksa reproduksi pemulihan.
-- Pengguna menyatakan ingin kartu inventori sederhana, tetapi belum meminta implementasinya. Jangan melakukan redesign atau perubahan flow tanpa instruksi terkait.
+- Pengguna meminta kartu inventori sederhana. Kartu sekarang memakai ringkasan produk dan detail batch yang dapat dibuka. Pertahankan cakupan perubahan tampilan inventori; jangan melakukan redesign halaman lain atau mengubah transaksi tanpa instruksi terkait.
 - Jika pengguna meminta perbaikan bug, perubahan hasil uji terhadap baseline dapat disengaja. Jelaskan kasus yang berubah dan tambah pengujian perilaku hasil perbaikannya; jangan mengubah baseline untuk menyembunyikan perbedaan.
 - Jangan mengunggah localStorage pribadi, akun/kata sandi lokal, token, atau kredensial ke repository atau layanan AI.
 - Publish website memerlukan cakupan tugas penerbitan tersendiri. Pemulihan source ini tidak mengganti website yang online.

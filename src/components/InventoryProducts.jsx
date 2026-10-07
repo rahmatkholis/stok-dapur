@@ -1,5 +1,5 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
-import { convertItemUnit, describeExpiry, getAllowedUnits, getExpiryStatus } from "../lib/store.js";
+import { convertItemUnit, describeExpiry, getAllowedUnits, getExpiryStatus, formatDate } from "../lib/store.js";
 function on(e, t) {
   let n = t.search.trim().toLocaleLowerCase(`id-ID`);
   return e.filter(e => (!n || e.name.toLocaleLowerCase(`id-ID`).includes(n) || e.category.toLocaleLowerCase(`id-ID`).includes(n)) && (t.location.kind === `all` || (t.location.kind === `none` ? !e.location : e.location === t.location.name)) && (t.status === `all` || getExpiryStatus(e.expiryDate) === t.status)).sort((e, n) => {
@@ -136,32 +136,68 @@ function hn(e) {
     maximumFractionDigits: 4
   })} ${e.unit}`).join(` + `);
 }
-function InventoryProducts({
-  products: products,
-  allProducts: allProducts,
-  masters: masters,
-  onEdit: onEdit,
-  showCategory = false
-}) {
-  let a = new Date();
-  return <div className={`flex flex-col gap-5`}>{dn(products, allProducts, masters, `${a.getFullYear()}-${String(a.getMonth() + 1).padStart(2, `0`)}-${String(a.getDate()).padStart(2, `0`)}`).map(e => <section aria-label={`Stok ${e.name}`} key={e.key}>{[<div className={`px-1 mb-2`} style={{
-        fontFamily: `Plus Jakarta Sans, sans-serif`
-      }}>{[<h3 className={`text-sm font-black`} style={{
-          color: `var(--foreground)`
-        }}>{e.name}</h3>, showCategory && <p className={`text-xs mt-0.5`} style={{
-          color: `var(--muted-foreground)`
-        }}>{e.category}</p>, <p className={`text-sm font-bold mt-1`} style={{
-          color: `var(--foreground)`
-        }}>{[`Total tercatat: `, hn(e.total), ` `, <span className={`text-xs font-medium`} style={{
-            color: `var(--muted-foreground)`
-          }}>{[`· `, e.allBatchCount, ` batch`]}</span>]}</p>, e.batches.length !== e.allBatchCount && <p className={`text-xs mt-1 font-semibold`} style={{
-          color: `var(--muted-foreground)`
-        }}>{[`Hasil pencarian/filter: `, hn(e.shown), ` · `, e.batches.length, ` dari `, e.allBatchCount, ` batch`]}</p>, e.linked && e.excludedBatchCount > 0 && <details className={`text-xs mt-1`} style={{
-          color: `var(--muted-foreground)`
-        }}>{[<summary className={`cursor-pointer py-1`}>{[`Dihitung untuk resep hari ini: `, hn(e.recipeAvailable) || `0 ${e.unit}`]}</summary>, <p className={`pt-1 leading-relaxed`}>{`Mengikuti seluruh batch produk, termasuk yang tidak tampil karena filter. Tanggal terlewat, tanggal belum diketahui, stok belum tersedia, atau satuan yang belum cocok tidak otomatis dihitung. Bahan tanpa tanggal dapat dihitung setelah diperiksa saat Catat Masak.`}</p>]}</details>, e.incompatibleBatchCount > 0 && <p className={`text-xs mt-1`} style={{
-          color: `var(--muted-foreground)`
-        }}>{`Satuan yang belum memiliki konversi ditampilkan terpisah.`}</p>, !e.linked && <p className={`text-xs mt-1`} style={{
-          color: `var(--muted-foreground)`
-        }}>{`Data lama belum terhubung ke Master Item; jumlah ditampilkan untuk batch ini.`}</p>]}</div>, <div className={`flex flex-col gap-2`}>{e.batches.map(e => <InventoryBatchCard product={e} hideName={true} onEdit={() => onEdit(e)} key={e.id} />)}</div>]}</section>)}</div>;
+function inventoryStatus(batches, today) {
+  const stocked = batches.filter(batch => batch.quantity > 0);
+  if (!stocked.length) return { label: 'Stok habis', tone: 'muted' };
+  const expired = stocked.filter(batch => getExpiryStatus(batch.expiryDate) === 'expired').length;
+  if (expired) return { label: expired === stocked.length ? 'Tanggal terlewat' : 'Sebagian melewati tanggal', tone: 'danger' };
+  const expiring = stocked.filter(batch => getExpiryStatus(batch.expiryDate) === 'expiring').length;
+  if (expiring) return { label: stocked.length === 1 ? 'Tanggal mendekat' : 'Ada tanggal yang mendekat', tone: 'warning' };
+  const unknown = stocked.filter(batch => getExpiryStatus(batch.expiryDate) === 'unknown').length;
+  if (unknown) return { label: unknown === stocked.length ? 'Tanggal belum diisi' : 'Sebagian tanggal belum diisi', tone: 'muted' };
+  const pending = stocked.filter(batch => batch.receivedDate && batch.receivedDate > today).length;
+  if (pending) return { label: pending === stocked.length ? 'Belum tersedia' : 'Sebagian belum tersedia', tone: 'muted' };
+  return null;
 }
+function InventoryProducts({ products, allProducts, masters, onEdit, showCategory = false }) {
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const groups = dn(products, allProducts, masters, today);
+  return <div className="inventory-product-list">
+    {groups.map(group => {
+      const filtered = group.batches.length !== group.allBatchCount;
+      const single = group.batches.length === 1 ? group.batches[0] : null;
+      const locations = [...new Set(group.batches.map(batch => batch.location || 'Tanpa lokasi'))];
+      const locationLabel = locations.length <= 2 ? locations.join(', ') : `${locations.length} lokasi`;
+      const status = inventoryStatus(group.batches, today);
+      const dateLabel = single && single.expiryDate && getExpiryStatus(single.expiryDate) !== 'unknown'
+        ? `${single.expiryKind === 'estimated' ? 'Perkiraan ' : ''}${formatDate(single.expiryDate)}` : null;
+      return <details className="inventory-product" key={group.key} aria-label={`Stok ${group.name}`}>
+        <summary className="inventory-product-summary">
+          <span className="inventory-expand-indicator" aria-hidden="true" />
+          <div className="inventory-product-heading">
+            <h3>{group.name}</h3>
+            <span className="inventory-product-quantity">{hn(filtered ? group.shown : group.total)}</span>
+          </div>
+          <p className="inventory-product-meta">
+            <span>{locationLabel}</span>
+            {dateLabel && <span>{dateLabel}</span>}
+            {filtered ? <span>{group.batches.length} dari {group.allBatchCount} batch</span>
+              : group.allBatchCount > 1 && <span>{group.allBatchCount} batch</span>}
+          </p>
+          {status && <p className={`inventory-product-status inventory-product-status-${status.tone}`}>{status.label}</p>}
+        </summary>
+        <div className="inventory-product-detail">
+          {showCategory && <p className="inventory-detail-category">{group.category}</p>}
+          {filtered && <p className="inventory-detail-note">Sesuai filter: {group.batches.length} dari {group.allBatchCount} batch. Total seluruh stok: {hn(group.total)}.</p>}
+          {group.incompatibleBatchCount > 0 && <p className="inventory-detail-note">Jumlah dengan satuan yang belum bisa dikonversi ditampilkan terpisah.</p>}
+          {!group.linked && <p className="inventory-detail-note">Stok ini belum terhubung ke Data Master.</p>}
+          {group.batches.map((batch, index) => <div className="inventory-batch-detail" key={batch.id}>
+            <div className="inventory-batch-information">
+              {group.batches.length > 1 && <p className="inventory-batch-amount">{batch.quantity.toLocaleString('id-ID', { maximumFractionDigits: 4 })} {batch.unit}</p>}
+              <p>{describeExpiry(batch)}</p>
+              <p>{batch.location || 'Tanpa lokasi'}</p>
+              {batch.receivedDate && batch.receivedDate > today && <p>Tersedia mulai {formatDate(batch.receivedDate)}</p>}
+            </div>
+            <button type="button" className="inventory-batch-edit" onClick={() => onEdit(batch)}
+              aria-label={`Edit ${group.name}, ${batch.quantity} ${batch.unit}, ${describeExpiry(batch)}${batch.location ? `, ${batch.location}` : ''}`}>
+              {group.batches.length > 1 ? `Edit batch ${index + 1}` : 'Edit stok'}
+            </button>
+          </div>)}
+        </div>
+      </details>;
+    })}
+  </div>;
+}
+
 export { on, sn, cn, ln, un, dn, fn, pn, InventoryBatchCard, hn, InventoryProducts };

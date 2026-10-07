@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { build } from 'esbuild';
+fs.rmSync('dist',{recursive:true,force:true});
 fs.mkdirSync('dist/assets',{recursive:true});
 fs.cpSync('public','dist',{recursive:true});
 const result=await build({entryPoints:['src/main.jsx'],outfile:'dist/assets/app.js',bundle:true,format:'iife',jsx:'automatic',minify:true,sourcemap:true,metafile:true,define:{'process.env.NODE_ENV':'"production"'},target:'es2022',charset:'utf8'});
