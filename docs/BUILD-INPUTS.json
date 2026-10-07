@@ -1,0 +1,29 @@
+{
+  "source_inputs": [
+    "src/lib/store.js",
+    "src/pages/AuthPage.jsx",
+    "src/components/PhysicalStockConfirmModal.jsx",
+    "src/components/StockAdjustmentModal.jsx",
+    "src/pages/HomePage.jsx",
+    "src/components/ItemPicker.jsx",
+    "src/components/ExpiryFields.jsx",
+    "src/lib/drafts.jsx",
+    "src/components/BatchLedger.jsx",
+    "src/components/ProductModal.jsx",
+    "src/components/InventoryProducts.jsx",
+    "src/pages/CategoryDetailPage.jsx",
+    "src/pages/InventoryPage.jsx",
+    "src/components/ReceivePurchaseModal.jsx",
+    "src/components/ShoppingActivityModal.jsx",
+    "src/pages/ShoppingPage.jsx",
+    "src/pages/MasterDataPage.jsx",
+    "src/pages/AccountPage.jsx",
+    "src/pages/RecipesPage.jsx",
+    "src/pages/ActivityPage.jsx",
+    "src/components/BottomNav.jsx",
+    "src/App.jsx",
+    "src/styles/index.css",
+    "src/main.jsx"
+  ],
+  "uses_archived_runtime": false
+}

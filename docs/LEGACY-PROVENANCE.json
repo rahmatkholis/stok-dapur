@@ -1,0 +1,84 @@
+{
+  "zip_filename": "Aplikasi-Stok-Dapur-update-stok.zip",
+  "zip_sha256": "ff4d4554249a03a400aea0e73bd3e4b930468cad9d0ef3a2c275723a12f86811",
+  "duplicate_zip_identical": true,
+  "retained_text_sources": [
+    {
+      "path": "legacy/README.md",
+      "sha256": "76595942b5bf1b3cf5893a44f6604be5afd2d77c576893d0c584f48b00a45a47"
+    },
+    {
+      "path": "legacy/package.json",
+      "sha256": "7aa06e47ee2494dc4cadac8cd878d20b81b922eb94024e035c96278ff9bde5fb"
+    },
+    {
+      "path": "legacy/src/App.tsx",
+      "sha256": "c4046da17c79d1cf02db5010b5afc6ad784a5851214a825ee6c197a8ccb63e5e"
+    },
+    {
+      "path": "legacy/src/components/BottomNav.tsx",
+      "sha256": "9245cf348f16459ace70926f033ad174b76d01d6ed58bbc52018fe7ba7ccf17b"
+    },
+    {
+      "path": "legacy/src/components/ProductModal.tsx",
+      "sha256": "4fc8f88f712771f11417de90ec8abf94bc24af934c638197e9092152e4e1b9ef"
+    },
+    {
+      "path": "legacy/src/index.css",
+      "sha256": "5e4e5b61458bbcb4a6f53f945bdef07276ab1b53472253e789fb5501be2348a0"
+    },
+    {
+      "path": "legacy/src/main.tsx",
+      "sha256": "5f49dce6e6cc4b5d678cf529ef892af0ab7dfa6afb300b11ad559224019b8b05"
+    },
+    {
+      "path": "legacy/src/pages/AccountPage.tsx",
+      "sha256": "97d42f29a63fc71324c8043773a44c7eb91a4360a48391202cca0a7fe993ffc2"
+    },
+    {
+      "path": "legacy/src/pages/AuthPage.tsx",
+      "sha256": "210433c3ca2efa7cf5473f0c353091d3f5a36f23f4e396455d8833eac06e979f"
+    },
+    {
+      "path": "legacy/src/pages/CategoryDetailPage.tsx",
+      "sha256": "89999a619ffeec04606bc271e43b74794ff07817cbe7c32cdff0e7c8b225087d"
+    },
+    {
+      "path": "legacy/src/pages/HomePage.tsx",
+      "sha256": "ce8ec05f4c1b4445475f1b3245eeb5cc996929972c481cdc8858915eb4446063"
+    },
+    {
+      "path": "legacy/src/pages/InventoryPage.tsx",
+      "sha256": "66726f14d0aa68be566ecc9e815cb828bcaebe83b710ee5750c1dc52ee01957b"
+    },
+    {
+      "path": "legacy/src/pages/ShoppingPage.tsx",
+      "sha256": "b043fffe21bed84d12398e8d45a541e0f8999d7dc5dd6465b03f8b2ae5670b80"
+    },
+    {
+      "path": "legacy/src/pages/UsePage.tsx",
+      "sha256": "9934db19cf1282335fad3c6eedbfa9777da225082bf4058495a34bb69f68d34a"
+    },
+    {
+      "path": "legacy/src/store.ts",
+      "sha256": "647a676ac6fddd5a72744235bd8fa0b35633dad8665b3dfbfaf9b18dbc63d6bf"
+    },
+    {
+      "path": "legacy/src/types.ts",
+      "sha256": "c2deba95cd42de77bc121c0a3dd47f4533507bac8888d0a5cb146f30bbf68eae"
+    },
+    {
+      "path": "legacy/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "path": "legacy/tsconfig.json",
+      "sha256": "9a1e96d63eaccd5416b2f78ecaccf2b3a27ca71e213fa5859cf5349c66123bf9"
+    },
+    {
+      "path": "legacy/vite.config.ts",
+      "sha256": "414a100df447463da3c94c92497f734cc4c9fb2e1ea883ddf9a8ad71ba1e9c15"
+    }
+  ],
+  "omitted": "Unused screenshots, image assets, Figma environment files and generated artifacts; legacy is a source reference, not the active application"
+}

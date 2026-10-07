@@ -1,0 +1,1354 @@
+{
+  "method": "168 existing audit scenarios run independently against original bundle and source-built React; matching outcome is parity, not absence of bugs",
+  "total": 168,
+  "matched": 168,
+  "baseline_pass": 136,
+  "baseline_known_fail": 32,
+  "differences": [],
+  "checks": [
+    {
+      "group": "domain",
+      "id": "D001",
+      "name": "Tambah stok normal",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D002",
+      "name": "Tolak jumlah 0",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D003",
+      "name": "Tolak jumlah -1",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D004",
+      "name": "Tolak jumlah 0.00001",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D005",
+      "name": "Tolak jumlah 1.00001",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D006",
+      "name": "Tolak jumlah Infinity",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D007",
+      "name": "Konversi 1.5kg ke gram",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D008",
+      "name": "Konversi 2 botol ×250ml",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D009",
+      "name": "Tolak satuan tidak sesuai",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D010",
+      "name": "Tolak expiry 2026-02-30",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D011",
+      "name": "Tolak expiry 2026-13-01",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D012",
+      "name": "Tolak expiry not-date",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D013",
+      "name": "Tanggal stok masa depan ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D014",
+      "name": "Tanggal stok lampau diperbolehkan",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D015",
+      "name": "Stok tanpa tanggal tetap dicatat",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D016",
+      "name": "Edit metadata tidak mengubah jumlah",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D017",
+      "name": "Edit langsung jumlah ditolak atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D018",
+      "name": "Hapus batch manual tanpa riwayat",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D019",
+      "name": "Hapus batch pernah dipakai diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D020",
+      "name": "Koreksi stok 10→7, ledger konsisten",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D021",
+      "name": "Koreksi nol, batch arsip, batalkan memulihkan",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D022",
+      "name": "Koreksi sama/negatif/alasan kosong ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D023",
+      "name": "Batalkan koreksi yang sudah ada aktivitas lebih baru diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D024",
+      "name": "Pemakaian 2, edit jadi3, hapus mengembalikan10",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D025",
+      "name": "Pemakaian habis dan hapus memulihkan batch lengkap",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D026",
+      "name": "Jumlah melebihi stok ditolak atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D027",
+      "name": "Tanggal aktivitas masa depan ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D028",
+      "name": "Pemakaian sebelum stok tersedia ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D029",
+      "name": "Pemakaian batch lewat tanggal ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D030",
+      "name": "Pembuangan batch lewat tanggal boleh; hapus memulihkan",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D031",
+      "name": "ID aktivitas sama tidak mengurangi dua kali",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D032",
+      "name": "Duplikat batch dalam satu aktivitas dihitung total",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D033",
+      "name": "Transaksi multibahan gagal tidak mengubah bahan pertama",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D034",
+      "name": "Hapus pemakaian sebelum hitung ulang memerlukan konfirmasi fisik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D035",
+      "name": "Membuat resep tidak mengurangi stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D036",
+      "name": "Duplikat bahan ditolak atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D037",
+      "name": "Porsi 0 ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D038",
+      "name": "Porsi 1.5 ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D039",
+      "name": "Porsi 101 ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D040",
+      "name": "Masak 3porsi memakai6",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D041",
+      "name": "Stok kurang diblokir atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D042",
+      "name": "FEFO: batch tanggal terdekat dipakai dahulu",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D043",
+      "name": "Batch lewat tanggal tidak dihitung siap",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D044",
+      "name": "Batch tanpa tanggal perlu verifikasi; setelah diperiksa bisa dipakai",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D045",
+      "name": "Ubah pemakaian saat stok cukup (2→1) mengurangi sesuai aktual",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D046",
+      "name": "Ubah pemakaian saat nominal kurang tetapi aktual cukup (stok1/resep2/aktual1)",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D047",
+      "name": "Hapus resep menjaga riwayat masak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D048",
+      "name": "Konversi bahan 0.5liter memakai500ml",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D049",
+      "name": "Buat rencana tidak menambah stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D050",
+      "name": "Rencana duplikat bahan ditolak atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D051",
+      "name": "Pembelian sebagian, dua batch, selesai",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D052",
+      "name": "Beli lebih dari rencana dicatat aktual",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D053",
+      "name": "Pembelian item salah ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D054",
+      "name": "Batalkan pembelian belum dipakai menghapus batch dan membuka selesai",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D055",
+      "name": "Batalkan pembelian sudah dipakai diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D056",
+      "name": "Edit pembelian setelah dipakai menjaga ledger; kurang dari keluar ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D057",
+      "name": "Edit rencana dibawah yang diterima ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D058",
+      "name": "Menghapus item dengan pembelian belum dipakai menghapus stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D059",
+      "name": "Menghapus aktivitas yang sudah menerima stok diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D060",
+      "name": "Rencana gabungan dua resep tidak menghitung stok dua kali",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D061",
+      "name": "Rencana resep sama disimpan ulang tidak menggandakan",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D062",
+      "name": "Rencana resep dikurangi mempertahankan daftar dan memberi potensi overbuy",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D063",
+      "name": "Tambah master baru & nama duplikat beda huruf diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D064",
+      "name": "Ubah satuan dasar item terpakai diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D065",
+      "name": "Arsip item dengan stok/resep diblokir",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D066",
+      "name": "Arsip master tanpa penggunaan dan aktifkan kembali",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D067",
+      "name": "Isi kemasan terpakai tidak dapat diubah",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D068",
+      "name": "Kategori duplikat beda huruf ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D069",
+      "name": "Rename kategori memindah stok, master, resep",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D070",
+      "name": "Hapus kategori terpakai tanpa tujuan ditolak; pindah aman",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D071",
+      "name": "Hapus lokasi terpakai boleh menjadi tanpa lokasi",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D072",
+      "name": "Login password salah tidak mengubah sesi",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D073",
+      "name": "Ubah password memerlukan password lama, baru dapat login",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D074",
+      "name": "Logout menghapus sesi tetapi mempertahankan data",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D075",
+      "name": "Data akun kedua terisolasi di perangkat sama",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D076",
+      "name": "Password tidak disimpan sebagai teks asli",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D077",
+      "name": "Perangkat baru dapat login akun yang telah didaftarkan di perangkat lain",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D078",
+      "name": "Akun baru mulai stok kosong",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D079",
+      "name": "JSON rusak tidak diam-diam menimpa database saat daftar",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D080",
+      "name": "Kegagalan simpan stok atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D081",
+      "name": "Registrasi gagal simpan memiliki error terkelola",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D082",
+      "name": "Label tanggal tetap 7 Okt di UTC",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D083",
+      "name": "Tanggal hari ini tidak terlewat di UTC",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D084",
+      "name": "Label tanggal tetap 7 Okt di Asia/Jakarta",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D085",
+      "name": "Tanggal hari ini tidak terlewat di Asia/Jakarta",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D086",
+      "name": "Label tanggal tetap 7 Okt di America/Los_Angeles",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "domain",
+      "id": "D087",
+      "name": "Tanggal hari ini tidak terlewat di America/Los_Angeles",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U001",
+      "name": "Kelima tab utama bisa dibuka",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U002",
+      "name": "Stok tanpa tanggal muncul sebagai perlu dicek",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U003",
+      "name": "Stok lewat tanggal masuk tinjau stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U004",
+      "name": "Pencarian tidak ditemukan memberi empty state",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U005",
+      "name": "Pencarian tanpa mempedulikan huruf besar",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U006",
+      "name": "Filter status dan reset dapat dikembalikan",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U007",
+      "name": "Sort menu dapat diubah",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U008",
+      "name": "Kategori membuka stok kelompok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U009",
+      "name": "Tambah tanpa produk ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U010",
+      "name": "Tambah normal default tanpa tanggal",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U011",
+      "name": "Edit memperlihatkan asal dan perubahan stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U012",
+      "name": "Koreksi stok lewat UI mencatat delta",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U013",
+      "name": "Simpan kosong menampilkan validasi tanpa mengubah stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U014",
+      "name": "Manual pakai 2 telur sukses",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U015",
+      "name": "Jumlah melebihi stok tombol tambah nonaktif",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U016",
+      "name": "Jumlah nol ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U017",
+      "name": "Stok lewat tanggal tidak ditawarkan untuk pemakaian",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U018",
+      "name": "Backdate sebelum kedaluwarsa menampilkan batch kembali",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U019",
+      "name": "Pembuangan parsial batch kedaluwarsa melalui UI",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U020",
+      "name": "Kembali form dirty memberi konfirmasi",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U021",
+      "name": "Keluar tanpa simpan membersihkan draf",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U022",
+      "name": "Tab Beranda pada form membuka Beranda (cek dugaan salah submit)",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U023",
+      "name": "Buat resep UI tidak mengurangi stok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U024",
+      "name": "Resep nama kosong ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U025",
+      "name": "Bahan duplikat lewat UI ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U026",
+      "name": "Porsi digandakan memakai stok yang benar",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U027",
+      "name": "Ubah pemakaian aktual menyimpan sesuai input",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U028",
+      "name": "Resep nominal kurang bisa dikonfirmasi dengan pemakaian lebih sedikit",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U029",
+      "name": "Menghilangkan bahan untuk masak berbeda dapat ditangani",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U030",
+      "name": "Buat rencana UI tidak menambah inventori",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U031",
+      "name": "Receipt parsial UI menyimpan batch, belum boleh selesai",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U032",
+      "name": "Batal receipt UI konfirmasi dan stok kembali",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U033",
+      "name": "Data master dapat dibuka dengan tab Item/Kategori/Lokasi",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U034",
+      "name": "Daftar kosong ditolak dan tidak ada sesi",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U035",
+      "name": "Password salah ditolak lewat UI",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U036",
+      "name": "Pendaftaran password satu karakter ditolak",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U037",
+      "name": "Label Username/Password terhubung secara semantik",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U038",
+      "name": "Navigasi aktif memiliki aria-current",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U039",
+      "name": "Modal pemilihan kuantitas memiliki role dialog dan nama",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U040",
+      "name": "Buka modal memindahkan fokus ke modal",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U041",
+      "name": "Form aktivitas dipulihkan setelah reload",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U042",
+      "name": "Data array rusak tidak membuat layar kosong",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U043",
+      "name": "Sesi akun hilang memberi pemulihan yang jelas",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U044",
+      "name": "Pergantian tab memperbarui URL untuk tombol Back browser",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U045",
+      "name": "Catat pembelian tidak sengaja dua kali tidak membuat receipt ganda",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "ui",
+      "id": "U046",
+      "name": "Double click masak tidak mengurangi dua kali",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E001",
+      "name": "Receipt yang sudah habis dipakai tidak menutup kebutuhan baru",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E002",
+      "name": "Receipt yang sudah melewati tanggal tidak menutup kebutuhan resep",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E003",
+      "name": "Receipt tanggal belum diketahui dapat ditinjau dari rencana",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E004",
+      "name": "Preview UI sesudah receipt habis menawarkan beli ulang",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E005",
+      "name": "Perubahan stok tab pertama memperbarui tampilan tab kedua",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E006",
+      "name": "Logout tab pertama mengeluarkan tab kedua",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E007",
+      "name": "Edit metadata lama tidak menimpa perubahan tab lain tanpa konflik",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E008",
+      "name": "Jumlah stok terbaru tetap dijaga saat masak dari tampilan lama",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E009",
+      "name": "Perubahan profil menampilkan nama terbaru di Beranda",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E010",
+      "name": "Keluar aplikasi mencegah hilangnya draft resep",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E011",
+      "name": "Registrasi saat storage penuh tidak macet Memproses",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E012",
+      "name": "Database JSON rusak menampilkan pemulihan, bukan kosong palsu",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E013",
+      "name": "Tanggal tersedia masa depan diblokir di UI",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E014",
+      "name": "Pemeriksaan stok tanpa tanggal lewat UI dan verifikasi hanya per masakan",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E015",
+      "name": "Tanggal Jakarta tetap benar pada 00.30WIB",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E016",
+      "name": "Tanggal Jakarta tetap benar pada 23.30WIB",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E017",
+      "name": "Koma desimal Indonesia dapat dimasukkan",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E018",
+      "name": "Rename master menjaga nama asli pada transaksi lama",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E019",
+      "name": "Ketelitian desimal tidak membuat stok negatif setelah pemakaian berulang",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E020",
+      "name": "Pemakaian tidak sengaja dua kali pada event yang sama tidak tercatat ganda",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E021",
+      "name": "Dua klik terpisah flush UI mencegah receipt ganda",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "edge",
+      "id": "E022",
+      "name": "100 siklus pakai/edit/hapus menjaga jumlah dan riwayat konsisten",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S001",
+      "name": "Kategori tambah/edit/hapus lewat UI",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S002",
+      "name": "Kategori duplikat menampilkan error dan tetap berada di form",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S003",
+      "name": "Lokasi tambah/edit/hapus lewat UI",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S004",
+      "name": "Master item baru dan konversi kemasan lewat UI",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S005",
+      "name": "Ubah nama profil sukses",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S006",
+      "name": "Ubah nama kosong ditolak",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S007",
+      "name": "Password lama salah",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S008",
+      "name": "Password baru pendek",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S009",
+      "name": "Konfirmasi tidak cocok",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S010",
+      "name": "Password baru valid",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S011",
+      "name": "Buang dua batch atomik, lalu hapus aktivitas memulihkan keduanya",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S012",
+      "name": "Batch hilang saat konfirmasi diblokir atomik",
+      "baseline_status": "PASS",
+      "source_status": "PASS",
+      "matched": true
+    },
+    {
+      "group": "supplement",
+      "id": "S013",
+      "name": "Jumlah batch berubah setelah dipilih tidak dibuang diam-diam",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
+      "matched": true
+    }
+  ]
+}

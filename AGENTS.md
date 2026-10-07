@@ -1,28 +1,29 @@
-# Instruksi untuk AI berikutnya
+# Instruksi untuk AI yang melanjutkan Stok Dapur
 
-## Acuan pengguna
+## Kondisi project
 
-Pengguna adalah pemilik Stok Dapur. Ia ingin memakai AI untuk melanjutkan pengembangan di luar ChatGPT. Ia membatalkan pembaruan besar setelah audit dan meminta kembali ke versi 1. Tampilan inventori di versi ini memakai pengelompokan produk/batch; pengguna meminta penjelasan dan menyatakan ingin tampilan sederhana, tetapi belum memerintahkan implementasi penyederhanaannya.
+Ini source editable untuk versi 1 yang dipulihkan. Pengguna membatalkan pembaruan besar setelah audit. Pemulihan ini mempertahankan UI, flow, login lokal, dan penyimpanan baseline. Source pasca-audit versi 2 tidak dipakai.
 
-## Sebelum bekerja
+Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. Perubahan terbaru yang tidak ada di ZIP dipulihkan dari runtime baseline. Jangan mengklaim seluruh source terkini merupakan source asli terakhir.
 
-1. Baca README.md, docs/ARCHITECTURE.md, dan docs/BASELINE.json.
-2. Jalankan `python3 scripts/verify_baseline.py` untuk memeriksa kondisi awal.
-3. Jalankan server HTTP lokal dari dist. Gunakan akun uji terpisah untuk percobaan.
+## Mulai bekerja
 
-## Batas perubahan
+1. Baca README.md, docs/SOURCE-RECOVERY.md, docs/ARCHITECTURE.md, dan docs/PARITY-RESULTS.json.
+2. Gunakan branch main sebagai acuan source. Branch restore-editable-source menyimpan pekerjaan pemulihan; main dahulu hanya mengarsipkan runtime build.
+3. Jalankan npm ci, npm run dev, dan npm test. Gunakan akun uji terpisah.
+4. Kerjakan fitur yang diminta dalam branch baru dari source ini.
 
-- Baseline adalah versi 1 yang dipulihkan, bukan versi 2 pasca-audit yang dibatalkan.
-- Source React/TSX asli tidak tersedia dalam paket. Jangan mengklaim bahwa kode hasil build merupakan source asli.
-- Jangan melakukan redesign, migrasi login, perubahan penyimpanan, atau rekonstruksi besar tanpa instruksi pengguna yang mencakup perubahan tersebut.
-- Jika pengguna meminta perubahan tertentu, kerjakan dalam branch terpisah dan jelaskan sebelum/sesudah beserta contoh flow.
-- Jangan mengubah file baseline atau checksum untuk menutupi perbedaan. Jika aplikasi diubah, jelaskan bahwa pemeriksaan baseline akan mendeteksi perubahan.
-- Jangan mengunggah data localStorage, akun/kata sandi lokal, token, atau kredensial ke repository.
-- Membuat commit/push source tidak berarti pengguna mengizinkan perubahan website yang online. Hosting dilakukan dalam pekerjaan terpisah sesuai instruksi pengguna.
-- Jangan mengklaim bebas bug 100%. Laporkan pengujian yang benar-benar dijalankan dan yang belum diuji.
+## Perubahan
 
-## Struktur kerja
+- Edit src/, bukan dist/, baseline/, atau legacy/.
+- Build biasa tidak mengambil kode aplikasi dari baseline/ atau legacy/. React dan ReactDOM dipasang sebagai dependensi npm.
+- scripts/recover-baseline.mjs adalah alat pemulihan referensi satu kali. Jangan menjalankannya pada source yang sudah diedit karena akan mengganti file source hasil pemulihan. Gunakan checkout kerja terpisah bila harus memeriksa reproduksi pemulihan.
+- Pengguna menyatakan ingin kartu inventori sederhana, tetapi belum meminta implementasinya. Jangan melakukan redesign atau perubahan flow tanpa instruksi terkait.
+- Jika pengguna meminta perbaikan bug, perubahan hasil uji terhadap baseline dapat disengaja. Jelaskan kasus yang berubah dan tambah pengujian perilaku hasil perbaikannya; jangan mengubah baseline untuk menyembunyikan perbedaan.
+- Jangan mengunggah localStorage pribadi, akun/kata sandi lokal, token, atau kredensial ke repository atau layanan AI.
+- Publish website memerlukan cakupan tugas penerbitan tersendiri. Pemulihan source ini tidak mengganti website yang online.
+- Laporkan perubahan sebelum/sesudah beserta contoh flow. Nyatakan hanya pengujian yang benar-benar dijalankan dan jangan mengklaim bebas bug 100%.
 
-`dist/assets/index-B7Irxm4D.js` memuat runtime React dan kode aplikasi. `dist/assets/index-f4AJOdmn.css` memuat tampilan. `dist/index.html` adalah entry point; alamat asset memakai path absolut dari root sehingga harus disajikan melalui HTTP, bukan dibuka langsung sebagai file.
+## Catatan keterbacaan
 
-Untuk fitur yang diminta, uji happy flow, input salah, perubahan filter, reload, dan persistensi data yang relevan. Pertahankan perilaku di luar cakupan permintaan.
+Komponen, banyak fungsi, props, dan state utama sudah bernama jelas. Beberapa helper dan variabel lokal masih memakai simbol singkat dari hasil pemulihan. docs/SOURCE-SYMBOLS.json memetakan simbol baseline ke nama dan file source. Rapikan bertahap sesuai cakupan kerja, disertai pengujian.

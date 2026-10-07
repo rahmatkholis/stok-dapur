@@ -1,0 +1,958 @@
+{
+  "y": {
+    "name": "CATEGORIES",
+    "file": "src/lib/store.js"
+  },
+  "b": {
+    "name": "UNITS",
+    "file": "src/lib/store.js"
+  },
+  "x": {
+    "name": "EXPIRY_LABELS",
+    "file": "src/lib/store.js"
+  },
+  "S": {
+    "name": "getExpiryStatus",
+    "file": "src/lib/store.js"
+  },
+  "C": {
+    "name": "formatDate",
+    "file": "src/lib/store.js"
+  },
+  "w": {
+    "name": "describeExpiry",
+    "file": "src/lib/store.js"
+  },
+  "T": {
+    "name": "normalizeName",
+    "file": "src/lib/store.js"
+  },
+  "E": {
+    "name": "E",
+    "file": "src/lib/store.js"
+  },
+  "D": {
+    "name": "getUnitFamily",
+    "file": "src/lib/store.js"
+  },
+  "O": {
+    "name": "getUnitFactor",
+    "file": "src/lib/store.js"
+  },
+  "k": {
+    "name": "roundQuantity",
+    "file": "src/lib/store.js"
+  },
+  "A": {
+    "name": "convertBaseUnit",
+    "file": "src/lib/store.js"
+  },
+  "j": {
+    "name": "j",
+    "file": "src/lib/store.js"
+  },
+  "M": {
+    "name": "M",
+    "file": "src/lib/store.js"
+  },
+  "N": {
+    "name": "getAllowedUnits",
+    "file": "src/lib/store.js"
+  },
+  "P": {
+    "name": "convertItemUnit",
+    "file": "src/lib/store.js"
+  },
+  "F": {
+    "name": "todayDate",
+    "file": "src/lib/store.js"
+  },
+  "I": {
+    "name": "getRecipeAvailability",
+    "file": "src/lib/store.js"
+  },
+  "L": {
+    "name": "L",
+    "file": "src/lib/store.js"
+  },
+  "ee": {
+    "name": "seedProducts",
+    "file": "src/lib/store.js"
+  },
+  "R": {
+    "name": "USERS_KEY",
+    "file": "src/lib/store.js"
+  },
+  "z": {
+    "name": "SESSION_KEY",
+    "file": "src/lib/store.js"
+  },
+  "B": {
+    "name": "getDB",
+    "file": "src/lib/store.js"
+  },
+  "V": {
+    "name": "saveDB",
+    "file": "src/lib/store.js"
+  },
+  "H": {
+    "name": "register",
+    "file": "src/lib/store.js"
+  },
+  "U": {
+    "name": "getProfile",
+    "file": "src/lib/store.js"
+  },
+  "W": {
+    "name": "updateProfile",
+    "file": "src/lib/store.js"
+  },
+  "te": {
+    "name": "updatePassword",
+    "file": "src/lib/store.js"
+  },
+  "ne": {
+    "name": "login",
+    "file": "src/lib/store.js"
+  },
+  "re": {
+    "name": "logout",
+    "file": "src/lib/store.js"
+  },
+  "ie": {
+    "name": "getSession",
+    "file": "src/lib/store.js"
+  },
+  "ae": {
+    "name": "getUserData",
+    "file": "src/lib/store.js"
+  },
+  "oe": {
+    "name": "saveUserData",
+    "file": "src/lib/store.js"
+  },
+  "se": {
+    "name": "readLegacyLog",
+    "file": "src/lib/store.js"
+  },
+  "ce": {
+    "name": "normalizeData",
+    "file": "src/lib/store.js"
+  },
+  "le": {
+    "name": "le",
+    "file": "src/lib/store.js"
+  },
+  "ue": {
+    "name": "ue",
+    "file": "src/lib/store.js"
+  },
+  "de": {
+    "name": "saveItemMaster",
+    "file": "src/lib/store.js"
+  },
+  "fe": {
+    "name": "setItemMasterActive",
+    "file": "src/lib/store.js"
+  },
+  "pe": {
+    "name": "pe",
+    "file": "src/lib/store.js"
+  },
+  "me": {
+    "name": "me",
+    "file": "src/lib/store.js"
+  },
+  "he": {
+    "name": "he",
+    "file": "src/lib/store.js"
+  },
+  "ge": {
+    "name": "ge",
+    "file": "src/lib/store.js"
+  },
+  "_e": {
+    "name": "_e",
+    "file": "src/lib/store.js"
+  },
+  "ve": {
+    "name": "ve",
+    "file": "src/lib/store.js"
+  },
+  "ye": {
+    "name": "addMasterListValue",
+    "file": "src/lib/store.js"
+  },
+  "be": {
+    "name": "renameMasterListValue",
+    "file": "src/lib/store.js"
+  },
+  "xe": {
+    "name": "removeMasterListValue",
+    "file": "src/lib/store.js"
+  },
+  "Se": {
+    "name": "transact",
+    "file": "src/lib/store.js"
+  },
+  "G": {
+    "name": "fail",
+    "file": "src/lib/store.js"
+  },
+  "K": {
+    "name": "roundStockQuantity",
+    "file": "src/lib/store.js"
+  },
+  "Ce": {
+    "name": "isValidPositiveQuantity",
+    "file": "src/lib/store.js"
+  },
+  "we": {
+    "name": "isValidCalendarDate",
+    "file": "src/lib/store.js"
+  },
+  "Te": {
+    "name": "hasValidExpiry",
+    "file": "src/lib/store.js"
+  },
+  "Ee": {
+    "name": "Ee",
+    "file": "src/lib/store.js"
+  },
+  "De": {
+    "name": "validateReceivedDate",
+    "file": "src/lib/store.js"
+  },
+  "Oe": {
+    "name": "isActiveLedgerEvent",
+    "file": "src/lib/store.js"
+  },
+  "ke": {
+    "name": "getStockCorrectionConflicts",
+    "file": "src/lib/store.js"
+  },
+  "Ae": {
+    "name": "previewStockCorrectionConflicts",
+    "file": "src/lib/store.js"
+  },
+  "je": {
+    "name": "validatePhysicalStockConfirmations",
+    "file": "src/lib/store.js"
+  },
+  "Me": {
+    "name": "applyPhysicalStockConfirmations",
+    "file": "src/lib/store.js"
+  },
+  "Ne": {
+    "name": "validateStockActivity",
+    "file": "src/lib/store.js"
+  },
+  "Pe": {
+    "name": "writeBatchQuantity",
+    "file": "src/lib/store.js"
+  },
+  "Fe": {
+    "name": "registerBatchMasterValues",
+    "file": "src/lib/store.js"
+  },
+  "Ie": {
+    "name": "normalizeStockQuantity",
+    "file": "src/lib/store.js"
+  },
+  "Le": {
+    "name": "addProduct",
+    "file": "src/lib/store.js"
+  },
+  "Re": {
+    "name": "updateProduct",
+    "file": "src/lib/store.js"
+  },
+  "ze": {
+    "name": "ze",
+    "file": "src/lib/store.js"
+  },
+  "Be": {
+    "name": "Be",
+    "file": "src/lib/store.js"
+  },
+  "Ve": {
+    "name": "Ve",
+    "file": "src/lib/store.js"
+  },
+  "He": {
+    "name": "readBatchLedger",
+    "file": "src/lib/store.js"
+  },
+  "Ue": {
+    "name": "deleteIncorrectBatch",
+    "file": "src/lib/store.js"
+  },
+  "We": {
+    "name": "We",
+    "file": "src/lib/store.js"
+  },
+  "Ge": {
+    "name": "adjustPhysicalStock",
+    "file": "src/lib/store.js"
+  },
+  "Ke": {
+    "name": "Ke",
+    "file": "src/lib/store.js"
+  },
+  "qe": {
+    "name": "qe",
+    "file": "src/lib/store.js"
+  },
+  "Je": {
+    "name": "cancelStockAdjustment",
+    "file": "src/lib/store.js"
+  },
+  "Ye": {
+    "name": "Ye",
+    "file": "src/lib/store.js"
+  },
+  "Xe": {
+    "name": "Xe",
+    "file": "src/lib/store.js"
+  },
+  "Ze": {
+    "name": "Ze",
+    "file": "src/lib/store.js"
+  },
+  "Qe": {
+    "name": "Qe",
+    "file": "src/lib/store.js"
+  },
+  "$e": {
+    "name": "$e",
+    "file": "src/lib/store.js"
+  },
+  "et": {
+    "name": "updateActivityEntry",
+    "file": "src/lib/store.js"
+  },
+  "tt": {
+    "name": "deleteActivityEntry",
+    "file": "src/lib/store.js"
+  },
+  "nt": {
+    "name": "addActivityEntry",
+    "file": "src/lib/store.js"
+  },
+  "rt": {
+    "name": "rt",
+    "file": "src/lib/store.js"
+  },
+  "it": {
+    "name": "disposeSelectedBatches",
+    "file": "src/lib/store.js"
+  },
+  "at": {
+    "name": "saveRecipe",
+    "file": "src/lib/store.js"
+  },
+  "ot": {
+    "name": "deleteRecipe",
+    "file": "src/lib/store.js"
+  },
+  "st": {
+    "name": "cookRecipe",
+    "file": "src/lib/store.js"
+  },
+  "ct": {
+    "name": "calculateShoppingCoverage",
+    "file": "src/lib/store.js"
+  },
+  "lt": {
+    "name": "previewRecipeShopping",
+    "file": "src/lib/store.js"
+  },
+  "ut": {
+    "name": "planRecipeShopping",
+    "file": "src/lib/store.js"
+  },
+  "dt": {
+    "name": "dt",
+    "file": "src/lib/store.js"
+  },
+  "ft": {
+    "name": "createShoppingActivity",
+    "file": "src/lib/store.js"
+  },
+  "pt": {
+    "name": "renameShoppingActivity",
+    "file": "src/lib/store.js"
+  },
+  "mt": {
+    "name": "deleteShoppingActivity",
+    "file": "src/lib/store.js"
+  },
+  "ht": {
+    "name": "completeShoppingActivity",
+    "file": "src/lib/store.js"
+  },
+  "gt": {
+    "name": "addShoppingItem",
+    "file": "src/lib/store.js"
+  },
+  "_t": {
+    "name": "updateShoppingPlan",
+    "file": "src/lib/store.js"
+  },
+  "vt": {
+    "name": "receiveShoppingPurchase",
+    "file": "src/lib/store.js"
+  },
+  "yt": {
+    "name": "yt",
+    "file": "src/lib/store.js"
+  },
+  "bt": {
+    "name": "bt",
+    "file": "src/lib/store.js"
+  },
+  "xt": {
+    "name": "correctPurchaseQuantity",
+    "file": "src/lib/store.js"
+  },
+  "St": {
+    "name": "cancelShoppingPurchase",
+    "file": "src/lib/store.js"
+  },
+  "Ct": {
+    "name": "Ct",
+    "file": "src/lib/store.js"
+  },
+  "wt": {
+    "name": "wt",
+    "file": "src/lib/store.js"
+  },
+  "Tt": {
+    "name": "deleteShoppingItem",
+    "file": "src/lib/store.js"
+  },
+  "Dt": {
+    "name": "AuthPage",
+    "file": "src/pages/AuthPage.jsx"
+  },
+  "Ot": {
+    "name": "PhysicalStockConfirmModal",
+    "file": "src/components/PhysicalStockConfirmModal.jsx"
+  },
+  "kt": {
+    "name": "kt",
+    "file": "src/components/StockAdjustmentModal.jsx"
+  },
+  "At": {
+    "name": "At",
+    "file": "src/components/StockAdjustmentModal.jsx"
+  },
+  "jt": {
+    "name": "jt",
+    "file": "src/components/StockAdjustmentModal.jsx"
+  },
+  "Mt": {
+    "name": "Mt",
+    "file": "src/components/StockAdjustmentModal.jsx"
+  },
+  "Nt": {
+    "name": "StockAdjustmentModal",
+    "file": "src/components/StockAdjustmentModal.jsx"
+  },
+  "Pt": {
+    "name": "Pt",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "Ft": {
+    "name": "Ft",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "It": {
+    "name": "It",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "Lt": {
+    "name": "HomePage",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "Rt": {
+    "name": "StatCard",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "zt": {
+    "name": "ExpiryProductCard",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "Bt": {
+    "name": "HomeEmptyState",
+    "file": "src/pages/HomePage.jsx"
+  },
+  "Vt": {
+    "name": "ItemPicker",
+    "file": "src/components/ItemPicker.jsx"
+  },
+  "Ht": {
+    "name": "ExpiryFields",
+    "file": "src/components/ExpiryFields.jsx"
+  },
+  "Ut": {
+    "name": "Ut",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Wt": {
+    "name": "Wt",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Gt": {
+    "name": "Gt",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Kt": {
+    "name": "Kt",
+    "file": "src/lib/drafts.jsx"
+  },
+  "qt": {
+    "name": "qt",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Jt": {
+    "name": "Jt",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Yt": {
+    "name": "Yt",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Xt": {
+    "name": "DraftRestoreNotice",
+    "file": "src/lib/drafts.jsx"
+  },
+  "Zt": {
+    "name": "Zt",
+    "file": "src/components/BatchLedger.jsx"
+  },
+  "Qt": {
+    "name": "Qt",
+    "file": "src/components/BatchLedger.jsx"
+  },
+  "$t": {
+    "name": "$t",
+    "file": "src/components/BatchLedger.jsx"
+  },
+  "en": {
+    "name": "BatchLedger",
+    "file": "src/components/BatchLedger.jsx"
+  },
+  "tn": {
+    "name": "tn",
+    "file": "src/components/ProductModal.jsx"
+  },
+  "nn": {
+    "name": "ProductModal",
+    "file": "src/components/ProductModal.jsx"
+  },
+  "rn": {
+    "name": "ProductField",
+    "file": "src/components/ProductModal.jsx"
+  },
+  "an": {
+    "name": "an",
+    "file": "src/components/ProductModal.jsx"
+  },
+  "on": {
+    "name": "on",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "sn": {
+    "name": "sn",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "cn": {
+    "name": "cn",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "ln": {
+    "name": "ln",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "un": {
+    "name": "un",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "dn": {
+    "name": "dn",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "fn": {
+    "name": "fn",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "pn": {
+    "name": "pn",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "mn": {
+    "name": "InventoryBatchCard",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "hn": {
+    "name": "hn",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "gn": {
+    "name": "InventoryProducts",
+    "file": "src/components/InventoryProducts.jsx"
+  },
+  "_n": {
+    "name": "_n",
+    "file": "src/pages/CategoryDetailPage.jsx"
+  },
+  "vn": {
+    "name": "vn",
+    "file": "src/pages/CategoryDetailPage.jsx"
+  },
+  "yn": {
+    "name": "CategoryDetailPage",
+    "file": "src/pages/CategoryDetailPage.jsx"
+  },
+  "bn": {
+    "name": "BatchMetadataModal",
+    "file": "src/pages/CategoryDetailPage.jsx"
+  },
+  "xn": {
+    "name": "xn",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "Sn": {
+    "name": "Sn",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "Cn": {
+    "name": "Cn",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "wn": {
+    "name": "wn",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "Tn": {
+    "name": "InventoryPage",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "En": {
+    "name": "InventoryCategoryCard",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "Dn": {
+    "name": "InventoryStat",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "On": {
+    "name": "DraftChoiceModal",
+    "file": "src/pages/InventoryPage.jsx"
+  },
+  "kn": {
+    "name": "kn",
+    "file": "src/components/ReceivePurchaseModal.jsx"
+  },
+  "An": {
+    "name": "An",
+    "file": "src/components/ReceivePurchaseModal.jsx"
+  },
+  "jn": {
+    "name": "ReceivePurchaseModal",
+    "file": "src/components/ReceivePurchaseModal.jsx"
+  },
+  "Mn": {
+    "name": "Mn",
+    "file": "src/components/ShoppingActivityModal.jsx"
+  },
+  "Nn": {
+    "name": "Nn",
+    "file": "src/components/ShoppingActivityModal.jsx"
+  },
+  "Pn": {
+    "name": "Pn",
+    "file": "src/components/ShoppingActivityModal.jsx"
+  },
+  "Fn": {
+    "name": "ShoppingActivityModal",
+    "file": "src/components/ShoppingActivityModal.jsx"
+  },
+  "In": {
+    "name": "In",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Ln": {
+    "name": "Ln",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Rn": {
+    "name": "Rn",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "zn": {
+    "name": "zn",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Bn": {
+    "name": "Bn",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Vn": {
+    "name": "Vn",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Hn": {
+    "name": "Hn",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Un": {
+    "name": "ShoppingPage",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Wn": {
+    "name": "ShoppingItemCard",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Gn": {
+    "name": "PurchaseQuantityModal",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Kn": {
+    "name": "ShoppingTitleModal",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "qn": {
+    "name": "qn",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Jn": {
+    "name": "ShoppingItemModal",
+    "file": "src/pages/ShoppingPage.jsx"
+  },
+  "Yn": {
+    "name": "Yn",
+    "file": "src/pages/MasterDataPage.jsx"
+  },
+  "Xn": {
+    "name": "Xn",
+    "file": "src/pages/MasterDataPage.jsx"
+  },
+  "Zn": {
+    "name": "MasterDataPage",
+    "file": "src/pages/MasterDataPage.jsx"
+  },
+  "Qn": {
+    "name": "Qn",
+    "file": "src/pages/MasterDataPage.jsx"
+  },
+  "$n": {
+    "name": "ItemMasterPage",
+    "file": "src/pages/MasterDataPage.jsx"
+  },
+  "er": {
+    "name": "er",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "tr": {
+    "name": "tr",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "nr": {
+    "name": "nr",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "rr": {
+    "name": "rr",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "ir": {
+    "name": "ir",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "ar": {
+    "name": "AccountPage",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "or": {
+    "name": "AccountMenuItem",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "sr": {
+    "name": "EditProfilePage",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "cr": {
+    "name": "ChangePasswordPage",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "lr": {
+    "name": "AccountPageShell",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "ur": {
+    "name": "AccountField",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "dr": {
+    "name": "AccountFeedback",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "fr": {
+    "name": "AccountSubmitButton",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "pr": {
+    "name": "ArchivedProductNotice",
+    "file": "src/pages/AccountPage.jsx"
+  },
+  "J": {
+    "name": "J",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "mr": {
+    "name": "mr",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "hr": {
+    "name": "hr",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "gr": {
+    "name": "gr",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "_r": {
+    "name": "_r",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "vr": {
+    "name": "vr",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "yr": {
+    "name": "yr",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "br": {
+    "name": "br",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "xr": {
+    "name": "ActivityPage",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Sr": {
+    "name": "ActivityList",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Cr": {
+    "name": "ActivityCard",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "wr": {
+    "name": "AdjustmentDetailPage",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Tr": {
+    "name": "ActivityDetailPage",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Er": {
+    "name": "DeleteActivityConfirmModal",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Dr": {
+    "name": "ActivityProductPicker",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Or": {
+    "name": "ActivityEntryForm",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "kr": {
+    "name": "ActivityItemModal",
+    "file": "src/pages/ActivityPage.jsx"
+  },
+  "Ar": {
+    "name": "Ar",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "jr": {
+    "name": "jr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Mr": {
+    "name": "Mr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Nr": {
+    "name": "Nr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Pr": {
+    "name": "Pr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Fr": {
+    "name": "CookRecipePage",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Ir": {
+    "name": "Ir",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Lr": {
+    "name": "Lr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Rr": {
+    "name": "Rr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "zr": {
+    "name": "zr",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Br": {
+    "name": "Br",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Vr": {
+    "name": "RecipesPage",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Hr": {
+    "name": "RecipePageHeader",
+    "file": "src/pages/RecipesPage.jsx"
+  },
+  "Ur": {
+    "name": "Ur",
+    "file": "src/components/BottomNav.jsx"
+  },
+  "Wr": {
+    "name": "BottomNav",
+    "file": "src/components/BottomNav.jsx"
+  },
+  "Gr": {
+    "name": "appFontStyle",
+    "file": "src/App.jsx"
+  },
+  "Kr": {
+    "name": "PAGE_TITLES",
+    "file": "src/App.jsx"
+  },
+  "qr": {
+    "name": "ADD_BUTTON",
+    "file": "src/App.jsx"
+  },
+  "Jr": {
+    "name": "loadData",
+    "file": "src/App.jsx"
+  },
+  "Yr": {
+    "name": "App",
+    "file": "src/App.jsx"
+  }
+}
