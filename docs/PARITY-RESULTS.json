@@ -1,9 +1,10 @@
 {
+  "timezone": "Australia/Sydney",
   "method": "168 existing audit scenarios run independently against original bundle and source-built React; matching outcome is parity, not absence of bugs",
   "total": 168,
   "matched": 168,
-  "baseline_pass": 136,
-  "baseline_known_fail": 32,
+  "baseline_pass": 135,
+  "baseline_known_fail": 33,
   "differences": [],
   "checks": [
     {
@@ -1194,8 +1195,8 @@
       "group": "edge",
       "id": "E016",
       "name": "Tanggal Jakarta tetap benar pada 23.30WIB",
-      "baseline_status": "PASS",
-      "source_status": "PASS",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
       "matched": true
     },
     {

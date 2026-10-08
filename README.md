@@ -1,5 +1,11 @@
 # Stok Dapur — source yang dapat dikembangkan
 
+Sesuaikan stok kini langsung membuka jumlah fisik dan alasan. Riwayat produk menyatukan Belanja, Aktivitas, dan Koreksi dalam kartu ringkas berisi tipe, nama kegiatan, tanggal, dan jumlah perubahan. Asal stok (Stok awal / Dari belanja) berada di atas Detail; stok awal tanpa perubahan memiliki riwayat kosong. Lihat docs/STOCK-MOVEMENTS-UPDATE.md dan jalankan npm run test:stock-movements.
+
+Koreksi stok kini berada di riwayat produk, dengan kartu, detail, pembatalan, dan akses stok habis; menu Aktivitas hanya memuat kegiatan pemakaian/pembuangan. Lihat docs/STOCK-CORRECTION-HISTORY-UPDATE.md.
+
+Pembaruan detail produk 8 Oktober 2026: editor batch menjadi halaman dengan tab Detail dan Riwayat Pergerakan Stok; form produk memakai combobox nama dalam satu field. Lihat docs/PRODUCT-DETAIL-UPDATE.md dan jalankan npm run test:product-detail.
+
 Project React untuk versi 1 yang dipulihkan pada 7 Oktober 2026. Aplikasi aktif dibangun dari **src/**, menggunakan React dari npm. Source asli ZIP lama disimpan dalam **legacy/**, sementara perubahan yang hanya tersedia di website dipulihkan menjadi modul JavaScript dan JSX yang bisa diedit.
 
 ## Mulai
@@ -36,7 +42,7 @@ npm run verify:baseline
 
 ## Hasil verifikasi
 
-168/168 skenario audit menghasilkan status yang sama antara baseline dan source. Kedua versi memiliki 136 skenario PASS dan 32 temuan FAIL yang sudah ada. Kesamaan hasil ini berarti pemulihan source mempertahankan perilaku, **bukan** bahwa semua bug sudah diperbaiki.
+168/168 skenario audit menghasilkan status yang sama antara baseline dan source. Pada TZ=Australia/Sydney, kedua versi memiliki 135 skenario PASS dan 33 temuan FAIL yang sudah ada; pengujian waktu lokal dapat berbeda menurut timezone lingkungan. Kesamaan hasil ini berarti pemulihan source mempertahankan perilaku, **bukan** bahwa semua bug sudah diperbaiki.
 
 25 pemeriksaan produksi lulus: kesamaan DOM di luar inventori, field dan data pada fixture uji, stylesheet dasar, input build, serta bukti bahwa mengedit App.jsx mengubah UI hasil build. Tampilan inventori diperiksa terpisah dengan npm run test:inventory. Ini pengujian JSDOM, bukan verifikasi visual pada seluruh perangkat/browser.
 
@@ -46,7 +52,7 @@ Source ZIP lama benar-benar tersedia, tetapi tidak berisi seluruh fitur versi se
 
 ## Data dan penerbitan
 
-Data pengguna tetap memakai localStorage browser. Project tidak membawa data inventori pribadi, kata sandi pengguna, atau kredensial hosting. Mengembangkan atau mengunggah source tidak menerbitkan perubahan pada website yang online. Source utama berada di branch **main** pada https://github.com/rahmatkholis/stok-dapur. Branch restore-editable-source menyimpan riwayat pekerjaan pemulihan.
+Data pengguna tetap memakai localStorage browser. Project tidak membawa data inventori pribadi, kata sandi pengguna, atau kredensial hosting. Mengembangkan atau mengunggah source tidak menerbitkan perubahan pada website yang online. Repository berada di https://github.com/rahmatkholis/stok-dapur. Perubahan detail dan riwayat terbaru tersedia pada branch **product-detail-page**, melalui PR #4; main belum memuat perubahan tersebut. Branch restore-editable-source menyimpan riwayat pekerjaan pemulihan.
 
 ## Menyimpan salinan dan memakai AI lain
 

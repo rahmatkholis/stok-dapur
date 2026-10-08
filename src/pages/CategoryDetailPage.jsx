@@ -95,8 +95,8 @@ function BatchMetadataModal({
   function d(n) {
     n.preventDefault();
     let i = Number(r);
-    if (!r.trim() || !Number.isFinite(i) || i < 0 || i === product.quantity) {
-      c(`Isi jumlah baru yang berbeda, minimal 0.`);
+    if (!r.trim() || !Number.isFinite(i) || i < 0 || Math.round(i * 1e4) / 1e4 !== i || i === product.quantity) {
+      c(`Isi jumlah fisik yang berbeda, minimal 0, maksimal 4 angka desimal.`);
       return;
     }
     if (!a.trim()) {
@@ -123,13 +123,13 @@ function BatchMetadataModal({
       background: `var(--card)`
     }}>{[<div className={`flex items-center justify-between mb-3`}>{[<h2 className={`font-black text-lg`}>{`Sesuaikan Stok`}</h2>, <button type={`button`} aria-label={`Tutup`} onClick={onClose} className={`text-xl px-2`}>{`×`}</button>]}</div>, <p className={`text-sm mb-4`} style={{
         color: `var(--muted-foreground)`
-      }}>{[product.name, ` · stok saat ini `, product.quantity, ` `, product.unit]}</p>, <form onSubmit={d} className={`flex flex-col gap-3`}>{[<label className={`text-sm font-bold`}>{[`Jumlah stok sebenarnya (`, product.unit, `)`, <input type={`number`} inputMode={`decimal`} step={`any`} min={`0`} value={r} onChange={e => {
+      }}>{[product.name, ` · stok saat ini `, product.quantity, ` `, product.unit]}</p>, <form onSubmit={d} className={`flex flex-col gap-3`}>{[<label className={`text-sm font-bold`}>Stok tercatat<input aria-label="Stok tercatat" readOnly value={`${product.quantity} ${product.unit}`} style={f} className="mt-1" /></label>, <label className={`text-sm font-bold`}>{[`Jumlah fisik sekarang (`, product.unit, `)`, <input type={`number`} inputMode={`decimal`} step={`any`} min={`0`} value={r} onChange={e => {
             i(e.target.value), c(``);
           }} style={f} className={`mt-1`} />]}</label>, <label className={`text-sm font-bold`}>{[`Alasan koreksi`, <input maxLength={120} value={a} onChange={e => {
             o(e.target.value), c(``);
-          }} placeholder={`Contoh: stok awal salah dicatat`} style={f} className={`mt-1`} />]}</label>, <p className={`text-xs`} style={{
+          }} placeholder={`Contoh: hasil hitung ulang`} style={f} className={`mt-1`} />]}</label>, <p className={`text-xs`} style={{
           color: `var(--muted-foreground)`
-        }}>{`Selisih jumlah akan dicatat di Aktivitas. Jika stok benar-benar dibuang, gunakan Buang Stok.`}</p>, s && <p role={`alert`} className={`p-3 rounded-xl text-sm`} style={{
+        }}>{`Selisih jumlah dicatat sebagai Koreksi stok di Riwayat Pergerakan Stok. Jika bahan dibuang, gunakan Buang Stok.`}</p>, s && <p role={`alert`} className={`p-3 rounded-xl text-sm`} style={{
           color: `#B91C1C`,
           background: `#FEF2F2`
         }}>{s}</p>, <button type={`submit`} disabled={l} className={`w-full py-3.5 rounded-xl text-sm font-black text-white disabled:opacity-60`} style={{

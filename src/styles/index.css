@@ -1273,3 +1273,32 @@ body {
 .inventory-product-status-danger { color: #b91c1c; }
 .inventory-product-status-warning { color: #92400e; }
 .inventory-product-status-muted { color: var(--muted-foreground); }
+
+/* Product detail uses the same quiet card surfaces as the inventory. */
+.product-detail-page { min-height: 100vh; color: var(--foreground); }
+.product-detail-shell { width: 100%; min-height: 100vh; }
+.product-detail-header { display: flex; align-items: center; gap: 12px; padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px 16px; background: var(--card); }
+.product-detail-header h2 { margin: 0; outline: none; }
+.product-detail-back { width: 40px; height: 40px; flex: 0 0 40px; border: 0; border-radius: 12px; background: var(--muted); color: var(--foreground); font-size: 28px; }
+.product-detail-tabs { display: flex; gap: 4px; padding: 4px 16px 0; background: var(--card); box-shadow: 0 2px 6px rgba(0,0,0,.04); }
+.product-detail-tabs button { flex: 1; min-height: 54px; padding: 10px 6px; font-size: 14px; font-weight: 700; line-height: 1.45; color: var(--muted-foreground); border: 0; border-bottom: 3px solid transparent; background: transparent; }
+.product-detail-tabs button[aria-selected="true"] { color: var(--primary); border-bottom-color: var(--primary); }
+.product-detail-content { padding: 20px 16px; }
+.product-detail-fields { display: flex; flex-direction: column; gap: 16px; border-radius: 16px; padding: 20px 16px; background: var(--card); box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+.product-detail-fields[hidden], .product-detail-content [role="tabpanel"][hidden] { display: none; }
+.product-detail-fields > section { margin-top: 12px; box-shadow: none !important; background: var(--muted) !important; }
+.product-detail-actions { padding: 16px; margin: 0 16px 20px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+.product-detail-actions:empty { display: none; }
+.item-combobox { position: relative; min-width: 0; }
+.item-combobox-control { position: relative; }
+.item-combobox-toggle { position: absolute; top: 0; right: 0; width: 42px; height: 100%; background: transparent; border: 0; color: var(--foreground); }
+.item-combobox-toggle:disabled { color: var(--muted-foreground); cursor: not-allowed; }
+.item-combobox-options { position: absolute; z-index: 10; top: 100%; left: 0; right: 0; margin-top: 4px; max-height: 240px; overflow-y: auto; border-radius: 12px; background: var(--card); box-shadow: 0 4px 20px rgba(0,0,0,.15); padding: 4px; }
+.item-combobox-option { display: block; width: 100%; padding: 12px 10px; border: 0; border-radius: 8px; text-align: left; font-size: 14px; background: transparent; color: var(--foreground); overflow-wrap: anywhere; }
+.item-combobox-option.is-active, .item-combobox-option[aria-selected="true"] { background: var(--muted); }
+.item-combobox-option:disabled { color: var(--muted-foreground); }
+.product-detail-page button:focus-visible, .item-combobox input:focus-visible, .item-combobox-option:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* Stock history: four fields and a clear navigation affordance. */
+.stock-history-card { width: 100%; border: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+.stock-history-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
