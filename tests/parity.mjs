@@ -31,7 +31,7 @@ for(const name of cases){
     checks.push(entry);if(!equal)differences.push({...entry,baseline_evidence:b.evidence,source_evidence:s?.evidence});
   }
 }
-const report={method:'168 existing audit scenarios run independently against original bundle and source-built React; matching outcome is parity, not absence of bugs',total:checks.length,matched:checks.filter(x=>x.matched).length,baseline_pass:checks.filter(x=>x.baseline_status==='PASS').length,baseline_known_fail:checks.filter(x=>x.baseline_status==='FAIL').length,differences,checks};
+const report={timezone:process.env.TZ||Intl.DateTimeFormat().resolvedOptions().timeZone,method:'168 existing audit scenarios run independently against original bundle and source-built React; matching outcome is parity, not absence of bugs',total:checks.length,matched:checks.filter(x=>x.matched).length,baseline_pass:checks.filter(x=>x.baseline_status==='PASS').length,baseline_known_fail:checks.filter(x=>x.baseline_status==='FAIL').length,differences,checks};
 fs.writeFileSync('docs/PARITY-RESULTS.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({total:report.total,matched:report.matched,baseline_pass:report.baseline_pass,baseline_known_fail:report.baseline_known_fail,differences},null,2));
 if(differences.length)process.exitCode=1;

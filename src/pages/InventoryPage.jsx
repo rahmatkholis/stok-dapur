@@ -1,7 +1,7 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as React from "react";
 import * as jsxRuntime from "react/jsx-runtime";
-import { EXPIRY_LABELS, addActivityEntry, addProduct, adjustPhysicalStock, deleteIncorrectBatch, getExpiryStatus, updateProduct } from "../lib/store.js";
+import { EXPIRY_LABELS, Qe, getUserData, addActivityEntry, addProduct, adjustPhysicalStock, deleteIncorrectBatch, getExpiryStatus, updateProduct } from "../lib/store.js";
 import { StockAdjustmentModal } from "../components/StockAdjustmentModal.jsx";
 import { ProductDetailPage } from "./ProductDetailPage.jsx";
 import { ProductModal } from "../components/ProductModal.jsx";
@@ -99,6 +99,15 @@ function InventoryPage({
   (0, React.useEffect)(() => {
     initialProduct && k(products.find(e => e.id === initialProduct.id) ?? null);
   }, [initialProduct?.token]);
+  React.useEffect(() => {
+    if (!O) return;
+    const data = getUserData(username);
+    const current = data.products.find(item => item.id === O.id) ?? data.productArchive?.[O.id];
+    if (current) k(current);
+  }, [products, username, O?.id]);
+  const archiveData = getUserData(username);
+  const correctedIds = new Set(Qe(username).filter(entry => entry.action === `adjusted`).map(entry => entry.adjustment?.productId));
+  const archivedCorrections = Object.values(archiveData.productArchive ?? {}).filter(item => correctedIds.has(item.id) && !products.some(active => active.id === item.id));
   let [A, j] = (0, React.useState)(null),
     [M, N] = (0, React.useState)(null),
     [P, F] = (0, React.useState)(null),
@@ -202,7 +211,7 @@ function InventoryPage({
         }}>{f.trim() ? `Pencarian: “${f.trim()}”` : `Hasil sesuai filter`}</span>, <button type={`button`} onClick={oe} className={`shrink-0 py-2 font-bold`} style={{
           color: `var(--primary)`
         }}>{`Reset pencarian/filter`}</button>]}</div>]}</jsxRuntime.Fragment>;
-  if (O) return <ProductDetailPage onDetailModeChange={onDetailModeChange} product={O} categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} lockMasterSelection={true} onSave={z} onDelete={() => {
+  if (O) return <ProductDetailPage archived={!products.some(item => item.id === O.id)} onDetailModeChange={onDetailModeChange} product={O} categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} lockMasterSelection={true} onSave={z} onDelete={() => {
       let e = B(O);
       return e || k(null), e;
     }} onOpenActivityEntry={onOpenActivityEntry} onOpenShoppingActivity={onOpenShoppingActivity} onAdjust={() => {
@@ -240,7 +249,7 @@ function InventoryPage({
         }}>{products.length ? `Produk tidak ditemukan` : `Belum ada produk`}</p>, <p className={`text-xs mt-1`} style={{
           color: `var(--muted-foreground)`,
           ...Cn
-        }}>{products.length ? `Coba ubah pencarian, status, atau lokasi` : `Tambah produk terlebih dahulu`}</p>]}</div> : W.map(([e, t]) => <InventoryCategoryCard category={e} items={t} onClick={() => F(e)} key={e} />)}</div>, w && <div className={`fixed inset-0 z-50 flex items-end justify-center`} style={{
+        }}>{products.length ? `Coba ubah pencarian, status, atau lokasi` : `Tambah produk terlebih dahulu`}</p>]}</div> : W.map(([e, t]) => <InventoryCategoryCard category={e} items={t} onClick={() => F(e)} key={e} />)}</div>, archivedCorrections.length > 0 && <details className={`mx-4 mt-4 rounded-2xl p-4`} style={{ background: `var(--card)`, boxShadow: wn }}><summary className={`text-sm font-bold cursor-pointer`}>Riwayat stok yang sudah habis</summary><div className={`mt-3 space-y-2`}>{archivedCorrections.map(item => <button type={`button`} key={item.id} onClick={() => k(item)} className={`w-full text-left p-3 rounded-xl text-sm`} style={{ background: `var(--muted)` }}>{item.name} · Lihat riwayat stok</button>)}</div></details>, w && <div className={`fixed inset-0 z-50 flex items-end justify-center`} style={{
       background: `rgba(0,0,0,0.45)`
     }} onClick={e => {
       e.target === e.currentTarget && T(null);

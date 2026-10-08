@@ -29,6 +29,13 @@ for(const f of fixtures){
     assert.deepEqual(snapshot(b).fields,snapshot(a).fields,f.name+' inventory fields');
     assert(!b.window.document.getElementById('root').textContent.includes('Dihitung untuk resep hari ini'));
     checks.push(f.name+' inventory keeps fields and data; uses compact cards');
+   }else if(page==='Aktivitas'){
+    assert.equal(snapshot(b).data,snapshot(a).data,f.name+' activity data');
+    assert.deepEqual(snapshot(b).fields,snapshot(a).fields,f.name+' activity fields');
+    const labels=[...b.window.document.querySelectorAll('button')].map(e=>e.textContent.trim());
+    assert(!labels.some(label=>label.startsWith('Koreksi ')));
+    for(const label of ['Semua','Dipakai','Dibuang'])assert(labels.some(value=>value.startsWith(label+' ')));
+    checks.push(f.name+' activity keeps data and fields; corrections belong to stock history');
    }else{assert.deepEqual(snapshot(b),snapshot(a),f.name+' '+page);checks.push(f.name+' '+page);}
   }
  }finally{a.window.close();b.window.close()}
@@ -49,5 +56,5 @@ const proof=await build({
 });
 const edited=create(proof.outputFiles.find(x=>x.path.endsWith('.js')).text,base());await wait();
 try{[...edited.window.document.querySelectorAll('button')].find(e=>e.closest('nav')&&e.textContent.trim().endsWith('Inventori')).click();await wait();assert(edited.window.document.getElementById('root').textContent.includes('SOURCE_EDIT_PROOF'));checks.push('editing App.jsx changes rebuilt UI');}finally{edited.window.close()}
-fs.writeFileSync('docs/PRODUCTION-CHECKS.json',JSON.stringify({method:'Exact DOM/fields/data vs v1 outside Inventori; inventory field/data invariants with compact cards; original stylesheet normalization; build provenance; controlled source edit',checks,passed:checks.length,layout_browser_checked:false},null,2)+'\n');
+fs.writeFileSync('docs/PRODUCTION-CHECKS.json',JSON.stringify({method:'Exact DOM/fields/data vs v1 outside Inventori and Aktivitas; activity fields/data invariants and three activity filters; inventory field/data invariants with compact cards; original stylesheet normalization; build provenance; controlled source edit',checks,passed:checks.length,layout_browser_checked:false},null,2)+'\n');
 console.log(JSON.stringify({production_checks:checks.length,passed:checks.length}));

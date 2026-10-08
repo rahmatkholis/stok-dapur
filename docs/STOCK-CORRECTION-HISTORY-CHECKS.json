@@ -1,0 +1,14 @@
+{
+  "method": "Production bundle in JSDOM: correction cards, single records, activity filtering, cancellation, zero-stock recovery, conflict safeguards, unsaved metadata, and batch isolation; no browser layout engine",
+  "passed": 8,
+  "checks": [
+    "new correction is stored once, hidden from Activity, and shown as a card in product history",
+    "existing corrections need no migration and open their details without entering Activity",
+    "cancelling an incorrect correction restores stock and keeps both audit records in history",
+    "zero correction remains accessible in Inventory and can be restored",
+    "usage and disposal still appear in Activity while correction is excluded from its counts and search",
+    "a later usage blocks cancelling an earlier correction; the correct related activity can still open",
+    "unsaved metadata blocks opening the correction card",
+    "an unrelated batch does not inherit another batch correction"
+  ]
+}

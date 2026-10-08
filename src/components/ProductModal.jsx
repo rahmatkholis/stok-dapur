@@ -1,7 +1,8 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as React from "react";
 import * as jsxRuntime from "react/jsx-runtime";
-import { UNITS, Ve, getAllowedUnits } from "../lib/store.js";
+import { AdjustmentDetailPage } from "../pages/ActivityPage.jsx";
+import { Qe, UNITS, Ve, getAllowedUnits } from "../lib/store.js";
 import { ItemPicker } from "./ItemPicker.jsx";
 import { ExpiryFields } from "./ExpiryFields.jsx";
 import { DraftRestoreNotice, Gt, Jt, Yt } from "../lib/drafts.jsx";
@@ -29,10 +30,18 @@ function ProductModal({
   onOpenActivityEntry: onOpenActivityEntry,
   lockMasterSelection: lockMasterSelection,
   onAdjust: onAdjust,
-  presentation = `modal`
+  presentation = `modal`,
+  archived = false
 }) {
   const isPage = presentation === `page`;
-  const [activeTab, setActiveTab] = React.useState(`detail`);
+  const [activeTab, setActiveTab] = React.useState(archived ? `movements` : `detail`);
+  const [correctionId, setCorrectionId] = React.useState(null);
+  const correction = correctionId ? Qe(username).find(entry => entry.id === correctionId) : null;
+  const openMovement = id => {
+    const entry = Qe(username).find(entry => entry.id === id);
+    if (entry?.action === `adjusted`) setCorrectionId(id);
+    else onOpenActivityEntry?.(id);
+  };
   const tabId = React.useId();
   const headingRef = React.useRef(null);
   React.useEffect(() => { if (isPage) headingRef.current?.focus(); }, [isPage]);
@@ -72,6 +81,7 @@ function ProductModal({
       receivedDate: z,
       location: V
     }, de, true, S);
+  React.useEffect(() => { if (isPage && product) j(String(product.quantity)); }, [isPage, product?.quantity]);
   function me() {
     de ? oe(true) : onClose();
   }
@@ -143,6 +153,7 @@ function ProductModal({
     }
     e?.();
   }
+  if (isPage && correction) return <AdjustmentDetailPage embedded={true} entry={correction} username={username} onBack={() => setCorrectionId(null)} onRestored={() => { onRefresh?.(); setCorrectionId(null); setActiveTab(`movements`); }} onOpenEntry={entry => openMovement(entry.id)} onOpenInventory={() => { setCorrectionId(null); setActiveTab(`movements`); }} onOpenShoppingActivity={onOpenShoppingActivity} />;
   return <div className={isPage ? `product-detail-page` : `fixed inset-0 z-50 flex items-end justify-center`} style={{
     background: isPage ? `var(--background)` : `rgba(0,0,0,0.4)`,
     backdropFilter: isPage ? undefined : `blur(2px)`
@@ -187,37 +198,37 @@ function ProductModal({
                 P(e.target.value), D(void 0), W(``);
               }} style={an}>{UNITS.map(e => <option key={e}>{e}</option>)}</select>, requireMasterItem && product && itemMasters.find(e => e.id === E)?.unit !== M && <p className={`text-xs mt-1`} style={{
                 color: `var(--muted-foreground)`
-              }}>{`Satuan stok lama dipertahankan agar jumlahnya tidak berubah.`}</p>]}</ProductField>]}</div>, <ProductField label={`Tanggal stok tersedia`}>{[<input type={`date`} aria-label={`Tanggal stok tersedia`} max={R} value={z} onChange={e => {
+              }}>{`Satuan stok lama dipertahankan agar jumlahnya tidak berubah.`}</p>]}</ProductField>]}</div>, <ProductField label={`Tanggal stok tersedia`}>{[<input type={`date`} disabled={archived} aria-label={`Tanggal stok tersedia`} max={R} value={z} onChange={e => {
               B(e.target.value), W(``);
             }} style={an} />, <p className={`text-xs mt-1`} style={{
               color: `var(--muted-foreground)`
-            }}>{[`Tanggal bahan mulai ada di dapur. Bisa diisi tanggal sebelumnya jika baru dicatat sekarang.`, product && !product.receivedDate ? ` Tanggal stok lama belum diketahui.` : ``]}</p>]}</ProductField>, <ExpiryFields kind={L} date={F} onKindChange={e => {
+            }}>{[`Tanggal bahan mulai ada di dapur. Bisa diisi tanggal sebelumnya jika baru dicatat sekarang.`, product && !product.receivedDate ? ` Tanggal stok lama belum diketahui.` : ``]}</p>]}</ProductField>, <fieldset disabled={archived}><ExpiryFields kind={L} date={F} onKindChange={e => {
             ee(e), e === `unknown` && I(``), W(``);
           }} onDateChange={e => {
             I(e), W(``);
-          }} />, <ProductField label={`Lokasi Penyimpanan (opsional)`}>{[<select aria-label={`Lokasi Penyimpanan`} value={V} onChange={e => {
+          }} /></fieldset>, <ProductField label={`Lokasi Penyimpanan (opsional)`}>{[<select disabled={archived} aria-label={`Lokasi Penyimpanan`} value={V} onChange={e => {
               H(e.target.value), W(``);
             }} style={an}>{[<option value={``}>{`Pilih lokasi (opsional)`}</option>, locations.map(e => <option value={e} key={e}>{e}</option>)]}</select>, !locations.length && <p className={`text-xs mt-1`} style={{
               color: `var(--muted-foreground)`
-            }}>{`Tambahkan lokasi di Akun → Data Master.`}</p>]}</ProductField>, isPage && le && username && product && <BatchLedger username={username} productId={product.id} view={`origin`} onOpenShopping={onOpenShoppingActivity ? id => ve(() => onOpenShoppingActivity(id)) : undefined} />]}</div>, isPage && <div role={`tabpanel`} id={`${tabId}-movements-panel`} aria-labelledby={`${tabId}-movements-tab`} hidden={activeTab !== `movements`}>{le && username && product && <BatchLedger username={username} productId={product.id} view={`movements`} onOpenActivity={onOpenActivityEntry ? id => ve(() => onOpenActivityEntry(id)) : undefined} />}</div>]}</div>, <div className={isPage ? `product-detail-actions` : `px-5 pt-3 shrink-0`} style={{
+            }}>{`Tambahkan lokasi di Akun → Data Master.`}</p>]}</ProductField>, isPage && le && username && product && <BatchLedger username={username} productId={product.id} view={`origin`} onOpenShopping={onOpenShoppingActivity ? id => ve(() => onOpenShoppingActivity(id)) : undefined} />]}</div>, isPage && <div role={`tabpanel`} id={`${tabId}-movements-panel`} aria-labelledby={`${tabId}-movements-tab`} hidden={activeTab !== `movements`}>{le && username && product && <BatchLedger username={username} productId={product.id} view={`movements`} onOpenCorrection={id => ve(() => openMovement(id))} onOpenActivity={onOpenActivityEntry ? id => ve(() => onOpenActivityEntry(id)) : undefined} />}</div>]}</div>, <div className={isPage ? `product-detail-actions` : `px-5 pt-3 shrink-0`} style={{
           borderTop: isPage ? undefined : `1px solid var(--border)`,
           paddingBottom: `calc(env(safe-area-inset-bottom, 0px) + 18px)`,
           background: `var(--card)`
         }}>{[U && <p role={`alert`} className={`text-sm px-3 py-2 rounded-lg mb-3`} style={{
             background: `#FEE2E2`,
             color: `#B91C1C`
-          }}>{U}</p>, le && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={_e} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
+          }}>{U}</p>, le && !archived && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={_e} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
             background: `var(--muted)`,
             color: `var(--foreground)`
-          }}>{`Perbaiki catatan stok`}</button>, onDelete && product && (!isPage || activeTab === `movements`) && <p className={`text-xs mb-3`} style={{
+          }}>{`Perbaiki catatan stok`}</button>, onDelete && product && !archived && (!isPage || activeTab === `movements`) && <p className={`text-xs mb-3`} style={{
             color: `var(--muted-foreground)`
-          }}>{se?.purchase ? `Batch berasal dari Belanja. Untuk salah pembelian, buka catatan Belanja pada bagian Detail.` : se?.activities.length ? `Batch sudah memiliki Aktivitas. Perbaiki catatan yang salah melalui riwayat di atas sebelum menghapusnya.` : `Hapus Produk untuk batch yang salah input. Jika bahan benar-benar dibuang, gunakan Buang Stok.`}</p>, onDelete && product && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={() => {
+          }}>{se?.purchase ? `Batch berasal dari Belanja. Untuk salah pembelian, buka catatan Belanja pada bagian Detail.` : se?.activities.length ? `Batch sudah memiliki Aktivitas. Perbaiki catatan yang salah melalui riwayat di atas sebelum menghapusnya.` : `Hapus Produk untuk batch yang salah input. Jika bahan benar-benar dibuang, gunakan Buang Stok.`}</p>, onDelete && product && !archived && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={() => {
             W(``), ne(true);
           }} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
             background: `var(--card)`,
             border: `1.5px solid #DC2626`,
             color: `#B91C1C`
-          }}>{`Hapus Produk`}</button>, isPage && activeTab === `movements` && onWaste && product && <button type={`button`} onClick={ge} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{ background: `var(--muted)`, color: `var(--foreground)` }}>{`Buang Stok`}</button>, (!isPage || activeTab === `detail`) && <button type={`submit`} disabled={le && !ue} className={`w-full py-3.5 rounded-xl font-bold text-sm disabled:cursor-not-allowed`} style={{
+          }}>{`Hapus Produk`}</button>, isPage && !archived && activeTab === `movements` && onWaste && product && <button type={`button`} onClick={ge} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{ background: `var(--muted)`, color: `var(--foreground)` }}>{`Buang Stok`}</button>, !archived && (!isPage || activeTab === `detail`) && <button type={`submit`} disabled={le && !ue} className={`w-full py-3.5 rounded-xl font-bold text-sm disabled:cursor-not-allowed`} style={{
             background: le && !ue ? `var(--muted)` : `var(--primary)`,
             color: le && !ue ? `var(--muted-foreground)` : `var(--primary-foreground)`,
             fontFamily: `Plus Jakarta Sans, sans-serif`
@@ -236,7 +247,7 @@ function ProductModal({
         }} className={`w-full p-3 rounded-xl text-left text-sm`} style={{
           background: `var(--muted)`
         }}>{[<strong className={`block`}>{`Pembelian salah dicatat`}</strong>, <span>{`Buka aktivitas belanja untuk edit atau batalkan pembelian terkait.`}</span>]}</button>, !!se?.activities.length && <div className={`space-y-2`}>{[<p className={`text-sm font-bold`}>{`Catatan terkait (dari yang terbaru)`}</p>, se.activities.map(e => <button type={`button`} onClick={() => {
-            ie(false), onOpenActivityEntry?.(e.id);
+            ie(false), isPage ? openMovement(e.id) : onOpenActivityEntry?.(e.id);
           }} className={`w-full p-3 rounded-xl text-left text-sm`} style={{
             background: `var(--muted)`
           }} key={e.id}>{[<strong className={`block`}>{[e.action === `adjusted` ? `Penyesuaian` : e.action === `used` ? `Pemakaian` : `Pembuangan`, `: `, e.title]}</strong>, <span>{`Periksa dan koreksi hanya jika catatan ini salah.`}</span>]}</button>)]}</div>, !se?.purchase && onDelete && <button type={`button`} onClick={() => {
@@ -262,7 +273,7 @@ function ProductModal({
           background: `var(--muted)`,
           color: `var(--primary)`
         }}>{`Stok berasal dari Belanja · Buka aktivitas belanja →`}</button>, se?.activities.map(e => <button type={`button`} onClick={() => {
-          ne(false), onOpenActivityEntry?.(e.id);
+          ne(false), isPage ? openMovement(e.id) : onOpenActivityEntry?.(e.id);
         }} className={`w-full py-3 rounded-xl text-left text-sm font-bold`} style={{
           background: `var(--muted)`,
           color: `var(--primary)`

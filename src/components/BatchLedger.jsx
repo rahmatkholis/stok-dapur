@@ -1,6 +1,7 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as jsxRuntime from "react/jsx-runtime";
-import { readBatchLedger } from "../lib/store.js";
+import { StockMovementCard } from "./StockMovementCard.jsx";
+import { Qe, readBatchLedger } from "../lib/store.js";
 function Zt(e) {
   let t = new Date(`${e}T00:00:00`);
   return Number.isNaN(t.getTime()) ? `Tanggal belum diketahui` : t.toLocaleDateString(`id-ID`, {
@@ -27,7 +28,8 @@ function BatchLedger({
   productId: productId,
   onOpenShopping: onOpenShopping,
   onOpenActivity: onOpenActivity,
-  view = `all`
+  view = `all`,
+  onOpenCorrection
 }) {
   let i = readBatchLedger(username, productId);
   if (!i) return null;
@@ -39,6 +41,10 @@ function BatchLedger({
     } = i,
     l = o.kind === `purchase` ? `Diterima dari Belanja` : o.kind === `manual` ? `Ditambahkan langsung ke Inventori` : `Asal stok belum tercatat`;
   function u(e) {
+    if (view === `movements` && e.action === `adjusted`) {
+      const entry = Qe(username).find(entry => entry.id === e.id);
+      if (entry) return <StockMovementCard key={e.id} entry={entry} showDate={true} onOpen={() => onOpenCorrection?.(e.id)} />;
+    }
     let t = e.reversal ? `Pembatalan penyesuaian` : e.action === `adjusted` ? `Penyesuaian` : e.action === `used` ? `Dipakai` : `Dibuang`,
       n = <jsxRuntime.Fragment>{[<div className={`flex justify-between items-start gap-3`}>{[<div className={`min-w-0`}>{[<strong className={`block text-sm`}>{t}</strong>, <span className={`block text-sm break-words mt-0.5`}>{e.title}</span>]}</div>, <strong className={`shrink-0 text-sm`} style={{
             color: e.cancelled ? `var(--muted-foreground)` : e.delta !== null && e.delta > 0 ? `#15803D` : `var(--foreground)`
@@ -73,7 +79,7 @@ function BatchLedger({
       color: `#92400E`
     }}>{`Sebagian catatan memakai satuan berbeda atau informasi perubahan belum lengkap. Total perubahan belum dapat dihitung.`}</p>, c.consistent === false && <p role={`status`} className={`text-xs`} style={{
       color: `#92400E`
-    }}>{`Jumlah awal dan perubahan yang tersimpan belum menjelaskan seluruh stok saat ini. Periksa catatan terkait sebelum membuat koreksi.`}</p>, s.length ? <div>{[<p className={`text-xs font-bold mb-1`}>{`Perubahan terbaru`}</p>, s.slice(0, 3).map(u), s.length > 3 && <details>{[<summary className={`text-sm font-bold py-2 cursor-pointer`} style={{
+    }}>{`Jumlah awal dan perubahan yang tersimpan belum menjelaskan seluruh stok saat ini. Periksa catatan terkait sebelum membuat koreksi.`}</p>, s.length ? <div className={`space-y-3`}>{[<p className={`text-xs font-bold mb-1`}>{`Perubahan terbaru`}</p>, s.slice(0, 3).map(u), s.length > 3 && <details>{[<summary className={`text-sm font-bold py-2 cursor-pointer`} style={{
           color: `var(--primary)`
         }}>{[`Lihat `, s.length - 3, ` catatan lainnya`]}</summary>, s.slice(3).map(u)]}</details>, <p className={`text-xs`} style={{
         color: `var(--muted-foreground)`

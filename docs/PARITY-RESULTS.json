@@ -2,8 +2,8 @@
   "method": "168 existing audit scenarios run independently against original bundle and source-built React; matching outcome is parity, not absence of bugs",
   "total": 168,
   "matched": 168,
-  "baseline_pass": 136,
-  "baseline_known_fail": 32,
+  "baseline_pass": 135,
+  "baseline_known_fail": 33,
   "differences": [],
   "checks": [
     {
@@ -65,7 +65,7 @@
     {
       "group": "domain",
       "id": "D008",
-      "name": "Konversi 2 botol ×250ml",
+      "name": "Konversi 2 botol \u00d7250ml",
       "baseline_status": "PASS",
       "source_status": "PASS",
       "matched": true
@@ -161,7 +161,7 @@
     {
       "group": "domain",
       "id": "D020",
-      "name": "Koreksi stok 10→7, ledger konsisten",
+      "name": "Koreksi stok 10\u21927, ledger konsisten",
       "baseline_status": "PASS",
       "source_status": "PASS",
       "matched": true
@@ -361,7 +361,7 @@
     {
       "group": "domain",
       "id": "D045",
-      "name": "Ubah pemakaian saat stok cukup (2→1) mengurangi sesuai aktual",
+      "name": "Ubah pemakaian saat stok cukup (2\u21921) mengurangi sesuai aktual",
       "baseline_status": "PASS",
       "source_status": "PASS",
       "matched": true
@@ -1194,8 +1194,8 @@
       "group": "edge",
       "id": "E016",
       "name": "Tanggal Jakarta tetap benar pada 23.30WIB",
-      "baseline_status": "PASS",
-      "source_status": "PASS",
+      "baseline_status": "FAIL",
+      "source_status": "FAIL",
       "matched": true
     },
     {
@@ -1350,5 +1350,6 @@
       "source_status": "FAIL",
       "matched": true
     }
-  ]
+  ],
+  "timezone": "Australia/Sydney"
 }
