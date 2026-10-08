@@ -3,9 +3,10 @@ import * as React from "react";
 import * as jsxRuntime from "react/jsx-runtime";
 import { EXPIRY_LABELS, Qe, getUserData, addActivityEntry, addProduct, adjustPhysicalStock, deleteIncorrectBatch, getExpiryStatus, updateProduct } from "../lib/store.js";
 import { StockAdjustmentModal } from "../components/StockAdjustmentModal.jsx";
+import { GroupedProductPage } from "./GroupedProductPage.jsx";
 import { ProductDetailPage } from "./ProductDetailPage.jsx";
 import { ProductModal } from "../components/ProductModal.jsx";
-import { InventoryProducts, on, sn } from "../components/InventoryProducts.jsx";
+import { InventoryProducts, groupMatchingStock, on, sn } from "../components/InventoryProducts.jsx";
 import { BatchMetadataModal, CategoryDetailPage } from "./CategoryDetailPage.jsx";
 var xn = [{
     key: `recent`,
@@ -96,8 +97,18 @@ function InventoryPage({
     addTrigger && addTrigger > 0 && D(true);
   }, [addTrigger]);
   let [O, k] = (0, React.useState)(null);
+  const [groupIds, setGroupIds] = React.useState([]);
+  const [showGroup, setShowGroup] = React.useState(false);
+  const [detailIntent, setDetailIntent] = React.useState(null);
+  function openProduct(product, batches = [product]) {
+    k(product); setGroupIds(batches.map(batch => batch.id)); setShowGroup(batches.length > 1); setDetailIntent(null);
+  }
+  function closeProduct() {
+    if (groupIds.length > 1 && !showGroup) setShowGroup(true);
+    else { k(null); setGroupIds([]); setShowGroup(false); }
+  }
   (0, React.useEffect)(() => {
-    initialProduct && k(products.find(e => e.id === initialProduct.id) ?? null);
+    if (initialProduct) { const item = products.find(e => e.id === initialProduct.id); if (item) openProduct(item); }
   }, [initialProduct?.token]);
   React.useEffect(() => {
     if (!O) return;
@@ -211,14 +222,19 @@ function InventoryPage({
         }}>{f.trim() ? `Pencarian: “${f.trim()}”` : `Hasil sesuai filter`}</span>, <button type={`button`} onClick={oe} className={`shrink-0 py-2 font-bold`} style={{
           color: `var(--primary)`
         }}>{`Reset pencarian/filter`}</button>]}</div>]}</jsxRuntime.Fragment>;
-  if (O) return <ProductDetailPage archived={!products.some(item => item.id === O.id)} onDetailModeChange={onDetailModeChange} product={O} categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} lockMasterSelection={true} onSave={z} onDelete={() => {
+  const selectedBatches = groupIds.map(id => products.find(item => item.id === id) ?? archiveData.productArchive?.[id]).filter(Boolean);
+  if (O && showGroup && selectedBatches.length > 1) return <GroupedProductPage batches={selectedBatches} username={username} onDetailModeChange={onDetailModeChange} onClose={closeProduct} onOpenShoppingActivity={onOpenShoppingActivity} onOpenActivityEntry={onOpenActivityEntry} onOpenBatch={(id, correctionId) => {
+    const item = selectedBatches.find(batch => batch.id === id);
+    if (item) { k(item); setShowGroup(false); setDetailIntent(correctionId ? { initialTab: 'movements', initialCorrectionId: correctionId } : null); }
+  }} />;
+  if (O) return <ProductDetailPage key={O.id} {...detailIntent} archived={!products.some(item => item.id === O.id)} onDetailModeChange={onDetailModeChange} product={O} categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} lockMasterSelection={true} onSave={z} onDelete={() => {
       let e = B(O);
       return e || k(null), e;
     }} onOpenActivityEntry={onOpenActivityEntry} onOpenShoppingActivity={onOpenShoppingActivity} onAdjust={() => {
       N(O), k(null);
     }} onWaste={() => {
       j(O), k(null);
-    }} onClose={() => k(null)} />;
+    }} onClose={closeProduct} />;
   return <div className={`pb-24 pt-5 max-w-[480px] mx-auto`}>{[<div className={`px-4 mb-4`}>{<div role={`group`} aria-label={`Tampilan inventori`} className={`p-1 rounded-xl grid grid-cols-2 gap-1`} style={{
         background: `var(--muted)`
       }}>{[[`product`, `Produk`], [`category`, `Kategori`]].map(([e, t]) => <button type={`button`} aria-pressed={m === e} onClick={() => {
@@ -231,7 +247,7 @@ function InventoryPage({
         }} key={e}>{t}</button>)}</div>}</div>, ue, de, m === `product` && <jsxRuntime.Fragment>{[<div className={`px-4 pb-2 text-sm font-semibold`} style={{
         color: `var(--muted-foreground)`,
         ...Cn
-      }}>{[U.length, ` item stok`]}</div>, <div className={`px-4 flex flex-col gap-2`}>{U.length ? <InventoryProducts products={U} allProducts={products} masters={itemMasters} showCategory={true} onEdit={k} /> : <div className={`rounded-2xl p-8 text-center`} style={{
+      }}>{[groupMatchingStock(U).length, ` item stok`]}</div>, <div className={`px-4 flex flex-col gap-2`}>{U.length ? <InventoryProducts products={U} allProducts={products} masters={itemMasters} showCategory={true} onEdit={openProduct} /> : <div className={`rounded-2xl p-8 text-center`} style={{
           background: `var(--card)`,
           border: `1px solid var(--border)`
         }}>{[<p className={`text-3xl mb-2`}>{`📭`}</p>, <p className={`font-bold text-sm`} style={{
@@ -249,7 +265,7 @@ function InventoryPage({
         }}>{products.length ? `Produk tidak ditemukan` : `Belum ada produk`}</p>, <p className={`text-xs mt-1`} style={{
           color: `var(--muted-foreground)`,
           ...Cn
-        }}>{products.length ? `Coba ubah pencarian, status, atau lokasi` : `Tambah produk terlebih dahulu`}</p>]}</div> : W.map(([e, t]) => <InventoryCategoryCard category={e} items={t} onClick={() => F(e)} key={e} />)}</div>, archivedCorrections.length > 0 && <details className={`mx-4 mt-4 rounded-2xl p-4`} style={{ background: `var(--card)`, boxShadow: wn }}><summary className={`text-sm font-bold cursor-pointer`}>Riwayat stok yang sudah habis</summary><div className={`mt-3 space-y-2`}>{archivedCorrections.map(item => <button type={`button`} key={item.id} onClick={() => k(item)} className={`w-full text-left p-3 rounded-xl text-sm`} style={{ background: `var(--muted)` }}>{item.name} · Lihat riwayat stok</button>)}</div></details>, w && <div className={`fixed inset-0 z-50 flex items-end justify-center`} style={{
+        }}>{products.length ? `Coba ubah pencarian, status, atau lokasi` : `Tambah produk terlebih dahulu`}</p>]}</div> : W.map(([e, t]) => <InventoryCategoryCard category={e} items={t} onClick={() => F(e)} key={e} />)}</div>, archivedCorrections.length > 0 && <details className={`mx-4 mt-4 rounded-2xl p-4`} style={{ background: `var(--card)`, boxShadow: wn }}><summary className={`text-sm font-bold cursor-pointer`}>Riwayat stok yang sudah habis</summary><div className={`mt-3 space-y-2`}>{archivedCorrections.map(item => <button type={`button`} key={item.id} onClick={() => openProduct(item)} className={`w-full text-left p-3 rounded-xl text-sm`} style={{ background: `var(--muted)` }}>{item.name} · Lihat riwayat stok</button>)}</div></details>, w && <div className={`fixed inset-0 z-50 flex items-end justify-center`} style={{
       background: `rgba(0,0,0,0.45)`
     }} onClick={e => {
       e.target === e.currentTarget && T(null);
@@ -308,7 +324,7 @@ function InventoryPage({
             }} key={e.key}>{[<span>{e.label}</span>, t && <span aria-hidden={`true`}>{`✓`}</span>]}</button>;
           })]}</div>]}</div>}</div>, P && <div className={`fixed inset-0 z-40`} style={{
       background: `var(--background)`
-    }}>{<CategoryDetailPage category={P} items={ie} allProducts={products} masters={itemMasters} controls={<jsxRuntime.Fragment>{[ue, de]}</jsxRuntime.Fragment>} onBack={() => F(null)} onEdit={k} />}</div>, E && <ProductModal categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} onOpenMasterItem={onOpenMasterItem} onSave={R} onClose={() => D(false)} />, A && <StockAdjustmentModal username={username} product={A} onSave={H} onClose={() => j(null)} />, M && <BatchMetadataModal product={M} onSave={V} onClose={() => N(null)} />, I && <div className={`fixed bottom-24 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl text-sm font-bold shadow-lg z-50 whitespace-nowrap`} style={{
+    }}>{<CategoryDetailPage category={P} items={ie} allProducts={products} masters={itemMasters} controls={<jsxRuntime.Fragment>{[ue, de]}</jsxRuntime.Fragment>} onBack={() => F(null)} onEdit={openProduct} />}</div>, E && <ProductModal categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} onOpenMasterItem={onOpenMasterItem} onSave={R} onClose={() => D(false)} />, A && <StockAdjustmentModal username={username} product={A} onSave={H} onClose={() => j(null)} />, M && <BatchMetadataModal product={M} onSave={V} onClose={() => N(null)} />, I && <div className={`fixed bottom-24 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl text-sm font-bold shadow-lg z-50 whitespace-nowrap`} style={{
       background: `var(--foreground)`,
       color: `var(--card)`,
       ...Cn
@@ -319,14 +335,15 @@ function InventoryCategoryCard({
   items: items,
   onClick: onClick
 }) {
+  const shown = groupMatchingStock(items).map(group => group[0]);
   let r = Sn[category] ?? {
       icon: `📦`,
       bg: `#F3F4F6`
     },
-    i = items.filter(e => getExpiryStatus(e.expiryDate) === `expired`).length,
-    a = items.filter(e => getExpiryStatus(e.expiryDate) === `expiring`).length,
-    o = items.filter(e => getExpiryStatus(e.expiryDate) === `safe`).length,
-    s = items.filter(e => getExpiryStatus(e.expiryDate) === `unknown`).length;
+    i = shown.filter(e => getExpiryStatus(e.expiryDate) === `expired`).length,
+    a = shown.filter(e => getExpiryStatus(e.expiryDate) === `expiring`).length,
+    o = shown.filter(e => getExpiryStatus(e.expiryDate) === `safe`).length,
+    s = shown.filter(e => getExpiryStatus(e.expiryDate) === `unknown`).length;
   return <button onClick={onClick} className={`w-full rounded-2xl p-4 text-left flex items-center gap-4 transition-transform active:scale-[0.98]`} style={{
     background: `var(--card)`,
     boxShadow: wn
@@ -338,7 +355,7 @@ function InventoryCategoryCard({
       }}>{category}</p>, <p className={`text-xs mt-0.5`} style={{
         color: `var(--muted-foreground)`,
         ...Cn
-      }}>{[items.length, ` batch ditampilkan`, s ? ` · ${s} perlu dicek` : ``]}</p>]}</div>, <div className={`flex gap-2 shrink-0`}>{[<InventoryStat value={i} label={`Lewat`} bg={`#FEF2F2`} color={`#EF4444`} />, <InventoryStat value={a} label={`≤3 hari`} bg={`#FFFBEB`} color={`#D97706`} />, <InventoryStat value={o} label={`>3 hari`} bg={`#F0FDF4`} color={`#15803D`} />]}</div>]}</button>;
+      }}>{[shown.length, ` item stok`, s ? ` · ${s} perlu dicek` : ``]}</p>]}</div>, <div className={`flex gap-2 shrink-0`}>{[<InventoryStat value={i} label={`Lewat`} bg={`#FEF2F2`} color={`#EF4444`} />, <InventoryStat value={a} label={`≤3 hari`} bg={`#FFFBEB`} color={`#D97706`} />, <InventoryStat value={o} label={`>3 hari`} bg={`#F0FDF4`} color={`#15803D`} />]}</div>]}</button>;
 }
 function InventoryStat({
   value: value,

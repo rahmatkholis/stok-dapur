@@ -83,7 +83,7 @@ await test('unsaved metadata blocks opening the correction card', corrected(), a
   assert.equal(h.data().products[0].quantity, 7);
 });
 await test('an unrelated batch does not inherit another batch correction', (() => {
-  const data = corrected(); data.products.push(product('other', 'egg', 4)); return data;
+  const data = corrected(); data.products.push(product('other', 'egg', 4, { location: 'Rak' })); return data;
 })(), async h => {
   await h.click('▤ Inventori'); h.d.querySelectorAll('.inventory-product')[1].click(); await wait(); await h.click('Riwayat Pergerakan Stok');
   assert(!h.all('button').some(button => button.getAttribute('aria-label') === 'Buka koreksi stok: Hasil timbang'));

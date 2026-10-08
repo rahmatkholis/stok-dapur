@@ -1009,6 +1009,47 @@ function qe(e, t) {
     product: s
   };
 }
+function stockAdjustmentEditState(data, id) {
+  const index = data.activityLog.findIndex(event => event.id === id);
+  const entry = data.activityLog[index];
+  const productId = entry?.adjustment?.productId;
+  const product = data.products.find(item => item.id === productId) ?? data.productArchive[productId];
+  const canEditReason = !!entry?.adjustment && entry.action === 'adjusted' && !entry.cancelledAt && !entry.reversalOf && !data.activityLog.some(event => event.reversalOf === id);
+  // Even a later cancelled movement counts: older physical counts must not be rewritten.
+  const later = data.activityLog.slice(0, Math.max(0, index)).some(event => event.items?.some(item => item.productId === productId));
+  const canEditQuantity = canEditReason && !!product && !later && product.quantity === entry.adjustment.after;
+  const version = JSON.stringify([entry?.id, entry?.title, entry?.adjustment, entry?.cancelledAt, entry?.editedAt, entry?.revisions]);
+  return { canEditReason, canEditQuantity, version, product };
+}
+function getStockAdjustmentEditState(username, id) {
+  return stockAdjustmentEditState(getUserData(username), id);
+}
+function editStockAdjustment(username, id, updated, expectedVersion) {
+  return transact(username, data => {
+    const state = stockAdjustmentEditState(data, id);
+    state.canEditReason || fail('Koreksi ini sudah dibatalkan atau merupakan catatan pemulihan dan tidak dapat diedit.');
+    expectedVersion && expectedVersion !== state.version && fail('Koreksi berubah sejak dibuka. Buka kembali detail koreksi.');
+    const entry = data.activityLog.find(event => event.id === id);
+    const title = typeof updated.title === 'string' ? updated.title.trim() : '';
+    title || fail('Isi alasan koreksi stok.');
+    const after = updated.after;
+    (!Number.isFinite(after) || after < 0 || roundStockQuantity(after) !== after) && fail('Jumlah harus nol atau lebih, maksimal 4 angka desimal.');
+    const quantityChanged = after !== entry.adjustment.after;
+    quantityChanged && !state.canEditQuantity && fail('Stok sudah berubah setelah koreksi ini. Edit alasan saja; gunakan koreksi baru untuk jumlah fisik saat ini.');
+    quantityChanged && after === entry.adjustment.before && fail('Gunakan Batalkan Penyesuaian yang Salah untuk mengembalikan jumlah sebelum koreksi.');
+    if (!quantityChanged && title === entry.title) return;
+    const editedAt = new Date().toISOString();
+    entry.revisions ??= [];
+    entry.revisions.push({ editedAt, previousTitle: entry.title, previousAfter: entry.adjustment.after, title, after });
+    if (quantityChanged) {
+      writeBatchQuantity(data, state.product, after);
+      entry.adjustment.after = after;
+      entry.items[0].quantity = Math.abs(roundStockQuantity(after - entry.adjustment.before));
+    }
+    entry.title = title;
+    entry.editedAt = editedAt;
+  });
+}
 function cancelStockAdjustment(e, t) {
   return transact(e, e => {
     let n = e.activityLog.findIndex(e => e.id === t),
@@ -1545,4 +1586,4 @@ function deleteShoppingItem(e, t) {
     }), e.shoppingItems = e.shoppingItems.filter(e => e.id !== t), !e.shoppingItems.filter(e => e.activityId === r.id).length && r.completedAt ? e.shoppingActivities = e.shoppingActivities.filter(e => e.id !== r.id) : r.updatedAt = new Date().toISOString();
   });
 }
-export { CATEGORIES, UNITS, EXPIRY_LABELS, getExpiryStatus, formatDate, describeExpiry, normalizeName, E, getUnitFamily, getUnitFactor, roundQuantity, convertBaseUnit, j, M, getAllowedUnits, convertItemUnit, todayDate, getRecipeAvailability, L, seedProducts, USERS_KEY, SESSION_KEY, getDB, saveDB, register, getProfile, updateProfile, updatePassword, login, logout, getSession, getUserData, saveUserData, readLegacyLog, normalizeData, le, ue, saveItemMaster, setItemMasterActive, pe, me, he, ge, _e, ve, addMasterListValue, renameMasterListValue, removeMasterListValue, transact, fail, roundStockQuantity, isValidPositiveQuantity, isValidCalendarDate, hasValidExpiry, Ee, validateReceivedDate, isActiveLedgerEvent, getStockCorrectionConflicts, previewStockCorrectionConflicts, validatePhysicalStockConfirmations, applyPhysicalStockConfirmations, validateStockActivity, writeBatchQuantity, registerBatchMasterValues, normalizeStockQuantity, addProduct, updateProduct, ze, Be, Ve, readBatchLedger, deleteIncorrectBatch, We, adjustPhysicalStock, Ke, qe, cancelStockAdjustment, Ye, Xe, Ze, Qe, $e, updateActivityEntry, deleteActivityEntry, addActivityEntry, rt, disposeSelectedBatches, saveRecipe, deleteRecipe, cookRecipe, calculateShoppingCoverage, previewRecipeShopping, planRecipeShopping, dt, createShoppingActivity, renameShoppingActivity, deleteShoppingActivity, completeShoppingActivity, addShoppingItem, updateShoppingPlan, receiveShoppingPurchase, yt, bt, correctPurchaseQuantity, cancelShoppingPurchase, Ct, wt, deleteShoppingItem };
+export { getStockAdjustmentEditState, editStockAdjustment, CATEGORIES, UNITS, EXPIRY_LABELS, getExpiryStatus, formatDate, describeExpiry, normalizeName, E, getUnitFamily, getUnitFactor, roundQuantity, convertBaseUnit, j, M, getAllowedUnits, convertItemUnit, todayDate, getRecipeAvailability, L, seedProducts, USERS_KEY, SESSION_KEY, getDB, saveDB, register, getProfile, updateProfile, updatePassword, login, logout, getSession, getUserData, saveUserData, readLegacyLog, normalizeData, le, ue, saveItemMaster, setItemMasterActive, pe, me, he, ge, _e, ve, addMasterListValue, renameMasterListValue, removeMasterListValue, transact, fail, roundStockQuantity, isValidPositiveQuantity, isValidCalendarDate, hasValidExpiry, Ee, validateReceivedDate, isActiveLedgerEvent, getStockCorrectionConflicts, previewStockCorrectionConflicts, validatePhysicalStockConfirmations, applyPhysicalStockConfirmations, validateStockActivity, writeBatchQuantity, registerBatchMasterValues, normalizeStockQuantity, addProduct, updateProduct, ze, Be, Ve, readBatchLedger, deleteIncorrectBatch, We, adjustPhysicalStock, Ke, qe, cancelStockAdjustment, Ye, Xe, Ze, Qe, $e, updateActivityEntry, deleteActivityEntry, addActivityEntry, rt, disposeSelectedBatches, saveRecipe, deleteRecipe, cookRecipe, calculateShoppingCoverage, previewRecipeShopping, planRecipeShopping, dt, createShoppingActivity, renameShoppingActivity, deleteShoppingActivity, completeShoppingActivity, addShoppingItem, updateShoppingPlan, receiveShoppingPurchase, yt, bt, correctPurchaseQuantity, cancelShoppingPurchase, Ct, wt, deleteShoppingItem };

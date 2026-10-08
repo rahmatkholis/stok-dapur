@@ -21,3 +21,7 @@ src/styles/index.css berisi stylesheet baseline yang diformat agar dapat dibaca,
 baseline/v1 mempertahankan artefak aplikasi yang diaudit. legacy menyimpan file teks source TSX lama dan konfigurasi referensinya. File screenshot/aset gambar tak terpakai serta file lingkungan Figma tidak dibawa; legacy bukan project aktif. Checksum dan daftar source asli tersimpan di LEGACY-PROVENANCE.json.
 
 Rekonstruksi dapat direproduksi oleh scripts/recover-baseline.mjs pada checkout terpisah, tetapi script tersebut tidak dipanggil oleh dev/build normal. Source yang sudah dikembangkan harus dipertahankan, bukan ditimpa ulang oleh script pemulihan.
+
+## Grouping inventori dan revisi koreksi
+
+InventoryProducts.groupMatchingStock mengelompokkan kartu untuk tampilan saja. GroupedProductPage menampilkan total, asal per penerimaan, dan pergerakan terkait tanpa membuat productId gabungan. Halaman edit asli tetap bekerja pada satu batch. getStockAdjustmentEditState/editStockAdjustment menyediakan edit koreksi atomik dengan versi catatan, proteksi pergerakan berikutnya, penulisan ulang selisih, dan entry.revisions. Fungsi receiveShoppingPurchase, cookRecipe, dan pembatalan pembelian mempertahankan struktur penerimaan sebelumnya.

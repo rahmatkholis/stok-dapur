@@ -28,6 +28,10 @@ function StockMovementCard({
     a = entry.items ?? [],
     o = vr(entry.createdAt),
     s = n && a.length === 1 ? `${a[0].productName} · ${a[0].quantity} ${a[0].unit}` : `${a.length} batch stok`;
+  const adjustmentDelta = entry.adjustment ? Math.round((entry.adjustment.after - entry.adjustment.before) * 1e4) / 1e4 : 0;
+  const amounts = new Map();
+  for (const item of a) amounts.set(item.unit, Math.round(((amounts.get(item.unit) ?? 0) + item.quantity) * 1e4) / 1e4);
+  const movementAmount = [...amounts].map(([unit, quantity]) => `−${quantity.toLocaleString('id-ID', { maximumFractionDigits: 4 })} ${unit}`).join(' + ');
   return <button onClick={onOpen} type={`button`} aria-label={showDate ? `Buka ${r ? `koreksi stok` : n ? `pembuangan` : `pemakaian`}: ${entry.title}` : undefined} className={`w-full rounded-2xl px-4 py-4 flex items-center gap-3 text-left transition-transform active:scale-[0.98]`} style={{
     background: `var(--card)`,
     boxShadow: mr
@@ -42,7 +46,7 @@ function StockMovementCard({
         }}>{[`Dicatat `, o]}</span>]}</div>, <p className={`text-xs font-semibold mt-0.5`} style={{
         color: `var(--muted-foreground)`,
         ...J
-      }}>{[entry.cancelledAt ? `Dibatalkan · ` : entry.reversalOf ? `Pembalikan · ` : ``, r ? `Koreksi stok · ${entry.adjustment?.before ?? `—`} → ${entry.adjustment?.after ?? `—`} ${a[0]?.unit ?? ``}` : `${entry.source === `recipe` ? `Dimasak · ${entry.servings ?? 1} porsi` : n ? `Dibuang` : `Dipakai langsung`} · ${s}`]}</p>, showDate && <p className={`text-xs mt-1`} style={{ color: `var(--muted-foreground)` }}>{[_r(entry.date), r && entry.adjustment ? ` · ${entry.adjustment.after - entry.adjustment.before > 0 ? `+` : entry.adjustment.after - entry.adjustment.before < 0 ? `−` : ``}${Math.abs(entry.adjustment.after - entry.adjustment.before)} ${a[0]?.unit ?? ``}` : ``]}</p>]}</div>, <span className={`text-base shrink-0`} style={{
+      }}>{[entry.cancelledAt ? `Dibatalkan · ` : entry.reversalOf ? `Pembalikan · ` : ``, r ? `Koreksi stok · ${entry.adjustment?.before ?? `—`} → ${entry.adjustment?.after ?? `—`} ${a[0]?.unit ?? ``}` : `${entry.source === `recipe` ? `Dimasak · ${entry.servings ?? 1} porsi` : n ? `Dibuang` : `Dipakai langsung`} · ${s}`]}</p>, showDate && <p className={`text-xs mt-1`} style={{ color: `var(--muted-foreground)` }}>{[_r(entry.date), r && entry.adjustment ? ` · ${adjustmentDelta > 0 ? `+` : adjustmentDelta < 0 ? `−` : ``}${Math.abs(adjustmentDelta)} ${a[0]?.unit ?? ``}` : ` · ${movementAmount}`]}</p>, showDate && entry.editedAt && <p className="text-xs mt-1" style={{ color: `var(--muted-foreground)` }}>Diedit · {new Date(entry.editedAt).toLocaleString(`id-ID`)}</p>]}</div>, <span className={`text-base shrink-0`} style={{
       color: `var(--muted-foreground)`
     }}>{`›`}</span>]}</button>;
 }

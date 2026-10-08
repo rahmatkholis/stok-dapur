@@ -31,11 +31,13 @@ function ProductModal({
   lockMasterSelection: lockMasterSelection,
   onAdjust: onAdjust,
   presentation = `modal`,
-  archived = false
+  archived = false,
+  initialTab,
+  initialCorrectionId
 }) {
   const isPage = presentation === `page`;
-  const [activeTab, setActiveTab] = React.useState(archived ? `movements` : `detail`);
-  const [correctionId, setCorrectionId] = React.useState(null);
+  const [activeTab, setActiveTab] = React.useState(initialTab ?? (archived ? `movements` : `detail`));
+  const [correctionId, setCorrectionId] = React.useState(initialCorrectionId ?? null);
   const correction = correctionId ? Qe(username).find(entry => entry.id === correctionId) : null;
   const openMovement = id => {
     const entry = Qe(username).find(entry => entry.id === id);
