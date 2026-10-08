@@ -1,6 +1,6 @@
 # Stok Dapur — source yang dapat dikembangkan
 
-Sesuaikan stok kini langsung membuka jumlah fisik dan alasan. Riwayat produk menyatukan Belanja, Aktivitas, stok awal, dan Koreksi dengan selisih serta saldo yang dapat diverifikasi. Lihat docs/STOCK-MOVEMENTS-UPDATE.md dan jalankan npm run test:stock-movements.
+Sesuaikan stok kini langsung membuka jumlah fisik dan alasan. Riwayat produk menyatukan Belanja, Aktivitas, stok awal, dan Koreksi dalam kartu ringkas berisi tipe, nama kegiatan, tanggal, dan jumlah perubahan. Lihat docs/STOCK-MOVEMENTS-UPDATE.md dan jalankan npm run test:stock-movements.
 
 Koreksi stok kini berada di riwayat produk, dengan kartu, detail, pembatalan, dan akses stok habis; menu Aktivitas hanya memuat kegiatan pemakaian/pembuangan. Lihat docs/STOCK-CORRECTION-HISTORY-UPDATE.md.
 

@@ -26,7 +26,7 @@ await test('new correction is stored once, hidden from Activity, and shown as a 
   assert(text(h.d.getElementById('root')).includes('Semua 0'));
   await open(h); const card = h.btn('Buka koreksi stok: Hasil timbang');
   assert(card.className.includes('rounded-2xl')); assert(card.style.boxShadow);
-  assert(text(card).includes('10 → 7 buah')); assert(text(card).includes('−3 buah'));
+  assert(!card.querySelector('.stock-history-balance')); assert(card.querySelector('.stock-history-arrow')); assert(text(card).includes('−3 buah'));
   assert.equal(h.data().activityLog.length, 1);
 });
 await test('existing corrections need no migration and open their details without entering Activity', corrected(), async h => {

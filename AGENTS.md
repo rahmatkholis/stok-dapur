@@ -15,6 +15,8 @@ Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. 
 
 ## Perubahan
 
+- Kartu Perubahan terbaru harus ringkas: tipe, nama aktivitas/alasan, tanggal, jumlah perubahan, dan panah bila ada detail yang bisa dibuka. Jangan menambahkan kembali saldo sebelum/sesudah atau baris sumber terpisah pada kartu. Saldo tetap dipakai model untuk validasi. Pertahankan layout penting pada komponen dan versi aset produksi agar CSS lama tidak menumpuk teks.
+
 - Sesuaikan stok membuka langsung form jumlah fisik/alasan. Riwayat produk menyatukan asal stok/Belanja dan pergerakan Aktivitas/Koreksi melalui pembaca readStockMovements, tanpa membuat transaksi duplikat. Saldo historis tidak boleh diinferensikan jika rangkaian tidak lengkap/konsisten; tampilkan Belum diketahui. Urutan mengikuti pencatatan, dengan tanggal kejadian terpisah jika berbeda. Lihat docs/STOCK-MOVEMENTS-UPDATE.md. Penggabungan kartu stok dan edit koreksi sudah di-undo; jangan menerapkannya kembali tanpa instruksi.
 
 - Koreksi stok ditampilkan sebagai kartu di Perubahan terbaru pada riwayat produk, tidak dalam daftar/filter Aktivitas. Detail dan pembatalannya tetap dalam alur produk. Inventori menyediakan akses batch habis yang punya koreksi agar pemulihan tidak hilang. Store masih menggunakan satu catatan activityLog; jangan menggandakan atau menghapus sejarah. Lihat docs/STOCK-CORRECTION-HISTORY-UPDATE.md.
