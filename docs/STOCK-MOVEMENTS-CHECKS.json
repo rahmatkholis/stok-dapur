@@ -1,6 +1,6 @@
 {
   "method": "Production React in JSDOM: direct adjustment, source navigation, immutable transaction counts, physical recording order, incomplete historic balances, cancellation, decimals and batch isolation. No real-device visual verification.",
-  "passed": 24,
+  "passed": 31,
   "checks": [
     "stock adjustment opens directly with locked current stock and no selection gateway",
     "decreasing physical count creates one correction with the correct delta and source",
@@ -16,7 +16,7 @@
     "usage movement opens its matching activity",
     "correction movement opens its detail without entering Activity",
     "unsaved metadata blocks both adjustment and opening shopping history",
-    "manual origin appears once with its original quantity rather than remaining stock",
+    "manual origin stays a balance anchor without adding a movement",
     "missing origin quantities do not invent historic balances",
     "a mismatch at an old physical correction hides inferred balances even when final totals match",
     "backdated usage is ordered by recording and keeps the physical balance correct",
@@ -25,6 +25,13 @@
     "decimal corrections render a rounded delta and correct stock transitions",
     "receipt source stays scoped to the selected inventory card",
     "missing timestamps stay unknown and never show an invented epoch date",
-    "legacy correction in a mismatched unit does not relabel its before/after as the current unit"
+    "legacy correction in a mismatched unit does not relabel its before/after as the current unit",
+    "opening stock without movements has only an empty state and no incomplete-history warning",
+    "unknown legacy origin is not fabricated and has no placeholder movement",
+    "purchase without later changes still has one receipt movement and no duplicate Detail block",
+    "purchase movement without recording time uses available date and never epoch",
+    "new demo stock records its opening source and quantity without activity transactions",
+    "recognized old demo stock uses the original template rather than remaining quantity",
+    "unrecognized seed-like records are not assigned a fabricated opening balance"
   ]
 }

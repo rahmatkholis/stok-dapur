@@ -33,13 +33,15 @@ ledger.activityLog = [
   activity('dispose', 1, { action: 'disposed', title: 'Rusak' }),
   activity('use', 2, { title: 'Sarapan' }),
 ];
-await test('Detail contains fields and origin last; movement totals and events are in the other tab', ledger, async h => {
+await test('Detail starts with stock origin; movement totals and events are in the other tab', ledger, async h => {
   await open(h);
   const before = h.raw();
   const detail = panel(h, 'Detail'), movements = panel(h, 'Riwayat Pergerakan Stok');
   assert(!detail.hidden); assert(movements.hidden);
-  assert.equal(detail.lastElementChild.tagName, 'SECTION');
-  assert(text(detail.lastElementChild).includes('Ditambahkan langsung ke Inventori'));
+  assert.equal(detail.firstElementChild.getAttribute('aria-label'), 'Asal stok');
+  assert(text(detail.firstElementChild).includes('Stok awal'));
+  assert(!text(detail).includes('Jumlah awal'));
+  assert(!detail.querySelector('section'));
   assert(!text(detail).includes('Sarapan'));
   assert(!text(detail).includes('Perubahan terbaru'));
   await h.click('Riwayat Pergerakan Stok');
@@ -82,13 +84,16 @@ await test('movement entry opens the matching activity', ledger, async h => {
 const purchase = data(product('p1', 'egg', 10, { stockSource: 'purchase' }));
 purchase.shoppingActivities = [{ id: 'trip', title: 'Belanja Mingguan', status: 'ongoing', createdAt: '2026-10-01T00:00:00Z', updatedAt: '2026-10-01T00:00:00Z' }];
 purchase.shoppingItems = [{ id: 'shopping-egg', activityId: 'trip', itemId: 'egg', name: 'Telur', category: 'Segar', quantity: 10, unit: 'buah', status: 'purchased', createdAt: '2026-10-01T00:00:00Z', receipts: [{ id: 'receipt', productId: 'p1', quantity: 10, product: product('p1'), createdAt: '2026-10-01T00:00:00Z' }] }];
-await test('shopping receipt is below storage location and opens its shopping record', purchase, async h => {
+await test('Detail has a short shopping origin; receipt appears only in movements and opens shopping', purchase, async h => {
   await open(h);
-  const detail = panel(h, 'Detail'), origin = detail.lastElementChild;
-  assert(text(origin).includes('Diterima dari Belanja'));
-  assert(text(origin).includes('Jumlah pembelian: 10 buah'));
-  assert(!text(panel(h, 'Riwayat Pergerakan Stok')).includes('Diterima dari Belanja'));
-  origin.querySelector('button').click(); await wait();
+  const detail = panel(h, 'Detail');
+  assert(text(detail.firstElementChild).includes('Asal stok: Dari belanja'));
+  assert(!text(detail).includes('Diterima dari Belanja'));
+  assert(!text(detail).includes('Jumlah pembelian'));
+  await h.click('Riwayat Pergerakan Stok');
+  const movements = panel(h, 'Riwayat Pergerakan Stok');
+  assert(text(movements).includes('+10 buah'));
+  await h.click('Buka stok masuk: Belanja Mingguan');
   assert(!h.d.querySelector('.product-detail-page'));
   assert(text(h.d.getElementById('root')).includes('Belanja Mingguan'), JSON.stringify({ dom: text(h.d.getElementById('root')), errors: h.errors, data: h.data().shoppingActivities }));
 });

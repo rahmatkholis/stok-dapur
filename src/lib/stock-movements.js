@@ -42,6 +42,8 @@ function readStockMovements(username, productId) {
     // Only an adjustment stores its own before/after. Do not invent historic balances.
     event.before = event.explicitBefore; event.after = event.explicitAfter;
   }
-  return { ...ledger, balancesKnown: reliable, movements: [origin, ...movements].reverse() };
+  // Opening stock is the balance anchor, not a movement card. A receipt is an
+  // actual incoming transaction and remains linked to its shopping record.
+  return { ...ledger, balancesKnown: reliable, movements: [...(original.kind === 'purchase' ? [origin] : []), ...movements].reverse() };
 }
 export { readStockMovements };

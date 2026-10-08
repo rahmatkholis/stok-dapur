@@ -53,9 +53,9 @@ await test('unsaved metadata blocks both adjustment and opening shopping history
   await h.click('Sesuaikan stok'); assert(!h.d.querySelector('[role="dialog"]')); assert(text(h.d.querySelector('[role="alert"]')).includes('Simpan perubahan'));
   await h.click('Buka stok masuk: Belanja Mingguan'); assert(h.d.querySelector('.product-detail-page')); assert(text(h.d.querySelector('[role="alert"]')).includes('Simpan perubahan'));
 });
-await test('manual origin appears once with its original quantity rather than remaining stock', fixture(product('p1', 'egg', 8, { initialQuantity: 10 })), async h => {
+await test('manual origin stays a balance anchor without adding a movement', fixture(product('p1', 'egg', 8, { initialQuantity: 10 })), async h => {
   const current = h.data(); current.activityLog = [activity('use', 2)]; h.replace(current); await open(h);
-  assert.equal(cards(h).length, 2); const origin = cards(h).find(card => card.dataset.movementId === 'origin:p1'); assert(text(origin).includes('+10 buah')); assert(text(origin).includes('Inventori')); assert.equal(origin.tagName, 'DIV');
+  assert.equal(cards(h).length, 1); assert(!cards(h).some(card => card.dataset.movementId === 'origin:p1')); assert.equal(read(h).origin.quantity, 10); assert.equal(read(h).movements[0].before, 10); assert.equal(read(h).movements[0].after, 8); assert(read(h).balancesKnown);
 });
 await test('missing origin quantities do not invent historic balances', fixture(product('p1', 'egg', 8, { initialQuantity: undefined, stockSource: undefined })), async h => {
   const current = h.data(); current.activityLog = [activity('use', 2)]; h.replace(current); await open(h);
@@ -63,13 +63,50 @@ await test('missing origin quantities do not invent historic balances', fixture(
 });
 await test('a mismatch at an old physical correction hides inferred balances even when final totals match', (() => { const data = fixture(product('p1', 'egg', 5, { initialQuantity: 10 })); data.activityLog = [activity('use', 2), activity('adjust', 3, { action: 'adjusted', adjustment: { productId: 'p1', before: 9, after: 6 }, title: 'Legacy count' })]; return data; })(), async h => { await open(h); assert.equal(read(h).balancesKnown, false); assert.equal(read(h).movements[0].after, null); assert.equal(read(h).movements[1].before, 9); assert.equal(read(h).movements[1].after, 6); });
 await test('backdated usage is ordered by recording and keeps the physical balance correct', (() => { const data = fixture(product('p1', 'egg', 6, { initialQuantity: 10 })); data.activityLog = [activity('later', 1, { date: '2026-10-05', title: 'Dicatat kemudian', createdAt: '2026-10-07T06:00:00Z' }), activity('adjust', 3, { action: 'adjusted', adjustment: { productId: 'p1', before: 10, after: 7 }, title: 'Hitung fisik' })]; return data; })(), async h => { await open(h); assert.equal(cards(h)[0].dataset.movementId, 'later'); assert.equal(read(h).balancesKnown, true); assert.equal(read(h).movements[0].before, 7); assert.equal(read(h).movements[0].after, 6); assert(text(cards(h)[0]).includes('5 Okt')); });
-await test('cancellation retains original and reversal cards with a reconciled balance', (() => { const data = fixture(product()); data.activityLog = [activity('reverse', 3, { action: 'adjusted', title: 'Pembatalan', reversalOf: 'adjust', adjustment: { productId: 'p1', before: 7, after: 10 } }), activity('adjust', 3, { action: 'adjusted', title: 'Salah', cancelledAt: '2026-10-07T05:00:00Z', adjustment: { productId: 'p1', before: 10, after: 7 } })]; return data; })(), async h => { await open(h); assert.equal(read(h).balancesKnown, true); assert(text(cards(h)[0]).includes('+3 buah')); assert(text(cards(h)[1]).includes('Dibatalkan')); assert.equal(cards(h).length, 3); });
+await test('cancellation retains original and reversal cards with a reconciled balance', (() => { const data = fixture(product()); data.activityLog = [activity('reverse', 3, { action: 'adjusted', title: 'Pembatalan', reversalOf: 'adjust', adjustment: { productId: 'p1', before: 7, after: 10 } }), activity('adjust', 3, { action: 'adjusted', title: 'Salah', cancelledAt: '2026-10-07T05:00:00Z', adjustment: { productId: 'p1', before: 10, after: 7 } })]; return data; })(), async h => { await open(h); assert.equal(read(h).balancesKnown, true); assert(text(cards(h)[0]).includes('+3 buah')); assert(text(cards(h)[1]).includes('Dibatalkan')); assert.equal(cards(h).length, 2); });
 await test('mixed-unit legacy records show recorded amounts and leave remaining stock unknown', (() => { const data = fixture(product('p1', 'rice', 500, { initialQuantity: 1500 })); data.activityLog = [activity('mixed', 1, { items: [{ productId: 'p1', productName: 'Beras', category: 'Pokok', quantity: 1, unit: 'kg' }] })]; return data; })(), async h => { await open(h); assert(text(h.btn('Buka dipakai: Sarapan')).includes('−1 kg')); assert.equal(read(h).movements[0].after, null); });
 await test('decimal corrections render a rounded delta and correct stock transitions', fixture(product('p1', 'rice', 10)), async h => { await open(h); await adjust(h, 7.2); await open(h); assert(text(h.btn('Buka koreksi stok: Hasil hitung ulang')).includes('−2,8 gram')); assert.equal(read(h).balancesKnown, true); });
-await test('receipt source stays scoped to the selected inventory card', (() => { const data = purchase(); data.products.push(product('other', 'egg', 4)); return data; })(), async h => { await h.click('▤ Inventori'); h.d.querySelectorAll('.inventory-product')[1].click(); await wait(); await h.click('Riwayat Pergerakan Stok'); assert.equal(cards(h).length, 1); assert(!text(h.d.getElementById('root')).includes('Timbang ulang')); });
-await test('missing timestamps stay unknown and never show an invented epoch date', fixture(product('p1', 'egg', 10, { createdAt: null })), async h => { await open(h); assert(text(cards(h)[0]).includes('1 Okt')); assert(!text(cards(h)[0]).includes('00.00')); assert(!text(cards(h)[0]).includes('1970')); });
+await test('receipt source stays scoped to the selected inventory card', (() => { const data = purchase(); data.products.push(product('other', 'egg', 4)); return data; })(), async h => { await h.click('▤ Inventori'); h.d.querySelectorAll('.inventory-product')[1].click(); await wait(); await h.click('Riwayat Pergerakan Stok'); assert.equal(cards(h).length, 0); assert(text(h.d.getElementById('root')).includes('Belum ada pergerakan stok.')); assert(!text(h.d.getElementById('root')).includes('Timbang ulang')); });
+await test('missing timestamps stay unknown and never show an invented epoch date', fixture(product('p1', 'egg', 10, { createdAt: null })), async h => { await open(h); assert.equal(cards(h).length, 0); assert.equal(read(h).origin.recordedAt, null); assert(!text(h.d.getElementById('root')).includes('1970')); });
 await test('legacy correction in a mismatched unit does not relabel its before/after as the current unit', (() => {
   const data = fixture(product('p1', 'rice', 7, { initialQuantity: 10 })); data.activityLog = [activity('mixed-adjust', 3, { action: 'adjusted', title: 'Old units', adjustment: { productId: 'p1', before: 10, after: 7 }, items: [{ productId: 'p1', productName: 'Beras', quantity: 3, unit: 'kg', category: 'Pokok' }] })]; return data;
 })(), async h => { await open(h); const card = h.btn('Buka koreksi stok: Old units'); assert(text(card).includes('3 kg')); assert.equal(read(h).movements[0].after, null); assert(!text(card).includes('10 → 7 gram')); });
+await test('opening stock without movements has only an empty state and no incomplete-history warning', fixture(product('p1', 'egg', 5)), async h => {
+  await open(h); const before = h.raw();
+  const history = h.d.querySelector('[aria-label="Riwayat Pergerakan Stok"]');
+  assert.equal(text(history), 'Belum ada pergerakan stok.'); assert.equal(cards(h).length, 0);
+  assert(!history.querySelector('[role="status"]')); assert.equal(h.raw(), before);
+  await h.click('Detail'); assert(text(h.d.querySelector('[aria-label="Asal stok"]')).includes('Stok awal'));
+});
+await test('unknown legacy origin is not fabricated and has no placeholder movement', fixture(product('p1', 'egg', 5, { stockSource: undefined, initialQuantity: undefined })), async h => {
+  await open(h); assert.equal(cards(h).length, 0); assert.equal(read(h).origin.kind, 'unknown'); assert.equal(read(h).origin.quantity, null);
+  assert(!text(h.d.getElementById('root')).includes('Catatan stok lama'));
+  await h.click('Detail'); assert(text(h.d.querySelector('[aria-label="Asal stok"]')).includes('Belum diketahui'));
+});
+await test('purchase without later changes still has one receipt movement and no duplicate Detail block', (() => { const data = purchase(); data.products[0].quantity = 10; data.activityLog = []; return data; })(), async h => {
+  await open(h); assert.equal(cards(h).length, 1); assert.equal(cards(h)[0].dataset.movementId, 'origin:p1'); assert(text(cards(h)[0]).includes('+10 buah'));
+  await h.click('Detail'); const detail = h.d.querySelector('[role="tabpanel"]'); assert(text(detail.firstElementChild).includes('Dari belanja')); assert(!text(detail).includes('Jumlah pembelian'));
+});
+await test('purchase movement without recording time uses available date and never epoch', (() => { const data = purchase(); data.shoppingItems[0].receipts[0].product.createdAt = null; return data; })(), async h => {
+  await open(h); const card = cards(h).find(card => card.dataset.movementId === 'origin:p1'); assert(text(card).includes('1 Okt')); assert(!text(card).includes('00.00')); assert(!text(card).includes('1970'));
+});
+await test('new demo stock records its opening source and quantity without activity transactions', { ...base(), demoSeeded: false }, async h => {
+  const seeded = h.data().products; assert(seeded.length > 0);
+  for (const entry of seeded) { assert.equal(entry.stockSource, 'manual'); assert.equal(entry.initialQuantity, entry.quantity); }
+  assert.equal(h.data().activityLog.length, 0);
+});
+await test('recognized old demo stock uses the original template rather than remaining quantity', (() => {
+  const seedId = 'seed_0_123456789';
+  const data = fixture(product(seedId, 'rice', 3, { name: 'Beras Pandan Wangi', category: 'Bahan Pokok', unit: 'kg', initialQuantity: undefined, stockSource: undefined }));
+  data.activityLog = [activity('seed-use', 2, { items: [{ productId: seedId, productName: 'Beras Pandan Wangi', category: 'Bahan Pokok', quantity: 2, unit: 'kg' }] })]; return data;
+})(), async h => {
+  await open(h); const before = h.raw(), timeline = h.w.__readStockMovements('qa', 'seed_0_123456789');
+  assert.equal(timeline.origin.kind, 'manual'); assert.equal(timeline.origin.quantity, 5); assert(timeline.balancesKnown);
+  assert.equal(cards(h).length, 1); assert.equal(timeline.movements[0].before, 5); assert.equal(timeline.movements[0].after, 3); assert.equal(h.raw(), before);
+});
+await test('unrecognized seed-like records are not assigned a fabricated opening balance', fixture(product('seed_0_123456789', 'egg', 5, { initialQuantity: undefined, stockSource: undefined })), async h => {
+  await open(h); const timeline = h.w.__readStockMovements('qa', 'seed_0_123456789');
+  assert.equal(timeline.origin.kind, 'unknown'); assert.equal(timeline.origin.quantity, null); assert.equal(cards(h).length, 0);
+});
 fs.writeFileSync('docs/STOCK-MOVEMENTS-CHECKS.json', JSON.stringify({ method: 'Production React in JSDOM: direct adjustment, source navigation, immutable transaction counts, physical recording order, incomplete historic balances, cancellation, decimals and batch isolation. No real-device visual verification.', passed: checks.length, checks }, null, 2) + '\n');
 console.log(JSON.stringify({ stock_movement_checks: checks.length, passed: checks.length }));

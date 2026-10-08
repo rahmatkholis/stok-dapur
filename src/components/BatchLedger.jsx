@@ -34,6 +34,9 @@ function BatchLedger({
 }) {
   let i = view === `movements` ? readStockMovements(username, productId) : readBatchLedger(username, productId);
   if (!i) return null;
+  if (view === `movements` && !i.movements.length) return <section aria-label={`Riwayat Pergerakan Stok`}>
+    <p style={{ color: `var(--muted-foreground)`, fontSize: `0.875rem`, padding: `16px 0` }}>Belum ada pergerakan stok.</p>
+  </section>;
   let {
       product: a,
       origin: o,
