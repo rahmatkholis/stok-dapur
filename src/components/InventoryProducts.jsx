@@ -149,32 +149,18 @@ function inventoryStatus(batches, today) {
   if (pending) return { label: pending === stocked.length ? 'Belum tersedia' : 'Sebagian belum tersedia', tone: 'muted' };
   return null;
 }
-// Display grouping only: each stock receipt keeps its original product id.
-function groupMatchingStock(products, today = new Date().toLocaleDateString('sv-SE')) {
-  const groups = new Map();
-  for (const batch of products) {
-    const key = JSON.stringify([ln(batch), batch.unit, batch.category,
-      batch.expiryKind ?? (batch.expiryDate ? 'package' : 'unknown'), batch.expiryDate || '',
-      batch.location || '', batch.receivedDate > today ? batch.receivedDate : 'available']);
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(batch);
-  }
-  return [...groups.values()];
-}
 function InventoryProducts({ products, allProducts, masters, onEdit }) {
   const now = new Date();
   const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
   const groups = dn(products, allProducts, masters, today);
   return <div className="inventory-product-list">
-    {groups.flatMap(group => groupMatchingStock(group.batches, today).map(batches => {
-      const batch = batches[0];
-      const quantity = cn(batches.reduce((total, item) => total + item.quantity, 0));
-      const amount = `${quantity.toLocaleString('id-ID', { maximumFractionDigits: 4 })} ${batch.unit}`;
-      const status = inventoryStatus(batches, today);
+    {groups.flatMap(group => group.batches.map(batch => {
+      const amount = `${batch.quantity.toLocaleString('id-ID', { maximumFractionDigits: 4 })} ${batch.unit}`;
+      const status = inventoryStatus([batch], today);
       const dateLabel = batch.expiryDate && getExpiryStatus(batch.expiryDate) !== 'unknown'
         ? `${batch.expiryKind === 'estimated' ? 'Perkiraan ' : ''}${formatDate(batch.expiryDate)}` : null;
       return <button type="button" className="inventory-product inventory-product-summary" key={batch.id}
-        onClick={() => onEdit(batch, batches)}
+        onClick={() => onEdit(batch)}
         aria-label={`Edit ${group.name}, ${amount}, ${describeExpiry(batch)}${batch.location ? `, ${batch.location}` : ''}`}>
         <span className="inventory-product-heading">
           <span className="inventory-product-name">{group.name}</span>
@@ -190,4 +176,4 @@ function InventoryProducts({ products, allProducts, masters, onEdit }) {
   </div>;
 }
 
-export { groupMatchingStock, on, sn, cn, ln, un, dn, fn, pn, InventoryBatchCard, hn, InventoryProducts };
+export { on, sn, cn, ln, un, dn, fn, pn, InventoryBatchCard, hn, InventoryProducts };

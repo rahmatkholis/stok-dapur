@@ -2,7 +2,7 @@
 import * as React from "react";
 import { StockMovementCard } from "../components/StockMovementCard.jsx";
 import * as jsxRuntime from "react/jsx-runtime";
-import { getStockAdjustmentEditState, editStockAdjustment, $e, Ke, Qe, Ve, addActivityEntry, cancelStockAdjustment, convertItemUnit, deleteActivityEntry, getAllowedUnits, getUserData, previewStockCorrectionConflicts, qe, updateActivityEntry } from "../lib/store.js";
+import { $e, Ke, Qe, Ve, addActivityEntry, cancelStockAdjustment, convertItemUnit, deleteActivityEntry, getAllowedUnits, getUserData, previewStockCorrectionConflicts, qe, updateActivityEntry } from "../lib/store.js";
 import { PhysicalStockConfirmModal } from "../components/PhysicalStockConfirmModal.jsx";
 import { DraftRestoreNotice, Gt, Jt, Yt } from "../lib/drafts.jsx";
 import { ProductModal } from "../components/ProductModal.jsx";
@@ -193,9 +193,6 @@ function AdjustmentDetailPage({
   (0, React.useEffect)(() => {
     l(``), d(false);
   }, [entry.id]);
-  const [editing, setEditing] = React.useState(null);
-  const editState = getStockAdjustmentEditState(username, entry.id);
-  const editDirty = editing && (editing.title !== entry.title || Number(editing.after) !== entry.adjustment.after);
   let m = Qe(username).some(t => t.reversalOf === entry.id);
   function h() {
     if (!entry.adjustment) return;
@@ -210,7 +207,7 @@ function AdjustmentDetailPage({
     background: `var(--background)`
   }}>{<div className={`max-w-[480px] mx-auto min-h-screen`}>{[<div className={`px-4 py-4 flex items-center gap-3`} style={{
         background: `var(--card)`
-      }}>{[<button onClick={() => { if (!editDirty || window.confirm(`Buang perubahan koreksi yang belum disimpan?`)) { setEditing(null); onBack(); } }} aria-label={`Kembali`} className={`w-9 h-9 rounded-xl font-bold`} style={{
+      }}>{[<button onClick={onBack} aria-label={`Kembali`} className={`w-9 h-9 rounded-xl font-bold`} style={{
           background: `var(--muted)`
         }}>{`‹`}</button>, <h2 className={`font-black text-base`}>{`Detail Koreksi Stok`}</h2>]}</div>, <div className={`p-4 space-y-4`}>{[<div className={`rounded-2xl p-4 space-y-3`} style={{
           background: `var(--card)`,
@@ -219,25 +216,13 @@ function AdjustmentDetailPage({
             color: `var(--muted-foreground)`
           }}>{[_r(entry.date), ` · `, vr(entry.createdAt)]}</p>, <div className={`h-px`} style={{
             background: `var(--border)`
-          }} />, <p className={`text-sm font-bold`}>{s?.productName ?? `Stok`}</p>, f.product && <p className="text-xs">Penerimaan: {f.product.receivedDate ? _r(f.product.receivedDate) : `tanggal belum diketahui`} · {f.product.location || `Tanpa lokasi`}</p>, <p className={`text-sm`}>{[entry.adjustment?.before ?? `—`, ` `, s?.unit, ` → `, <strong>{[entry.adjustment?.after ?? `—`, ` `, s?.unit]}</strong>]}</p>]}</div>, editState.canEditReason && !editing && <button type="button" onClick={() => { l(''); d(false); setEditing({ title: entry.title, after: String(entry.adjustment.after), version: editState.version, canEditQuantity: editState.canEditQuantity }); }} className="w-full rounded-xl p-3 text-sm font-bold" style={{ background: 'var(--primary)', color: '#fff' }}>Edit Koreksi</button>, editing && <form aria-label="Edit Koreksi Stok" className="rounded-2xl p-4 space-y-3" style={{ background: 'var(--card)', boxShadow: mr }} onSubmit={event => {
-          event.preventDefault();
-          const error = editStockAdjustment(username, entry.id, { title: editing.title, after: editing.after.trim() ? Number(editing.after) : NaN }, editing.version);
-          if (error) l(error); else { setEditing(null); l(''); onRestored(); }
-        }}>
-          <h3 className="font-bold">Edit Koreksi Stok</h3>
-          <label className="block text-sm">Jumlah sebelum koreksi<input className="w-full rounded-xl p-3 mt-1" readOnly value={entry.adjustment.before} /></label>
-          <label className="block text-sm">Jumlah setelah koreksi ({s?.unit})<input aria-label="Jumlah setelah koreksi" className="w-full rounded-xl p-3 mt-1" type="number" min="0" step="0.0001" value={editing.after} readOnly={!editing.canEditQuantity || !editState.canEditQuantity} onChange={event => setEditing({ ...editing, after: event.target.value })} /></label>
-          {(!editing.canEditQuantity || !editState.canEditQuantity) && <p className="text-sm">Stok sudah berubah setelah koreksi ini. Alasan masih bisa diedit. Untuk mengganti jumlah, kembali ke riwayat produk dan pilih Perbaiki catatan stok.</p>}
-          <label className="block text-sm">Alasan koreksi<input aria-label="Alasan koreksi" className="w-full rounded-xl p-3 mt-1" value={editing.title} onChange={event => setEditing({ ...editing, title: event.target.value })} /></label>
-          <button type="submit" className="w-full rounded-xl p-3 font-bold" style={{ background: 'var(--primary)', color: '#fff' }}>Simpan Koreksi</button>
-          <button type="button" className="w-full p-2" onClick={() => { if (!editDirty || window.confirm('Buang perubahan koreksi yang belum disimpan?')) { setEditing(null); l(''); } }}>Batal Edit</button>
-        </form>, entry.revisions?.length > 0 && <details className="rounded-2xl p-4" style={{ background: 'var(--card)', boxShadow: mr }}><summary className="font-bold cursor-pointer">Riwayat edit ({entry.revisions.length})</summary>{[...entry.revisions].reverse().map((revision, index) => <div key={index} className="py-3 text-sm"><p>{new Date(revision.editedAt).toLocaleString('id-ID')}</p><p>Jumlah setelah: {revision.previousAfter} → {revision.after} {s?.unit}</p><p>Alasan sebelumnya: {revision.previousTitle}</p><p>Alasan diperbarui: {revision.title}</p></div>)}</details>, entry.cancelledAt && <p className={`text-sm font-bold`}>{`Penyesuaian ini sudah dibatalkan. Riwayat tetap tersimpan.`}</p>, !editing && !entry.cancelledAt && !entry.reversalOf && !m && <jsxRuntime.Fragment>{f.blockers.length > 0 ? <div className={`space-y-2`}>{[<p className={`text-sm`}>{`Ada catatan yang lebih baru. Periksa dari yang terbaru; koreksi hanya catatan yang salah.`}</p>, f.blockers.map(e => <button onClick={() => onOpenEntry(e)} className={`w-full text-left p-3 rounded-xl text-sm font-bold`} style={{
+          }} />, <p className={`text-sm font-bold`}>{s?.productName ?? `Stok`}</p>, <p className={`text-sm`}>{[entry.adjustment?.before ?? `—`, ` `, s?.unit, ` → `, <strong>{[entry.adjustment?.after ?? `—`, ` `, s?.unit]}</strong>]}</p>]}</div>, entry.cancelledAt && <p className={`text-sm font-bold`}>{`Penyesuaian ini sudah dibatalkan. Riwayat tetap tersimpan.`}</p>, !entry.cancelledAt && !entry.reversalOf && !m && <jsxRuntime.Fragment>{f.blockers.length > 0 ? <div className={`space-y-2`}>{[<p className={`text-sm`}>{`Ada catatan yang lebih baru. Periksa dari yang terbaru; koreksi hanya catatan yang salah.`}</p>, f.blockers.map(e => <button onClick={() => onOpenEntry(e)} className={`w-full text-left p-3 rounded-xl text-sm font-bold`} style={{
               background: `var(--muted)`
             }} key={e.id}>{[e.title, ` · `, _r(e.date)]}</button>)]}</div> : f.changedStock ? <div className={`space-y-2`}>{[<p className={`text-sm`}>{`Jumlah stok sudah berubah. Koreksi pembelian jika jumlah belinya salah, atau catat jumlah fisik yang benar di Inventori.`}</p>, p?.activityId && <button onClick={() => onOpenShoppingActivity(p.activityId)} className={`w-full rounded-xl p-3 text-sm font-bold`} style={{
               background: `var(--muted)`
             }}>{`Buka Belanja Terkait`}</button>, <button onClick={onOpenInventory} className={`w-full rounded-xl p-3 text-sm font-bold`} style={{
               background: `var(--muted)`
-            }}>{`Buka Inventori untuk Sesuaikan Stok`}</button>]}</div> : <button type={`button`} onClick={() => d(true)} className={`w-full py-3 rounded-xl text-sm font-bold border border-red-600 text-red-700`}>{`Batalkan Penyesuaian yang Salah`}</button>}</jsxRuntime.Fragment>, !editing && entry.adjustment?.after === 0 && !m && !entry.cancelledAt && f.blockers.length === 0 && <button type={`button`} onClick={h} className={`w-full py-3 rounded-xl text-sm font-bold`} style={{
+            }}>{`Buka Inventori untuk Sesuaikan Stok`}</button>]}</div> : <button type={`button`} onClick={() => d(true)} className={`w-full py-3 rounded-xl text-sm font-bold border border-red-600 text-red-700`}>{`Batalkan Penyesuaian yang Salah`}</button>}</jsxRuntime.Fragment>, entry.adjustment?.after === 0 && !m && !entry.cancelledAt && f.blockers.length === 0 && <button type={`button`} onClick={h} className={`w-full py-3 rounded-xl text-sm font-bold`} style={{
           background: `var(--primary)`,
           color: `#fff`
         }}>{[`Pulihkan `, entry.adjustment.before, ` `, s?.unit, ` ke Inventori`]}</button>, m && !entry.cancelledAt && <p className={`text-sm font-bold`} style={{

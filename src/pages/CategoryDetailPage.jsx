@@ -1,6 +1,6 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as React from "react";
-import { InventoryProducts, groupMatchingStock } from "../components/InventoryProducts.jsx";
+import { InventoryProducts } from "../components/InventoryProducts.jsx";
 var _n = {
     "Bahan Pokok": {
       icon: `🌾`,
@@ -72,7 +72,7 @@ function CategoryDetailPage({
         }}>{category}</h2>, <p className={`text-xs`} style={{
           color: `var(--muted-foreground)`,
           ...vn
-        }}>{[groupMatchingStock(items).length, ` item stok`]}</p>]}</div>]}</div>, <div className={`pt-4`}>{controls}</div>, <div className={`px-4 pt-1 pb-24`}>{items.length ? <InventoryProducts products={items} allProducts={allProducts} masters={masters} onEdit={onEdit} /> : <div className={`rounded-2xl p-8 text-center mt-4`} style={{
+        }}>{[items.length, ` batch ditampilkan`]}</p>]}</div>]}</div>, <div className={`pt-4`}>{controls}</div>, <div className={`px-4 pt-1 pb-24`}>{items.length ? <InventoryProducts products={items} allProducts={allProducts} masters={masters} onEdit={onEdit} /> : <div className={`rounded-2xl p-8 text-center mt-4`} style={{
         background: `var(--card)`,
         border: `1px solid var(--border)`
       }}>{[<p className={`font-bold text-sm`} style={{

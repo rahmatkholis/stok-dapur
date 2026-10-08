@@ -49,7 +49,7 @@ await test('Detail contains fields and origin last; movement totals and events a
   assert(!text(movements).includes('Jumlah awal'));
   assert.equal(h.raw(), before);
 });
-await test('tab switches preserve unsaved metadata and saving changes only the selected batch', data(product('first'), product('second', 'egg', 4, { location: 'Rak' })), async h => {
+await test('tab switches preserve unsaved metadata and saving changes only the selected batch', data(product('first'), product('second', 'egg', 4)), async h => {
   await h.click('▤ Inventori'); h.d.querySelectorAll('.inventory-product')[1].click(); await wait();
   await h.set(h.field('Lokasi Penyimpanan'), 'Kulkas');
   await h.click('Riwayat Pergerakan Stok'); await h.click('Detail');
