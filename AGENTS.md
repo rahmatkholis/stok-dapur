@@ -15,6 +15,8 @@ Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. 
 
 ## Perubahan
 
+- Detail/edit batch sekarang menggunakan halaman dengan tab Detail dan Riwayat Pergerakan Stok. Informasi penerimaan berada paling bawah Detail; koreksi dan perubahan stok berada di Riwayat. Pertahankan transaksi dan proteksi identitas/satuan batch. Lihat docs/PRODUCT-DETAIL-UPDATE.md.
+
 - Edit src/, bukan dist/, baseline/, atau legacy/.
 - Build biasa tidak mengambil kode aplikasi dari baseline/ atau legacy/. React dan ReactDOM dipasang sebagai dependensi npm.
 - scripts/recover-baseline.mjs adalah alat pemulihan referensi satu kali. Jangan menjalankannya pada source yang sudah diedit karena akan mengganti file source hasil pemulihan. Gunakan checkout kerja terpisah bila harus memeriksa reproduksi pemulihan.

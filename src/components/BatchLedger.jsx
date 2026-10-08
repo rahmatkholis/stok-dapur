@@ -26,7 +26,8 @@ function BatchLedger({
   username: username,
   productId: productId,
   onOpenShopping: onOpenShopping,
-  onOpenActivity: onOpenActivity
+  onOpenActivity: onOpenActivity,
+  view = `all`
 }) {
   let i = readBatchLedger(username, productId);
   if (!i) return null;
@@ -52,10 +53,11 @@ function BatchLedger({
       borderTop: `1px solid var(--border)`
     }} key={e.id}>{n}</div>;
   }
-  return <section aria-label={`Asal dan perubahan stok`} className={`rounded-2xl p-4 space-y-3`} style={{
-    border: `1px solid var(--border)`,
+  return <section aria-label={view === `origin` ? l : view === `movements` ? `Riwayat Pergerakan Stok` : `Asal dan perubahan stok`} className={`rounded-2xl p-4 space-y-3`} style={{
+    border: view === `all` ? `1px solid var(--border)` : `none`,
+    boxShadow: view === `all` ? `none` : `0 2px 12px rgba(0,0,0,0.07)`,
     background: `var(--card)`
-  }}>{[<h3 className={`font-black text-sm`}>{`Asal dan perubahan stok`}</h3>, <div className={`rounded-xl p-3 text-sm space-y-1`} style={{
+  }}>{[view === `all` && <h3 className={`font-black text-sm`}>{`Asal dan perubahan stok`}</h3>, view !== `movements` && <div className={`rounded-xl p-3 text-sm space-y-1`} style={{
       background: `var(--muted)`
     }}>{[<p className={`font-bold`}>{l}</p>, o.quantity !== null && <p>{[o.kind === `purchase` ? `Jumlah pembelian` : `Jumlah awal`, `: `, <strong>{[o.quantity, ` `, a.unit]}</strong>]}</p>, o.date && <p className={`text-xs`}>{[`Stok tersedia `, Zt(o.date)]}</p>, <p className={`text-xs`} style={{
         color: `var(--muted-foreground)`
@@ -65,7 +67,7 @@ function BatchLedger({
         color: `var(--primary)`
       }}>{[o.title || `Buka Belanja`, ` →`]}</button>, o.kind === `purchase` && <p className={`text-xs`} style={{
         color: `var(--muted-foreground)`
-      }}>{`Jika pembelian salah dicatat, perbaiki melalui Belanja.`}</p>]}</div>, c.amountsKnown && <div className={`grid grid-cols-3 gap-2 text-xs`}>{[[`Dipakai`, `${c.used} ${a.unit}`], [`Dibuang`, `${c.disposed} ${a.unit}`], [`Penyesuaian`, `${$t(c.adjusted)} ${a.unit}`]].map(([e, t]) => <div key={e}>{[<p style={{
+      }}>{`Jika pembelian salah dicatat, perbaiki melalui Belanja.`}</p>]}</div>, view !== `origin` && <jsxRuntime.Fragment>{[c.amountsKnown && <div className={`grid grid-cols-3 gap-2 text-xs`}>{[[`Dipakai`, `${c.used} ${a.unit}`], [`Dibuang`, `${c.disposed} ${a.unit}`], [`Penyesuaian`, `${$t(c.adjusted)} ${a.unit}`]].map(([e, t]) => <div key={e}>{[<p style={{
           color: `var(--muted-foreground)`
         }}>{e}</p>, <p className={`font-bold mt-1 break-words`}>{t}</p>]}</div>)}</div>, <p className={`text-sm font-bold`}>{[`Stok saat ini: `, a.quantity, ` `, a.unit]}</p>, !c.amountsKnown && <p className={`text-xs`} style={{
       color: `#92400E`
@@ -77,6 +79,6 @@ function BatchLedger({
         color: `var(--muted-foreground)`
       }}>{`Buka catatan untuk memperbaiki pemakaian, pembuangan, atau penyesuaian yang salah. Ringkasan mengikuti catatan yang tersimpan saat ini.`}</p>]}</div> : <p className={`text-xs`} style={{
       color: `var(--muted-foreground)`
-    }}>{`Belum ada perubahan stok yang tercatat pada batch ini.`}</p>]}</section>;
+    }}>{`Belum ada perubahan stok yang tercatat pada batch ini.`}</p>]}</jsxRuntime.Fragment>]}</section>;
 }
 export { Zt, Qt, $t, BatchLedger };

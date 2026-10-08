@@ -28,8 +28,14 @@ function ProductModal({
   onOpenShoppingActivity: onOpenShoppingActivity,
   onOpenActivityEntry: onOpenActivityEntry,
   lockMasterSelection: lockMasterSelection,
-  onAdjust: onAdjust
+  onAdjust: onAdjust,
+  presentation = `modal`
 }) {
+  const isPage = presentation === `page`;
+  const [activeTab, setActiveTab] = React.useState(`detail`);
+  const tabId = React.useId();
+  const headingRef = React.useRef(null);
+  React.useEffect(() => { if (isPage) headingRef.current?.focus(); }, [isPage]);
   let x = `product:${product?.id ?? `new`}`,
     S = product ? JSON.stringify(product) : ``,
     [C] = (0, React.useState)(() => Gt(username, x, tn, S)),
@@ -69,9 +75,12 @@ function ProductModal({
   function me() {
     de ? oe(true) : onClose();
   }
-  (0, React.useEffect)(() => (document.body.style.overflow = `hidden`, () => {
-    document.body.style.overflow = ``;
-  }), []);
+  (0, React.useEffect)(() => {
+    if (isPage) return;
+    const before = document.body.style.overflow;
+    document.body.style.overflow = `hidden`;
+    return () => { document.body.style.overflow = before; };
+  }, [isPage]);
   function he(e) {
     if (e.preventDefault(), le && !ue) return;
     if (requireMasterItem && !itemMasters.some(e => e.active && e.id === E)) {
@@ -134,25 +143,25 @@ function ProductModal({
     }
     e?.();
   }
-  return <div className={`fixed inset-0 z-50 flex items-end justify-center`} style={{
-    background: `rgba(0,0,0,0.4)`,
-    backdropFilter: `blur(2px)`
+  return <div className={isPage ? `product-detail-page` : `fixed inset-0 z-50 flex items-end justify-center`} style={{
+    background: isPage ? `var(--background)` : `rgba(0,0,0,0.4)`,
+    backdropFilter: isPage ? undefined : `blur(2px)`
   }} onClick={e => {
-    e.target === e.currentTarget && me();
-  }}>{[<div role={`dialog`} aria-modal={`true`} aria-label={title ?? (product ? `Edit Produk` : `Tambah Produk`)} className={`w-full max-w-[480px] rounded-t-3xl flex flex-col`} style={{
-      background: `var(--card)`,
-      maxHeight: `92vh`,
-      overflow: `hidden`
-    }}>{[<div className={`flex items-center justify-between gap-3 px-5 pt-5 pb-3 shrink-0`}>{[<h2 className={`font-display font-bold text-lg`} style={{
+    !isPage && e.target === e.currentTarget && me();
+  }}>{[<div role={isPage ? undefined : `dialog`} aria-modal={isPage ? undefined : `true`} aria-label={title ?? (product ? `Edit Produk` : `Tambah Produk`)} className={isPage ? `product-detail-shell` : `w-full max-w-[480px] rounded-t-3xl flex flex-col`} style={{
+      background: isPage ? `var(--background)` : `var(--card)`,
+      maxHeight: isPage ? undefined : `92vh`,
+      overflow: isPage ? undefined : `hidden`
+    }}>{[<div className={isPage ? `product-detail-header` : `flex items-center justify-between gap-3 px-5 pt-5 pb-3 shrink-0`}>{[isPage && <button type={`button`} onClick={me} aria-label={`Kembali ke inventori`} className={`product-detail-back`}>‹</button>, <h2 ref={headingRef} tabIndex={isPage ? -1 : undefined} className={`font-display font-bold text-lg`} style={{
           color: `var(--foreground)`
-        }}>{title ?? (product ? `Edit Produk` : `Tambah Produk`)}</h2>, <div className={`flex items-center gap-2`}>{[onWaste && product && <button type={`button`} onClick={ge} className={`shrink-0 px-3 py-2 rounded-xl text-xs font-bold`} style={{
+        }}>{title ?? (isPage ? `Detail Produk` : product ? `Edit Produk` : `Tambah Produk`)}</h2>, <div className={`flex items-center gap-2`}>{[!isPage && onWaste && product && <button type={`button`} onClick={ge} className={`shrink-0 px-3 py-2 rounded-xl text-xs font-bold`} style={{
             background: `var(--card)`,
             border: `1.5px solid #1A1612`,
             color: `#1A1612`
-          }}>{`Buang Stok`}</button>, <button type={`button`} onClick={me} aria-label={`Tutup`} className={`w-8 h-8 rounded-full flex items-center justify-center text-lg`} style={{
+          }}>{`Buang Stok`}</button>, !isPage && <button type={`button`} onClick={me} aria-label={`Tutup`} className={`w-8 h-8 rounded-full flex items-center justify-center text-lg`} style={{
             background: `var(--muted)`,
             color: `var(--muted-foreground)`
-          }}>{`×`}</button>]}</div>]}</div>, <form onSubmit={he} className={`flex flex-col min-h-0`}>{[<div className={`px-5 pt-2 pb-5 overflow-y-auto flex flex-col gap-3 min-h-0`}>{[<DraftRestoreNotice restored={!!C} storageFailed={pe} />, le && username && product && <BatchLedger username={username} productId={product.id} onOpenShopping={onOpenShoppingActivity ? e => ve(() => onOpenShoppingActivity(e)) : void 0} onOpenActivity={onOpenActivityEntry ? e => ve(() => onOpenActivityEntry(e)) : void 0} />, <div>{requireMasterItem && username && onRefresh ? <ItemPicker items={itemMasters} label={`Nama Produk *`} value={E} onAddItem={e => onOpenMasterItem?.(e => {
+          }}>{`×`}</button>]}</div>]}</div>, isPage && <div className={`product-detail-tabs`} role={`tablist`} aria-label={`Informasi produk`}>{[[`detail`, `Detail`], [`movements`, `Riwayat Pergerakan Stok`]].map(([key, label]) => <button key={key} type={`button`} role={`tab`} id={`${tabId}-${key}-tab`} aria-selected={activeTab === key} aria-controls={`${tabId}-${key}-panel`} tabIndex={activeTab === key ? 0 : -1} onClick={() => setActiveTab(key)} onKeyDown={event => { if ([`ArrowLeft`, `ArrowRight`, `Home`, `End`].includes(event.key)) { event.preventDefault(); const next = event.key === `Home` ? `detail` : event.key === `End` ? `movements` : activeTab === `detail` ? `movements` : `detail`; setActiveTab(next); document.getElementById(`${tabId}-${next}-tab`)?.focus(); } }}>{label}</button>)}</div>, <form onSubmit={he} className={`flex flex-col min-h-0`}>{[<div className={isPage ? `product-detail-content` : `px-5 pt-2 pb-5 overflow-y-auto flex flex-col gap-3 min-h-0`}>{[<DraftRestoreNotice restored={!!C} storageFailed={pe} />, !isPage && le && username && product && <BatchLedger username={username} productId={product.id} onOpenShopping={onOpenShoppingActivity ? e => ve(() => onOpenShoppingActivity(e)) : void 0} onOpenActivity={onOpenActivityEntry ? e => ve(() => onOpenActivityEntry(e)) : void 0} />, <div role={isPage ? `tabpanel` : undefined} id={`${tabId}-detail-panel`} aria-labelledby={`${tabId}-detail-tab`} hidden={isPage && activeTab !== `detail`} className={isPage ? `product-detail-fields` : `contents`}>{[<div>{requireMasterItem && username && onRefresh ? <ItemPicker combined={true} items={itemMasters} label={`Nama Produk *`} value={E} onAddItem={e => onOpenMasterItem?.(e => {
               D(e.id), T(e.name), k(e.category), P(e.unit), W(``);
             }, e)} disabled={lockDetails || lockMasterSelection} onSelect={t => {
               D(t?.id), T(t?.name ?? ``), k(t?.category ?? categories[0] ?? ``), t && (product && product.unit !== t.unit && product.itemId !== t.id && j(``), P(t.unit)), W(``);
@@ -190,25 +199,25 @@ function ProductModal({
               H(e.target.value), W(``);
             }} style={an}>{[<option value={``}>{`Pilih lokasi (opsional)`}</option>, locations.map(e => <option value={e} key={e}>{e}</option>)]}</select>, !locations.length && <p className={`text-xs mt-1`} style={{
               color: `var(--muted-foreground)`
-            }}>{`Tambahkan lokasi di Akun → Data Master.`}</p>]}</ProductField>]}</div>, <div className={`px-5 pt-3 shrink-0`} style={{
-          borderTop: `1px solid var(--border)`,
+            }}>{`Tambahkan lokasi di Akun → Data Master.`}</p>]}</ProductField>, isPage && le && username && product && <BatchLedger username={username} productId={product.id} view={`origin`} onOpenShopping={onOpenShoppingActivity ? id => ve(() => onOpenShoppingActivity(id)) : undefined} />]}</div>, isPage && <div role={`tabpanel`} id={`${tabId}-movements-panel`} aria-labelledby={`${tabId}-movements-tab`} hidden={activeTab !== `movements`}>{le && username && product && <BatchLedger username={username} productId={product.id} view={`movements`} onOpenActivity={onOpenActivityEntry ? id => ve(() => onOpenActivityEntry(id)) : undefined} />}</div>]}</div>, <div className={isPage ? `product-detail-actions` : `px-5 pt-3 shrink-0`} style={{
+          borderTop: isPage ? undefined : `1px solid var(--border)`,
           paddingBottom: `calc(env(safe-area-inset-bottom, 0px) + 18px)`,
           background: `var(--card)`
         }}>{[U && <p role={`alert`} className={`text-sm px-3 py-2 rounded-lg mb-3`} style={{
             background: `#FEE2E2`,
             color: `#B91C1C`
-          }}>{U}</p>, le && <button type={`button`} onClick={_e} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
+          }}>{U}</p>, le && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={_e} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
             background: `var(--muted)`,
             color: `var(--foreground)`
-          }}>{`Perbaiki catatan stok`}</button>, onDelete && product && <p className={`text-xs mb-3`} style={{
+          }}>{`Perbaiki catatan stok`}</button>, onDelete && product && (!isPage || activeTab === `movements`) && <p className={`text-xs mb-3`} style={{
             color: `var(--muted-foreground)`
-          }}>{se?.purchase ? `Batch berasal dari Belanja. Untuk salah pembelian, buka catatan Belanja pada bagian Asal dan perubahan stok.` : se?.activities.length ? `Batch sudah memiliki Aktivitas. Perbaiki catatan yang salah melalui riwayat di atas sebelum menghapusnya.` : `Hapus Produk untuk batch yang salah input. Jika bahan benar-benar dibuang, gunakan Buang Stok.`}</p>, onDelete && product && <button type={`button`} onClick={() => {
+          }}>{se?.purchase ? `Batch berasal dari Belanja. Untuk salah pembelian, buka catatan Belanja pada bagian Detail.` : se?.activities.length ? `Batch sudah memiliki Aktivitas. Perbaiki catatan yang salah melalui riwayat di atas sebelum menghapusnya.` : `Hapus Produk untuk batch yang salah input. Jika bahan benar-benar dibuang, gunakan Buang Stok.`}</p>, onDelete && product && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={() => {
             W(``), ne(true);
           }} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
             background: `var(--card)`,
             border: `1.5px solid #DC2626`,
             color: `#B91C1C`
-          }}>{`Hapus Produk`}</button>, <button type={`submit`} disabled={le && !ue} className={`w-full py-3.5 rounded-xl font-bold text-sm disabled:cursor-not-allowed`} style={{
+          }}>{`Hapus Produk`}</button>, isPage && activeTab === `movements` && onWaste && product && <button type={`button`} onClick={ge} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{ background: `var(--muted)`, color: `var(--foreground)` }}>{`Buang Stok`}</button>, (!isPage || activeTab === `detail`) && <button type={`submit`} disabled={le && !ue} className={`w-full py-3.5 rounded-xl font-bold text-sm disabled:cursor-not-allowed`} style={{
             background: le && !ue ? `var(--muted)` : `var(--primary)`,
             color: le && !ue ? `var(--muted-foreground)` : `var(--primary-foreground)`,
             fontFamily: `Plus Jakarta Sans, sans-serif`

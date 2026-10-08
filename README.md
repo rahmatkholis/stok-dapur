@@ -1,5 +1,7 @@
 # Stok Dapur — source yang dapat dikembangkan
 
+Pembaruan detail produk 8 Oktober 2026: editor batch menjadi halaman dengan tab Detail dan Riwayat Pergerakan Stok; form produk memakai combobox nama dalam satu field. Lihat docs/PRODUCT-DETAIL-UPDATE.md dan jalankan npm run test:product-detail.
+
 Project React untuk versi 1 yang dipulihkan pada 7 Oktober 2026. Aplikasi aktif dibangun dari **src/**, menggunakan React dari npm. Source asli ZIP lama disimpan dalam **legacy/**, sementara perubahan yang hanya tersedia di website dipulihkan menjadi modul JavaScript dan JSX yang bisa diedit.
 
 ## Mulai

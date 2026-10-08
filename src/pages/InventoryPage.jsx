@@ -3,6 +3,7 @@ import * as React from "react";
 import * as jsxRuntime from "react/jsx-runtime";
 import { EXPIRY_LABELS, addActivityEntry, addProduct, adjustPhysicalStock, deleteIncorrectBatch, getExpiryStatus, updateProduct } from "../lib/store.js";
 import { StockAdjustmentModal } from "../components/StockAdjustmentModal.jsx";
+import { ProductDetailPage } from "./ProductDetailPage.jsx";
 import { ProductModal } from "../components/ProductModal.jsx";
 import { InventoryProducts, on, sn } from "../components/InventoryProducts.jsx";
 import { BatchMetadataModal, CategoryDetailPage } from "./CategoryDetailPage.jsx";
@@ -73,7 +74,8 @@ function InventoryPage({
   initialProduct: initialProduct,
   categories: categories,
   locations: locations,
-  itemMasters: itemMasters
+  itemMasters: itemMasters,
+  onDetailModeChange
 }) {
   let [f, p] = (0, React.useState)(``),
     [m, h] = (0, React.useState)(`product`),
@@ -200,6 +202,14 @@ function InventoryPage({
         }}>{f.trim() ? `Pencarian: “${f.trim()}”` : `Hasil sesuai filter`}</span>, <button type={`button`} onClick={oe} className={`shrink-0 py-2 font-bold`} style={{
           color: `var(--primary)`
         }}>{`Reset pencarian/filter`}</button>]}</div>]}</jsxRuntime.Fragment>;
+  if (O) return <ProductDetailPage onDetailModeChange={onDetailModeChange} product={O} categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} lockMasterSelection={true} onSave={z} onDelete={() => {
+      let e = B(O);
+      return e || k(null), e;
+    }} onOpenActivityEntry={onOpenActivityEntry} onOpenShoppingActivity={onOpenShoppingActivity} onAdjust={() => {
+      N(O), k(null);
+    }} onWaste={() => {
+      j(O), k(null);
+    }} onClose={() => k(null)} />;
   return <div className={`pb-24 pt-5 max-w-[480px] mx-auto`}>{[<div className={`px-4 mb-4`}>{<div role={`group`} aria-label={`Tampilan inventori`} className={`p-1 rounded-xl grid grid-cols-2 gap-1`} style={{
         background: `var(--muted)`
       }}>{[[`product`, `Produk`], [`category`, `Kategori`]].map(([e, t]) => <button type={`button`} aria-pressed={m === e} onClick={() => {
@@ -289,14 +299,7 @@ function InventoryPage({
             }} key={e.key}>{[<span>{e.label}</span>, t && <span aria-hidden={`true`}>{`✓`}</span>]}</button>;
           })]}</div>]}</div>}</div>, P && <div className={`fixed inset-0 z-40`} style={{
       background: `var(--background)`
-    }}>{<CategoryDetailPage category={P} items={ie} allProducts={products} masters={itemMasters} controls={<jsxRuntime.Fragment>{[ue, de]}</jsxRuntime.Fragment>} onBack={() => F(null)} onEdit={k} />}</div>, E && <ProductModal categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} onOpenMasterItem={onOpenMasterItem} onSave={R} onClose={() => D(false)} />, A && <StockAdjustmentModal username={username} product={A} onSave={H} onClose={() => j(null)} />, M && <BatchMetadataModal product={M} onSave={V} onClose={() => N(null)} />, O && <ProductModal product={O} categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} lockMasterSelection={true} onSave={z} onDelete={() => {
-      let e = B(O);
-      return e || k(null), e;
-    }} onOpenActivityEntry={onOpenActivityEntry} onOpenShoppingActivity={onOpenShoppingActivity} onAdjust={() => {
-      N(O), k(null);
-    }} onWaste={() => {
-      j(O), k(null);
-    }} onClose={() => k(null)} />, I && <div className={`fixed bottom-24 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl text-sm font-bold shadow-lg z-50 whitespace-nowrap`} style={{
+    }}>{<CategoryDetailPage category={P} items={ie} allProducts={products} masters={itemMasters} controls={<jsxRuntime.Fragment>{[ue, de]}</jsxRuntime.Fragment>} onBack={() => F(null)} onEdit={k} />}</div>, E && <ProductModal categories={categories} locations={locations} itemMasters={itemMasters} requireMasterItem={true} username={username} onRefresh={onRefresh} onOpenMasterItem={onOpenMasterItem} onSave={R} onClose={() => D(false)} />, A && <StockAdjustmentModal username={username} product={A} onSave={H} onClose={() => j(null)} />, M && <BatchMetadataModal product={M} onSave={V} onClose={() => N(null)} />, I && <div className={`fixed bottom-24 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl text-sm font-bold shadow-lg z-50 whitespace-nowrap`} style={{
       background: `var(--foreground)`,
       color: `var(--card)`,
       ...Cn
