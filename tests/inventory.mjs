@@ -89,9 +89,8 @@ await test('metadata edit saves intended location and retains stock', data(produ
   assert(text(summary(h)).includes('Kulkas'));
 });
 await test('stock correction remains accessible from expanded card', data(product()), async h => {
-  await open(h); await h.click('Riwayat Pergerakan Stok'); await h.click('Perbaiki catatan stok');
-  const action = h.all('button').find(b => text(b).includes('Jumlah fisik berbeda')); assert(action); action.click(); await wait();
-  await h.set(h.d.querySelector('input[type="number"]'), '7');
+  await open(h); await h.click('Riwayat Pergerakan Stok'); await h.click('Sesuaikan stok');
+  await h.set(h.field('Jumlah fisik sekarang'), '7');
   await h.set(h.field('Alasan koreksi'), 'Hitung ulang');
   await h.click('Simpan Penyesuaian');
   assert.equal(h.data().products[0].quantity, 7);

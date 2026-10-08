@@ -60,7 +60,6 @@ function ProductModal({
     [V, H] = (0, React.useState)(C?.location ?? product?.location ?? ``),
     [U, W] = (0, React.useState)(``),
     [te, ne] = (0, React.useState)(false),
-    [re, ie] = (0, React.useState)(false),
     [ae, oe] = (0, React.useState)(false),
     se = product && username && onDelete ? Ve(username, product.id) : null,
     ce = !!se && (!!se.purchase || !!se.activities.length),
@@ -141,10 +140,10 @@ function ProductModal({
   }
   function _e() {
     if (ue) {
-      W(`Simpan perubahan produk terlebih dahulu sebelum memperbaiki catatan stok.`);
+      W(`Simpan perubahan produk terlebih dahulu sebelum menyesuaikan stok.`);
       return;
     }
-    W(``), ie(true);
+    W(``), onAdjust?.();
   }
   function ve(e) {
     if (ue) {
@@ -190,7 +189,7 @@ function ProductModal({
                 j(e.target.value), W(``);
               }} placeholder={`0`} min={`0.0001`} step={`any`} style={an} />, le && <p className={`text-xs mt-1`} style={{
                 color: `var(--muted-foreground)`
-              }}>{`Untuk mengubah jumlah, pilih Perbaiki catatan stok di bawah.`}</p>]}</ProductField>, <ProductField label={`Satuan *`}>{[requireMasterItem ? <select aria-label={`Satuan`} disabled={lockDetails || le || !E} value={M} onChange={e => {
+              }}>{`Untuk mengubah jumlah, pilih Sesuaikan stok di tab Riwayat Pergerakan Stok.`}</p>]}</ProductField>, <ProductField label={`Satuan *`}>{[requireMasterItem ? <select aria-label={`Satuan`} disabled={lockDetails || le || !E} value={M} onChange={e => {
                 P(e.target.value), W(``);
               }} style={an}>{E && getAllowedUnits(itemMasters.find(e => e.id === E) ?? {
                   unit: M
@@ -210,19 +209,19 @@ function ProductModal({
               H(e.target.value), W(``);
             }} style={an}>{[<option value={``}>{`Pilih lokasi (opsional)`}</option>, locations.map(e => <option value={e} key={e}>{e}</option>)]}</select>, !locations.length && <p className={`text-xs mt-1`} style={{
               color: `var(--muted-foreground)`
-            }}>{`Tambahkan lokasi di Akun → Data Master.`}</p>]}</ProductField>, isPage && le && username && product && <BatchLedger username={username} productId={product.id} view={`origin`} onOpenShopping={onOpenShoppingActivity ? id => ve(() => onOpenShoppingActivity(id)) : undefined} />]}</div>, isPage && <div role={`tabpanel`} id={`${tabId}-movements-panel`} aria-labelledby={`${tabId}-movements-tab`} hidden={activeTab !== `movements`}>{le && username && product && <BatchLedger username={username} productId={product.id} view={`movements`} onOpenCorrection={id => ve(() => openMovement(id))} onOpenActivity={onOpenActivityEntry ? id => ve(() => onOpenActivityEntry(id)) : undefined} />}</div>]}</div>, <div className={isPage ? `product-detail-actions` : `px-5 pt-3 shrink-0`} style={{
+            }}>{`Tambahkan lokasi di Akun → Data Master.`}</p>]}</ProductField>, isPage && le && username && product && <BatchLedger username={username} productId={product.id} view={`origin`} onOpenShopping={onOpenShoppingActivity ? id => ve(() => onOpenShoppingActivity(id)) : undefined} />]}</div>, isPage && <div role={`tabpanel`} id={`${tabId}-movements-panel`} aria-labelledby={`${tabId}-movements-tab`} hidden={activeTab !== `movements`}>{le && username && product && <BatchLedger username={username} productId={product.id} view={`movements`} onOpenShopping={onOpenShoppingActivity ? id => ve(() => onOpenShoppingActivity(id)) : undefined} onOpenCorrection={id => ve(() => openMovement(id))} onOpenActivity={onOpenActivityEntry ? id => ve(() => onOpenActivityEntry(id)) : undefined} />}</div>]}</div>, <div className={isPage ? `product-detail-actions` : `px-5 pt-3 shrink-0`} style={{
           borderTop: isPage ? undefined : `1px solid var(--border)`,
           paddingBottom: `calc(env(safe-area-inset-bottom, 0px) + 18px)`,
           background: `var(--card)`
         }}>{[U && <p role={`alert`} className={`text-sm px-3 py-2 rounded-lg mb-3`} style={{
             background: `#FEE2E2`,
             color: `#B91C1C`
-          }}>{U}</p>, le && !archived && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={_e} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
+          }}>{U}</p>, le && onAdjust && !archived && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={_e} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
             background: `var(--muted)`,
             color: `var(--foreground)`
-          }}>{`Perbaiki catatan stok`}</button>, onDelete && product && !archived && (!isPage || activeTab === `movements`) && <p className={`text-xs mb-3`} style={{
+          }}>{`Sesuaikan stok`}</button>, onDelete && product && !archived && (!isPage || activeTab === `movements`) && <p className={`text-xs mb-3`} style={{
             color: `var(--muted-foreground)`
-          }}>{se?.purchase ? `Batch berasal dari Belanja. Untuk salah pembelian, buka catatan Belanja pada bagian Detail.` : se?.activities.length ? `Batch sudah memiliki Aktivitas. Perbaiki catatan yang salah melalui riwayat di atas sebelum menghapusnya.` : `Hapus Produk untuk batch yang salah input. Jika bahan benar-benar dibuang, gunakan Buang Stok.`}</p>, onDelete && product && !archived && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={() => {
+          }}>{se?.purchase ? `Batch berasal dari Belanja. Untuk salah pembelian, buka kartu Stok masuk di riwayat atau catatan Belanja pada Detail.` : se?.activities.length ? `Batch sudah memiliki Aktivitas. Perbaiki catatan yang salah melalui riwayat di atas sebelum menghapusnya.` : `Hapus Produk untuk batch yang salah input. Jika bahan benar-benar dibuang, gunakan Buang Stok.`}</p>, onDelete && product && !archived && (!isPage || activeTab === `movements`) && <button type={`button`} onClick={() => {
             W(``), ne(true);
           }} className={`w-full py-3 rounded-xl font-bold text-sm mb-3`} style={{
             background: `var(--card)`,
@@ -232,31 +231,7 @@ function ProductModal({
             background: le && !ue ? `var(--muted)` : `var(--primary)`,
             color: le && !ue ? `var(--muted-foreground)` : `var(--primary-foreground)`,
             fontFamily: `Plus Jakarta Sans, sans-serif`
-          }}>{submitLabel ?? (product ? `Simpan Perubahan` : `Tambah Produk`)}</button>]}</div>]}</form>]}</div>, re && product && <div className={`fixed inset-0 z-[70] flex items-end justify-center`} style={{
-      background: `rgba(0,0,0,0.52)`
-    }}>{<div role={`dialog`} aria-modal={`true`} aria-labelledby={`correction-title`} className={`w-full max-w-[480px] max-h-[85vh] overflow-y-auto rounded-t-3xl px-5 pt-5 pb-8 space-y-3`} style={{
-        background: `var(--card)`
-      }}>{[<h3 id={`correction-title`} className={`text-lg font-black`}>{`Apa yang perlu diperbaiki?`}</h3>, <p className={`text-sm`} style={{
-          color: `var(--muted-foreground)`
-        }}>{[product.name, ` · stok saat ini `, product.quantity, ` `, product.unit, `. Pilih catatan yang keliru; kejadian yang benar tetap disimpan.`]}</p>, onAdjust && <button type={`button`} onClick={() => {
-          ie(false), onAdjust();
-        }} className={`w-full p-3 rounded-xl text-left text-sm`} style={{
-          background: `var(--muted)`
-        }}>{[<strong className={`block`}>{`Jumlah fisik berbeda`}</strong>, <span>{`Catat hasil hitung stok sebenarnya.`}</span>]}</button>, se?.purchase && <button type={`button`} onClick={() => {
-          ie(false), onOpenShoppingActivity?.(se.purchase.activityId);
-        }} className={`w-full p-3 rounded-xl text-left text-sm`} style={{
-          background: `var(--muted)`
-        }}>{[<strong className={`block`}>{`Pembelian salah dicatat`}</strong>, <span>{`Buka aktivitas belanja untuk edit atau batalkan pembelian terkait.`}</span>]}</button>, !!se?.activities.length && <div className={`space-y-2`}>{[<p className={`text-sm font-bold`}>{`Catatan terkait (dari yang terbaru)`}</p>, se.activities.map(e => <button type={`button`} onClick={() => {
-            ie(false), isPage ? openMovement(e.id) : onOpenActivityEntry?.(e.id);
-          }} className={`w-full p-3 rounded-xl text-left text-sm`} style={{
-            background: `var(--muted)`
-          }} key={e.id}>{[<strong className={`block`}>{[e.action === `adjusted` ? `Penyesuaian` : e.action === `used` ? `Pemakaian` : `Pembuangan`, `: `, e.title]}</strong>, <span>{`Periksa dan koreksi hanya jika catatan ini salah.`}</span>]}</button>)]}</div>, !se?.purchase && onDelete && <button type={`button`} onClick={() => {
-          ie(false), ne(true);
-        }} className={`w-full p-3 rounded-xl text-left text-sm`} style={{
-          background: `var(--muted)`
-        }}>{[<strong className={`block`}>{`Stok awal salah input`}</strong>, <span>{se?.activities.length ? `Perbaiki aktivitas terkait lebih dahulu sebelum menghapus.` : `Hapus batch yang memang tidak pernah ada.`}</span>]}</button>, <button type={`button`} onClick={() => ie(false)} className={`w-full py-3 rounded-xl text-sm font-bold`} style={{
-          background: `var(--muted)`
-        }}>{`Kembali`}</button>]}</div>}</div>, te && product && onDelete && <div className={`fixed inset-0 z-[70] flex items-end justify-center`} style={{
+          }}>{submitLabel ?? (product ? `Simpan Perubahan` : `Tambah Produk`)}</button>]}</div>]}</form>]}</div>, te && product && onDelete && <div className={`fixed inset-0 z-[70] flex items-end justify-center`} style={{
       background: `rgba(0,0,0,0.52)`
     }} onClick={e => {
       e.target === e.currentTarget && ne(false);
@@ -265,7 +240,7 @@ function ProductModal({
         paddingBottom: `calc(env(safe-area-inset-bottom, 0px) + 28px)`
       }}>{[<h3 id={`delete-product-title`} className={`text-lg font-black`}>{ce ? `Produk belum bisa dihapus` : `Hapus produk?`}</h3>, <p className={`text-sm`} style={{
           color: `var(--muted-foreground)`
-        }}>{ce ? <jsxRuntime.Fragment>{[`Batch ini terhubung ke Belanja atau Aktivitas. Koreksi hanya catatan yang salah.`, se?.activities.some(e => e.action === `adjusted`) ? ` Buka penyesuaian terkait, lalu pilih Batalkan Penyesuaian yang Salah. Jika ada catatan lebih baru, periksa dari yang terbaru. Riwayat tetap tersimpan.` : ``]}</jsxRuntime.Fragment> : <jsxRuntime.Fragment>{[<strong style={{
+        }}>{ce ? <jsxRuntime.Fragment>{[`Batch ini terhubung ke Belanja, Aktivitas, atau Koreksi stok. Koreksi hanya catatan yang salah.`, se?.activities.some(e => e.action === `adjusted`) ? ` Buka penyesuaian terkait, lalu pilih Batalkan Penyesuaian yang Salah. Jika ada catatan lebih baru, periksa dari yang terbaru. Riwayat tetap tersimpan.` : ``]}</jsxRuntime.Fragment> : <jsxRuntime.Fragment>{[<strong style={{
               color: `var(--foreground)`
             }}>{product.name}</strong>, ` dan stoknya akan hilang dari Inventori karena salah input. Tindakan ini tidak dicatat sebagai pemakaian atau pembuangan.`]}</jsxRuntime.Fragment>}</p>, se?.purchase && <button type={`button`} onClick={() => {
           ne(false), onOpenShoppingActivity?.(se.purchase.activityId);
@@ -277,7 +252,7 @@ function ProductModal({
         }} className={`w-full py-3 rounded-xl text-left text-sm font-bold`} style={{
           background: `var(--muted)`,
           color: `var(--primary)`
-        }} key={e.id}>{[`Tercatat di Aktivitas: `, e.title, ` · Lihat →`]}</button>), U && <p role={`alert`} className={`text-sm`} style={{
+        }} key={e.id}>{[`Tercatat di ${e.action === `adjusted` ? `Koreksi stok` : `Aktivitas`}: `, e.title, ` · Lihat →`]}</button>), U && <p role={`alert`} className={`text-sm`} style={{
           color: `#B91C1C`
         }}>{U}</p>, !ce && <button type={`button`} onClick={() => {
           let e = onDelete();

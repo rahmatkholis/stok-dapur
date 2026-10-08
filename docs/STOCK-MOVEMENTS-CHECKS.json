@@ -1,0 +1,30 @@
+{
+  "method": "Production React in JSDOM: direct adjustment, source navigation, immutable transaction counts, physical recording order, incomplete historic balances, cancellation, decimals and batch isolation. No real-device visual verification.",
+  "passed": 24,
+  "checks": [
+    "stock adjustment opens directly with locked current stock and no selection gateway",
+    "decreasing physical count creates one correction with the correct delta and source",
+    "increasing physical count is a positive correction",
+    "zero count remains available through archived correction history",
+    "invalid unchanged adjustment leaves data unchanged",
+    "invalid blank quantity adjustment leaves data unchanged",
+    "invalid negative adjustment leaves data unchanged",
+    "invalid precision adjustment leaves data unchanged",
+    "invalid missing reason adjustment leaves data unchanged",
+    "all sources share signed amounts, source labels, balances and one card per event",
+    "purchase movement opens its existing shopping source",
+    "usage movement opens its matching activity",
+    "correction movement opens its detail without entering Activity",
+    "unsaved metadata blocks both adjustment and opening shopping history",
+    "manual origin appears once with its original quantity rather than remaining stock",
+    "missing origin quantities do not invent historic balances",
+    "a mismatch at an old physical correction hides inferred balances even when final totals match",
+    "backdated usage is ordered by recording and keeps the physical balance correct",
+    "cancellation retains original and reversal cards with a reconciled balance",
+    "mixed-unit legacy records show recorded amounts and leave remaining stock unknown",
+    "decimal corrections render a rounded delta and correct stock transitions",
+    "receipt source stays scoped to the selected inventory card",
+    "missing timestamps stay unknown and never show an invented epoch date",
+    "legacy correction in a mismatched unit does not relabel its before/after as the current unit"
+  ]
+}

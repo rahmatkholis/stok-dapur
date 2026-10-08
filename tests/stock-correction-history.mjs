@@ -14,9 +14,8 @@ async function test(name, fixture, run) {
 }
 async function open(h) { await h.click('▤ Inventori'); h.d.querySelector('.inventory-product').click(); await wait(); await h.click('Riwayat Pergerakan Stok'); }
 async function correct(h, amount) {
-  await open(h); await h.click('Perbaiki catatan stok');
-  h.all('button').find(button => text(button).includes('Jumlah fisik berbeda')).click(); await wait();
-  await h.set(h.d.querySelector('input[type="number"]'), amount); await h.set(h.field('Alasan koreksi'), 'Hasil timbang');
+  await open(h); await h.click('Sesuaikan stok');
+  await h.set(h.field('Jumlah fisik sekarang'), amount); await h.set(h.field('Alasan koreksi'), 'Hasil timbang');
   await h.click('Simpan Penyesuaian');
 }
 await test('new correction is stored once, hidden from Activity, and shown as a card in product history', initial(), async h => {

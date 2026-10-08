@@ -15,6 +15,8 @@ Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. 
 
 ## Perubahan
 
+- Sesuaikan stok membuka langsung form jumlah fisik/alasan. Riwayat produk menyatukan asal stok/Belanja dan pergerakan Aktivitas/Koreksi melalui pembaca readStockMovements, tanpa membuat transaksi duplikat. Saldo historis tidak boleh diinferensikan jika rangkaian tidak lengkap/konsisten; tampilkan Belum diketahui. Urutan mengikuti pencatatan, dengan tanggal kejadian terpisah jika berbeda. Lihat docs/STOCK-MOVEMENTS-UPDATE.md. Penggabungan kartu stok dan edit koreksi sudah di-undo; jangan menerapkannya kembali tanpa instruksi.
+
 - Koreksi stok ditampilkan sebagai kartu di Perubahan terbaru pada riwayat produk, tidak dalam daftar/filter Aktivitas. Detail dan pembatalannya tetap dalam alur produk. Inventori menyediakan akses batch habis yang punya koreksi agar pemulihan tidak hilang. Store masih menggunakan satu catatan activityLog; jangan menggandakan atau menghapus sejarah. Lihat docs/STOCK-CORRECTION-HISTORY-UPDATE.md.
 
 - Detail/edit batch sekarang menggunakan halaman dengan tab Detail dan Riwayat Pergerakan Stok. Informasi penerimaan berada paling bawah Detail; koreksi dan perubahan stok berada di Riwayat. Pertahankan transaksi dan proteksi identitas/satuan batch. Lihat docs/PRODUCT-DETAIL-UPDATE.md.

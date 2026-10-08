@@ -1298,3 +1298,14 @@ body {
 .item-combobox-option.is-active, .item-combobox-option[aria-selected="true"] { background: var(--muted); }
 .item-combobox-option:disabled { color: var(--muted-foreground); }
 .product-detail-page button:focus-visible, .item-combobox input:focus-visible, .item-combobox-option:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* Stock history shares the card surface while giving each source one clear format. */
+.stock-history-card { display: block; padding: 16px; border: 0; color: var(--foreground); font-family: 'Plus Jakarta Sans', sans-serif; }
+.stock-history-card > span { display: block; overflow-wrap: anywhere; }
+.stock-history-card .stock-history-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.stock-history-amount { font-size: 1rem; line-height: 1.5; }
+.stock-history-kind, .stock-history-title, .stock-history-balance, .stock-history-source { font-size: .875rem; line-height: 1.5; }
+.stock-history-title, .stock-history-balance, .stock-history-source { margin-top: 6px; }
+.stock-history-date, .stock-history-status { font-size: .75rem; line-height: 1.5; margin-top: 4px; color: var(--muted-foreground); }
+.stock-history-source { font-weight: 700; color: var(--primary); }
+.stock-history-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }

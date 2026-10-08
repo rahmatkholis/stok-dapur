@@ -9,14 +9,15 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs",
-    "test": "npm run build && npm run test:parity && npm run test:production && npm run test:inventory && npm run test:product-detail && npm run test:stock-correction-history",
+    "test": "npm run build && npm run test:parity && npm run test:production && npm run test:inventory && npm run test:product-detail && npm run test:stock-correction-history && npm run test:stock-movements",
     "verify:baseline": "python3 scripts/verify_baseline.py",
     "test:parity": "node tests/parity.mjs",
     "test:production": "node tests/production.mjs",
     "recover:reference": "node scripts/recover-baseline.mjs",
     "test:inventory": "node tests/inventory.mjs",
     "test:product-detail": "node tests/product-detail.mjs",
-    "test:stock-correction-history": "node tests/stock-correction-history.mjs"
+    "test:stock-correction-history": "node tests/stock-correction-history.mjs",
+    "test:stock-movements": "node tests/stock-movements.mjs"
   },
   "dependencies": {
     "react": "19.2.4",

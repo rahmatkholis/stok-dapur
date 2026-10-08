@@ -14,6 +14,8 @@
     "src/pages/RecipesPage.jsx",
     "src/pages/ActivityPage.jsx",
     "src/components/ExpiryFields.jsx",
+    "src/components/StockHistoryCard.jsx",
+    "src/lib/stock-movements.js",
     "src/components/BatchLedger.jsx",
     "src/components/ProductModal.jsx",
     "src/pages/ProductDetailPage.jsx",
