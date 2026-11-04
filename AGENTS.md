@@ -15,6 +15,14 @@ Source asli ZIP lama berada di legacy/; source aplikasi terkini berada di src/. 
 
 ## Perubahan
 
+- Kartu Perubahan terbaru harus ringkas: tipe, nama aktivitas/alasan, tanggal, jumlah perubahan, dan panah bila ada detail yang bisa dibuka. Jangan menambahkan kembali saldo sebelum/sesudah atau baris sumber terpisah pada kartu. Saldo tetap dipakai model untuk validasi. Pertahankan layout penting pada komponen dan versi aset produksi agar CSS lama tidak menumpuk teks.
+
+- Sesuaikan stok membuka langsung form jumlah fisik/alasan. Riwayat produk menyatukan penerimaan Belanja dan pergerakan Aktivitas/Koreksi melalui pembaca readStockMovements, tanpa membuat transaksi duplikat. Saldo historis tidak boleh diinferensikan jika rangkaian tidak lengkap/konsisten; tampilkan Belum diketahui. Urutan mengikuti pencatatan, dengan tanggal kejadian terpisah jika berbeda. Lihat docs/STOCK-MOVEMENTS-UPDATE.md. Penggabungan kartu stok dan edit koreksi sudah di-undo; jangan menerapkannya kembali tanpa instruksi.
+
+- Koreksi stok ditampilkan sebagai kartu di Perubahan terbaru pada riwayat produk, tidak dalam daftar/filter Aktivitas. Detail dan pembatalannya tetap dalam alur produk. Inventori menyediakan akses batch habis yang punya koreksi agar pemulihan tidak hilang. Store masih menggunakan satu catatan activityLog; jangan menggandakan atau menghapus sejarah. Lihat docs/STOCK-CORRECTION-HISTORY-UPDATE.md.
+
+- Detail/edit batch sekarang menggunakan halaman dengan tab Detail dan Riwayat Pergerakan Stok. Asal stok berada paling atas Detail sebagai Stok awal / Dari belanja / Belum diketahui. Penerimaan belanja, koreksi dan perubahan stok berada di Riwayat. Stok awal adalah dasar saldo internal, bukan kartu riwayat; tanpa pergerakan tampil hanya keadaan kosong. Jangan menebak asal atau saldo data lama; stok seed yang cocok dapat menggunakan template awal. Pertahankan transaksi dan proteksi identitas/satuan batch. Lihat docs/PRODUCT-DETAIL-UPDATE.md.
+
 - Edit src/, bukan dist/, baseline/, atau legacy/.
 - Build biasa tidak mengambil kode aplikasi dari baseline/ atau legacy/. React dan ReactDOM dipasang sebagai dependensi npm.
 - scripts/recover-baseline.mjs adalah alat pemulihan referensi satu kali. Jangan menjalankannya pada source yang sudah diedit karena akan mengganti file source hasil pemulihan. Gunakan checkout kerja terpisah bila harus memeriksa reproduksi pemulihan.

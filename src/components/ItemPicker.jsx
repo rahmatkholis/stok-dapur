@@ -1,5 +1,6 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as React from "react";
+import { ItemCombobox } from "./ItemCombobox.jsx";
 function ItemPicker({
   items: items,
   value: value,
@@ -7,7 +8,8 @@ function ItemPicker({
   onAddItem: onAddItem,
   disabled: disabled,
   label = `Nama Item`,
-  style: style
+  style: style,
+  combined = false
 }) {
   let [s, c] = (0, React.useState)(``),
     l = items.filter(e => e.active || e.id === value).filter(e => !s || e.name.toLocaleLowerCase(`id-ID`).includes(s.toLocaleLowerCase(`id-ID`)) || e.id === value).sort((e, t) => e.name.localeCompare(t.name, `id-ID`) || e.unit.localeCompare(t.unit, `id-ID`)),
@@ -25,6 +27,7 @@ function ItemPicker({
     color: `var(--foreground)`,
     fontSize: 14
   };
+  if (combined) return <ItemCombobox items={items} value={value} onSelect={onSelect} onAddItem={onAddItem} disabled={disabled} label={label} style={style ?? d} />;
   return <div>{[<div className={`flex items-center justify-between gap-3 mb-1.5`}>{[<label className={`text-xs font-semibold uppercase tracking-wide`} style={{
         color: `var(--muted-foreground)`
       }}>{label}</label>, !disabled && <button type={`button`} onClick={() => onAddItem(s.trim())} className={`text-xs font-bold shrink-0`} style={{

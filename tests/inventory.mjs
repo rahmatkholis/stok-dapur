@@ -30,7 +30,7 @@ await test('single card has one quantity and opens the stock form directly', dat
   assert(!card(h).querySelector('.inventory-product-status'));
   await open(h);
   assert.equal(h.field('Jumlah').value, '10');
-  await h.click('Tutup');
+  await h.click('Kembali ke inventori');
   assert(!h.d.querySelector('[aria-label="Edit Produk"]'));
 });
 await test('expired stock remains in physical total', data(product('p1', 'rice', 600, { expiryDate: '2026-10-02', location: 'Freezer' })), h => {
@@ -89,9 +89,8 @@ await test('metadata edit saves intended location and retains stock', data(produ
   assert(text(summary(h)).includes('Kulkas'));
 });
 await test('stock correction remains accessible from expanded card', data(product()), async h => {
-  await open(h); await h.click('Perbaiki catatan stok');
-  const action = h.all('button').find(b => text(b).includes('Jumlah fisik berbeda')); assert(action); action.click(); await wait();
-  await h.set(h.d.querySelector('input[type="number"]'), '7');
+  await open(h); await h.click('Riwayat Pergerakan Stok'); await h.click('Sesuaikan stok');
+  await h.set(h.field('Jumlah fisik sekarang'), '7');
   await h.set(h.field('Alasan koreksi'), 'Hitung ulang');
   await h.click('Simpan Penyesuaian');
   assert.equal(h.data().products[0].quantity, 7);
@@ -105,7 +104,7 @@ await test('category inventory also uses compact cards', data(product()), async 
 });
 await test('inventory navigation preserves recipe availability and stored data', { ...data(product()), recipes: [recipe()] }, async h => {
   await open(h);
-  await h.click('Tutup');
+  await h.click('Kembali ke inventori');
   await h.click('▣ Resep');
   assert(text(h.d.getElementById('root')).includes('Menu r1'));
   assert.equal(h.data().recipes[0].ingredients[0].quantity, 2);

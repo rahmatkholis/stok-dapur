@@ -21,3 +21,7 @@ src/styles/index.css berisi stylesheet baseline yang diformat agar dapat dibaca,
 baseline/v1 mempertahankan artefak aplikasi yang diaudit. legacy menyimpan file teks source TSX lama dan konfigurasi referensinya. File screenshot/aset gambar tak terpakai serta file lingkungan Figma tidak dibawa; legacy bukan project aktif. Checksum dan daftar source asli tersimpan di LEGACY-PROVENANCE.json.
 
 Rekonstruksi dapat direproduksi oleh scripts/recover-baseline.mjs pada checkout terpisah, tetapi script tersebut tidak dipanggil oleh dev/build normal. Source yang sudah dikembangkan harus dipertahankan, bukan ditimpa ulang oleh script pemulihan.
+
+## Riwayat lintas sumber
+
+src/lib/stock-movements.js menormalisasi tampilan dari readBatchLedger dan activityLog untuk satu batch. StockHistoryCard menyajikan penerimaan, kegiatan, dan koreksi dengan format yang sama. Saldo direkonstruksi hanya saat urutan pencatatan dan angka tersimpan saling sesuai. Pembaca tidak menulis transaksi atau storage. ProductModal membuka penyesuaian fisik langsung melalui onAdjust; gateway pemilihan koreksi telah dihapus.

@@ -446,6 +446,8 @@ function seedProducts(username) {
       t.products = L.map((t, n) => ({
         ...t,
         id: `seed_${n}_${Date.now()}`,
+        stockSource: `manual`,
+        initialQuantity: t.quantity,
         createdAt: e
       })), t.locations = [...new Set([...(t.locations ?? []), ...t.products.map(e => e.location).filter(e => !!e)])];
     }
@@ -886,11 +888,16 @@ function readBatchLedger(e, t) {
   let n = getUserData(e),
     r = n.products.find(e => e.id === t) ?? n.productArchive?.[t];
   if (!r) return null;
+  // Old demo stocks have a verifiable seed index and fixed original template.
+  // Read their opening quantity from that template, never from remaining stock.
+  const seedMatch = /^seed_(\d+)_\d+$/.exec(r.id),
+    seedTemplate = seedMatch ? L[Number(seedMatch[1])] : null,
+    openingSeed = seedTemplate && [`name`, `category`, `unit`].every(key => seedTemplate[key] === r[key]) ? seedTemplate : null;
   let i = n.shoppingItems.find(e => (e.receipts?.length ? e.receipts : e.receipt ? [e.receipt] : []).some(e => e.productId === t)),
     a = (i?.receipts?.length ? i.receipts : i?.receipt ? [i.receipt] : []).find(e => e.productId === t),
     o = n.shoppingActivities?.find(e => e.id === i?.activityId),
-    s = a ? `purchase` : r.stockSource ?? `unknown`,
-    c = a ? a.product.unit === r.unit ? a.quantity : null : r.initialQuantity ?? null,
+    s = a ? `purchase` : r.stockSource ?? (openingSeed ? `manual` : `unknown`),
+    c = a ? a.product.unit === r.unit ? a.quantity : null : r.initialQuantity ?? (openingSeed && s === `manual` ? openingSeed.quantity : null),
     l = c !== null && Number.isFinite(c) && c >= 0 ? c : null,
     u = (n.activityLog ?? []).filter(e => e.items.some(e => e.productId === t)).map(e => {
       let n = e.items.filter(e => e.productId === t),

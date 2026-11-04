@@ -1,5 +1,7 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as jsxRuntime from "react/jsx-runtime";
+import { StockHistoryCard } from "./StockHistoryCard.jsx";
+import { readStockMovements } from "../lib/stock-movements.js";
 import { readBatchLedger } from "../lib/store.js";
 function Zt(e) {
   let t = new Date(`${e}T00:00:00`);
@@ -26,18 +28,30 @@ function BatchLedger({
   username: username,
   productId: productId,
   onOpenShopping: onOpenShopping,
-  onOpenActivity: onOpenActivity
+  onOpenActivity: onOpenActivity,
+  view = `all`,
+  onOpenCorrection
 }) {
-  let i = readBatchLedger(username, productId);
+  let i = view === `movements` ? readStockMovements(username, productId) : readBatchLedger(username, productId);
   if (!i) return null;
+  if (view === `movements` && !i.movements.length) return <section aria-label={`Riwayat Pergerakan Stok`}>
+    <p style={{ color: `var(--muted-foreground)`, fontSize: `0.875rem`, padding: `16px 0` }}>Belum ada pergerakan stok.</p>
+  </section>;
   let {
       product: a,
       origin: o,
-      events: s,
+      events: events,
       summary: c
     } = i,
+    s = view === `movements` ? i.movements : events,
     l = o.kind === `purchase` ? `Diterima dari Belanja` : o.kind === `manual` ? `Ditambahkan langsung ke Inventori` : `Asal stok belum tercatat`;
   function u(e) {
+    if (view === `movements`) {
+      const open = e.action === `received` ? e.shoppingActivityId && onOpenShopping ? () => onOpenShopping(e.shoppingActivityId) : undefined
+        : e.action === `adjusted` ? onOpenCorrection ? () => onOpenCorrection(e.id) : undefined
+        : onOpenActivity ? () => onOpenActivity(e.id) : undefined;
+      return <StockHistoryCard key={e.id} movement={e} unit={a.unit} onOpen={open} />;
+    }
     let t = e.reversal ? `Pembatalan penyesuaian` : e.action === `adjusted` ? `Penyesuaian` : e.action === `used` ? `Dipakai` : `Dibuang`,
       n = <jsxRuntime.Fragment>{[<div className={`flex justify-between items-start gap-3`}>{[<div className={`min-w-0`}>{[<strong className={`block text-sm`}>{t}</strong>, <span className={`block text-sm break-words mt-0.5`}>{e.title}</span>]}</div>, <strong className={`shrink-0 text-sm`} style={{
             color: e.cancelled ? `var(--muted-foreground)` : e.delta !== null && e.delta > 0 ? `#15803D` : `var(--foreground)`
@@ -52,10 +66,12 @@ function BatchLedger({
       borderTop: `1px solid var(--border)`
     }} key={e.id}>{n}</div>;
   }
-  return <section aria-label={`Asal dan perubahan stok`} className={`rounded-2xl p-4 space-y-3`} style={{
-    border: `1px solid var(--border)`,
-    background: `var(--card)`
-  }}>{[<h3 className={`font-black text-sm`}>{`Asal dan perubahan stok`}</h3>, <div className={`rounded-xl p-3 text-sm space-y-1`} style={{
+  return <section aria-label={view === `origin` ? l : view === `movements` ? `Riwayat Pergerakan Stok` : `Asal dan perubahan stok`} className={`rounded-2xl p-4 space-y-3`} style={{
+    border: view === `all` ? `1px solid var(--border)` : `none`,
+    boxShadow: view === `all` || view === `movements` ? `none` : `0 2px 12px rgba(0,0,0,0.07)`,
+    background: view === `movements` ? `transparent` : `var(--card)`,
+    padding: view === `movements` ? 0 : undefined
+  }}>{[view === `all` && <h3 className={`font-black text-sm`}>{`Asal dan perubahan stok`}</h3>, view !== `movements` && <div className={`rounded-xl p-3 text-sm space-y-1`} style={{
       background: `var(--muted)`
     }}>{[<p className={`font-bold`}>{l}</p>, o.quantity !== null && <p>{[o.kind === `purchase` ? `Jumlah pembelian` : `Jumlah awal`, `: `, <strong>{[o.quantity, ` `, a.unit]}</strong>]}</p>, o.date && <p className={`text-xs`}>{[`Stok tersedia `, Zt(o.date)]}</p>, <p className={`text-xs`} style={{
         color: `var(--muted-foreground)`
@@ -65,18 +81,18 @@ function BatchLedger({
         color: `var(--primary)`
       }}>{[o.title || `Buka Belanja`, ` →`]}</button>, o.kind === `purchase` && <p className={`text-xs`} style={{
         color: `var(--muted-foreground)`
-      }}>{`Jika pembelian salah dicatat, perbaiki melalui Belanja.`}</p>]}</div>, c.amountsKnown && <div className={`grid grid-cols-3 gap-2 text-xs`}>{[[`Dipakai`, `${c.used} ${a.unit}`], [`Dibuang`, `${c.disposed} ${a.unit}`], [`Penyesuaian`, `${$t(c.adjusted)} ${a.unit}`]].map(([e, t]) => <div key={e}>{[<p style={{
+      }}>{`Jika pembelian salah dicatat, perbaiki melalui Belanja.`}</p>]}</div>, view !== `origin` && <jsxRuntime.Fragment>{[c.amountsKnown && <div className={`grid grid-cols-3 gap-2 text-xs`}>{[[`Dipakai`, `${c.used} ${a.unit}`], [`Dibuang`, `${c.disposed} ${a.unit}`], [`Penyesuaian`, `${$t(c.adjusted)} ${a.unit}`]].map(([e, t]) => <div key={e}>{[<p style={{
           color: `var(--muted-foreground)`
-        }}>{e}</p>, <p className={`font-bold mt-1 break-words`}>{t}</p>]}</div>)}</div>, <p className={`text-sm font-bold`}>{[`Stok saat ini: `, a.quantity, ` `, a.unit]}</p>, !c.amountsKnown && <p className={`text-xs`} style={{
+        }}>{e}</p>, <p className={`font-bold mt-1 break-words`}>{t}</p>]}</div>)}</div>, <p className={`text-sm font-bold`}>{[`Stok saat ini: `, a.quantity, ` `, a.unit]}</p>, !c.amountsKnown && view !== `movements` && <p className={`text-xs`} style={{
       color: `#92400E`
-    }}>{`Sebagian catatan memakai satuan berbeda atau informasi perubahan belum lengkap. Total perubahan belum dapat dihitung.`}</p>, c.consistent === false && <p role={`status`} className={`text-xs`} style={{
+    }}>{`Sebagian catatan memakai satuan berbeda atau informasi perubahan belum lengkap. Total perubahan belum dapat dihitung.`}</p>, (c.consistent === false || (view === `movements` && !i.balancesKnown)) && <p role={`status`} className={`text-xs`} style={{
       color: `#92400E`
-    }}>{`Jumlah awal dan perubahan yang tersimpan belum menjelaskan seluruh stok saat ini. Periksa catatan terkait sebelum membuat koreksi.`}</p>, s.length ? <div>{[<p className={`text-xs font-bold mb-1`}>{`Perubahan terbaru`}</p>, s.slice(0, 3).map(u), s.length > 3 && <details>{[<summary className={`text-sm font-bold py-2 cursor-pointer`} style={{
+    }}>{`Catatan lama atau perubahan sebelumnya belum cukup untuk menghitung seluruh sisa stok. Angka yang belum diketahui tidak ditampilkan sebagai perkiraan.`}</p>, s.length ? <div className={`space-y-3`}>{[<p className={`text-xs font-bold mb-1`}>{`Perubahan terbaru`}</p>, view === `movements` && <p className="text-xs" style={{ color: `var(--muted-foreground)` }}>Urutan pencatatan terbaru</p>, s.slice(0, 3).map(u), s.length > 3 && <details>{[<summary className={`text-sm font-bold py-2 cursor-pointer`} style={{
           color: `var(--primary)`
         }}>{[`Lihat `, s.length - 3, ` catatan lainnya`]}</summary>, s.slice(3).map(u)]}</details>, <p className={`text-xs`} style={{
         color: `var(--muted-foreground)`
       }}>{`Buka catatan untuk memperbaiki pemakaian, pembuangan, atau penyesuaian yang salah. Ringkasan mengikuti catatan yang tersimpan saat ini.`}</p>]}</div> : <p className={`text-xs`} style={{
       color: `var(--muted-foreground)`
-    }}>{`Belum ada perubahan stok yang tercatat pada batch ini.`}</p>]}</section>;
+    }}>{`Belum ada perubahan stok yang tercatat pada batch ini.`}</p>]}</jsxRuntime.Fragment>]}</section>;
 }
 export { Zt, Qt, $t, BatchLedger };

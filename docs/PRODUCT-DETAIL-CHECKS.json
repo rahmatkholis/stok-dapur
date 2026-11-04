@@ -1,0 +1,19 @@
+{
+  "method": "Production React bundle in JSDOM; page navigation, tab separation, stock invariants, shopping and activity links, unsaved guard, combobox and keyboard; no browser layout engine",
+  "passed": 13,
+  "checks": [
+    "existing batch opens a normal page, focuses heading, and returns to the filtered list",
+    "Detail starts with stock origin; movement totals and events are in the other tab",
+    "tab switches preserve unsaved metadata and saving changes only the selected batch",
+    "back protects unsaved changes and discard restores the recorded value",
+    "unsaved metadata blocks opening an activity until it is saved or discarded",
+    "movement entry opens the matching activity",
+    "Detail has a short shopping origin; receipt appears only in movements and opens shopping",
+    "correction and deletion restrictions remain in the movement tab",
+    "product search and dropdown are one input, with category and unit following selection",
+    "typing an unmatched name cannot accidentally save the old selected item",
+    "combobox supports arrow selection, Enter and Escape",
+    "existing batch identity and quantity stay protected while date and location are editable",
+    "keyboard tabs switch the visible panel and focus"
+  ]
+}

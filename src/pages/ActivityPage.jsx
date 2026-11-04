@@ -1,5 +1,6 @@
 // Migrated from the audited v1 runtime; editable source, no runtime-bundle loading.
 import * as React from "react";
+import { StockMovementCard } from "../components/StockMovementCard.jsx";
 import * as jsxRuntime from "react/jsx-runtime";
 import { $e, Ke, Qe, Ve, addActivityEntry, cancelStockAdjustment, convertItemUnit, deleteActivityEntry, getAllowedUnits, getUserData, previewStockCorrectionConflicts, qe, updateActivityEntry } from "../lib/store.js";
 import { PhysicalStockConfirmModal } from "../components/PhysicalStockConfirmModal.jsx";
@@ -115,9 +116,10 @@ function ActivityPage({
             }}>{`Catat satu atau beberapa produk yang dibuang`}</span>]}</span>]}</button>]}</div>}</div>]}</jsxRuntime.Fragment>;
 }
 function ActivityList({
-  log: log,
+  log: entries,
   onOpenDetail: onOpenDetail
 }) {
+  const log = entries.filter(entry => entry.action === `used` || entry.action === `disposed`);
   let [n, r] = (0, React.useState)(`all`),
     [i, a] = (0, React.useState)(``),
     o = log.filter(e => e.action === `used`),
@@ -133,9 +135,9 @@ function ActivityList({
   let f = new Date();
   f.setDate(f.getDate() - 1);
   let p = `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, `0`)}-${String(f.getDate()).padStart(2, `0`)}`;
-  return <div className={`pb-28 pt-5 max-w-[480px] mx-auto`}>{[<div className={`px-4 mb-4`}>{<div className={`grid grid-cols-4 gap-1 p-1 rounded-xl`} style={{
+  return <div className={`pb-28 pt-5 max-w-[480px] mx-auto`}>{[<div className={`px-4 mb-4`}>{<div className={`grid grid-cols-3 gap-1 p-1 rounded-xl`} style={{
         background: `var(--muted)`
-      }}>{[`all`, `used`, `disposed`, `adjusted`].map(t => {
+      }}>{[`all`, `used`, `disposed`].map(t => {
           let i = n === t,
             a = t === `all` ? `var(--primary)` : t === `used` ? `#15803D` : t === `disposed` ? `#B91C1C` : `#0369A1`,
             l = (t === `all` ? log : t === `used` ? o : t === `disposed` ? s : c).length;
@@ -172,34 +174,7 @@ function ActivityList({
               ...J
             }}>{[n.length, ` aktivitas`]}</span>]}</div>, <div className={`flex flex-col gap-3`}>{n.map(e => <ActivityCard entry={e} onOpen={() => onOpenDetail(e)} key={e.id} />)}</div>]}</section>)}</div>}</div>]}</div>;
 }
-function ActivityCard({
-  entry: entry,
-  onOpen: onOpen
-}) {
-  let n = entry.action === `disposed`,
-    r = entry.action === `adjusted`,
-    i = r ? `#EFF6FF` : n ? `#FEF2F2` : `#F0FDF4`,
-    a = entry.items ?? [],
-    o = vr(entry.createdAt),
-    s = n && a.length === 1 ? `${a[0].productName} · ${a[0].quantity} ${a[0].unit}` : `${a.length} batch stok`;
-  return <button onClick={onOpen} className={`w-full rounded-2xl px-4 py-4 flex items-center gap-3 text-left transition-transform active:scale-[0.98]`} style={{
-    background: `var(--card)`,
-    boxShadow: mr
-  }}>{[<div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0`} style={{
-      background: i
-    }}>{r ? `↔` : n ? `🗑️` : `✅`}</div>, <div className={`flex-1 min-w-0`}>{[<div className={`flex items-center gap-2`}>{[<p className={`font-black text-sm truncate flex-1`} style={{
-          color: `var(--foreground)`,
-          ...J
-        }}>{entry.title || (n ? `Pembuangan` : `Pemakaian`)}</p>, o && <span className={`text-xs font-semibold shrink-0`} style={{
-          color: `var(--muted-foreground)`,
-          ...J
-        }}>{[`Dicatat `, o]}</span>]}</div>, <p className={`text-xs font-semibold mt-0.5`} style={{
-        color: `var(--muted-foreground)`,
-        ...J
-      }}>{[entry.cancelledAt ? `Dibatalkan · ` : entry.reversalOf ? `Pembalikan · ` : ``, r ? `Koreksi stok · ${entry.adjustment?.before ?? `—`} → ${entry.adjustment?.after ?? `—`} ${a[0]?.unit ?? ``}` : `${entry.source === `recipe` ? `Dimasak · ${entry.servings ?? 1} porsi` : n ? `Dibuang` : `Dipakai langsung`} · ${s}`]}</p>]}</div>, <span className={`text-base shrink-0`} style={{
-      color: `var(--muted-foreground)`
-    }}>{`›`}</span>]}</button>;
-}
+function ActivityCard(props) { return <StockMovementCard {...props} />; }
 function AdjustmentDetailPage({
   entry: entry,
   username: username,
@@ -207,7 +182,8 @@ function AdjustmentDetailPage({
   onBack: onBack,
   onOpenEntry: onOpenEntry,
   onOpenInventory: onOpenInventory,
-  onOpenShoppingActivity: onOpenShoppingActivity
+  onOpenShoppingActivity: onOpenShoppingActivity,
+  embedded = false
 }) {
   let s = entry.items[0],
     [c, l] = (0, React.useState)(``),
@@ -227,7 +203,7 @@ function AdjustmentDetailPage({
     }
     onRestored();
   }
-  return <div className={`fixed inset-0 z-50 overflow-y-auto`} style={{
+  return <div className={embedded ? `min-h-screen` : `fixed inset-0 z-50 overflow-y-auto`} style={{
     background: `var(--background)`
   }}>{<div className={`max-w-[480px] mx-auto min-h-screen`}>{[<div className={`px-4 py-4 flex items-center gap-3`} style={{
         background: `var(--card)`
@@ -259,7 +235,7 @@ function AdjustmentDetailPage({
           color: `#B91C1C`
         }}>{c}</p>, <p className={`text-xs`} style={{
           color: `var(--muted-foreground)`
-        }}>{`Riwayat koreksi disimpan. Perubahan berikutnya akan tercatat sebagai aktivitas baru.`}</p>]}</div>]}</div>}</div>;
+        }}>{`Riwayat koreksi disimpan. Pembatalan akan tercatat di Riwayat Pergerakan Stok.`}</p>]}</div>]}</div>}</div>;
 }
 function ActivityDetailPage({
   entry: entry,
