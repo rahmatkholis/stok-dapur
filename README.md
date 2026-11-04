@@ -52,7 +52,7 @@ Source ZIP lama benar-benar tersedia, tetapi tidak berisi seluruh fitur versi se
 
 ## Data dan penerbitan
 
-Data pengguna tetap memakai localStorage browser. Project tidak membawa data inventori pribadi, kata sandi pengguna, atau kredensial hosting. Mengembangkan atau mengunggah source tidak menerbitkan perubahan pada website yang online. Repository berada di https://github.com/rahmatkholis/stok-dapur. Perubahan detail dan riwayat terbaru tersedia pada branch **product-detail-page**, melalui PR #4; main belum memuat perubahan tersebut. Branch restore-editable-source menyimpan riwayat pekerjaan pemulihan.
+Data pengguna tetap memakai localStorage browser. Project tidak membawa data inventori pribadi, kata sandi pengguna, atau kredensial hosting. Mengembangkan atau mengunggah source tidak menerbitkan perubahan pada website yang online. Repository berada di https://github.com/rahmatkholis/stok-dapur. Source utama berada pada branch **main**, termasuk perubahan detail produk, asal stok, dan riwayat pergerakan stok dari PR #4. Branch product-detail-page menyimpan riwayat pengerjaan perubahan tersebut; branch restore-editable-source menyimpan riwayat pekerjaan pemulihan.
 
 ## Menyimpan salinan dan memakai AI lain
 
@@ -67,7 +67,7 @@ npm run dev
 
 Setelah dependensi terpasang, aplikasi dapat dijalankan di komputer tersebut tanpa membuka ChatGPT. Tampilan memakai font Google Fonts; bila internet tidak tersedia, browser menggunakan font pengganti. Membuka index.html dengan klik ganda bukan cara menjalankan source React; gunakan server dev atau host hasil dist/.
 
-AI lain perlu akses repository private melalui integrasi GitHub, atau salinan kode di editor/ZIP. Minta AI membaca README.md, AGENTS.md, serta docs/SOURCE-RECOVERY.md sebelum mengubah project. Jangan menjalankan ulang alat pemulihan untuk mengedit fitur.
+AI lain dapat melanjutkan dari branch main melalui tautan repository, integrasi GitHub yang memiliki akses, atau salinan kode di editor/ZIP. Minta AI membaca README.md, AGENTS.md, serta docs/SOURCE-RECOVERY.md sebelum mengubah project. Jangan menjalankan ulang alat pemulihan untuk mengedit fitur.
 
 Salinan ini adalah source yang dapat dikembangkan untuk baseline versi 1, bukan klaim bahwa source asli terakhir sudah diperoleh. Source asli terakhir dari project akun lama dan backup data browser tetap merupakan dua pekerjaan terpisah.
 
